@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="40dp"
+        android:layout_height="50dp" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/button_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:longClickable="false"
+        android:layout_weight="0"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp" />
+
+
+</LinearLayout>

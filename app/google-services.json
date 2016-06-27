@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "148149429934",
+    "project_id": "ethereal-accord-134623"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148149429934:android:b96a215e13b69909",
+        "android_client_info": {
+          "package_name": "com.dikcoder.prem.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148149429934-otg1p36p85f41bp9q10h2a9d1p7aceh2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dikcoder.prem.quizapp",
+            "certificate_hash": "DD974A12233B13F1F9F6CE847DEDD62D025354DF"
+          }
+        },
+        {
+          "client_id": "148149429934-8eamnlndrfgiaj1j968rgr8o0hhadd3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlM2wdN0UohMqvIPOs7yzPncagfAPicfM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

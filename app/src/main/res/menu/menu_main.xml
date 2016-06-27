@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_bookmark"
+        android:icon="@android:drawable/ic_input_get"
+        android:title="Bookmarks"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="Settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_about"
+        android:title="About"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_donate"
+        android:title="Donate"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_TMA"
+        android:title="The Master's Arena"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_leaderboard"
+        android:title="Leaderboard"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exit"
+        android:title="Exit"
+        app:showAsAction="never" />
+
+</menu>

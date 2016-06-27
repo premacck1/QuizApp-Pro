@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="google_client_id1234">148149429934-otg1p36p85f41bp9q10h2a9d1p7aceh2.apps.googleusercontent.com</string>
+</resources>
