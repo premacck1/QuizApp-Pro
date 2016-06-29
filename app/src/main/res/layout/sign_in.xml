@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Space
-        android:layout_width="40dp"
-        android:layout_height="50dp" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/button_facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:longClickable="false"
-        android:layout_weight="0"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp" />
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_toLeftOf="@+id/space1"
+            android:layout_toStartOf="@id/space1"/>
 
 
-</LinearLayout>
+        <Space
+            android:id="@+id/space1"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/facebook_signin_button"
+            android:layout_width="110dp"
+            android:layout_height="45dp"
+            android:background="@drawable/com_facebook_button_background"
+            android:textAllCaps="false"
+            android:text="f  Connect"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:layout_toRightOf="@id/space1"
+            android:layout_toEndOf="@id/space1"/>
+
+
+
+        <!--<com.facebook.login.widget.LoginButton
+            android:id="@+id/button_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:longClickable="false"
+            android:layout_weight="0"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp" />-->
+
+</RelativeLayout>

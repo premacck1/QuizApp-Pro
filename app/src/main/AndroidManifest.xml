@@ -26,6 +26,14 @@
                 <category android:name="android.intent.category.INFO" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Questions"
+            android:label="@string/title_activity_questions"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dikcoder.prem.quizapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
