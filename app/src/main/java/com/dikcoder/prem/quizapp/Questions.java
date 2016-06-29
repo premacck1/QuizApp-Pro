@@ -5,10 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 
 public class Questions extends AppCompatActivity {
 
+    static String ARGS = "questionArgs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+        /*
+        ListView optionList = (ListView) this.findViewById(R.id.optionsList);
+
+        */
 
 /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

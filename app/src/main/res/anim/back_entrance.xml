@@ -6,14 +6,14 @@
         android:toXDelta="-20"
         android:fromYDelta="0"
         android:toYDelta="0"
-        android:duration="500"
+        android:duration="250"
         android:interpolator="@android:anim/decelerate_interpolator"
         android:startOffset="200" />
 
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:duration="500"
+        android:duration="250"
         android:startOffset="200" />
 
     <translate
@@ -21,6 +21,6 @@
         android:toXDelta="0"
         android:fromYDelta="0"
         android:toYDelta="0"
-        android:duration="200"
-        android:startOffset="700" />
+        android:duration="100"
+        android:startOffset="450" />
 </set>

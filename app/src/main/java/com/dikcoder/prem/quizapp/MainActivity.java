@@ -1,5 +1,6 @@
 package com.dikcoder.prem.quizapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         listView.setLayoutAnimation(
                 new LayoutAnimationController(
                         AnimationUtils.loadAnimation(this, R.anim.front_exit),
-                        0.2F
+                        0.1F
                 )
         );
         final int position = pos;
@@ -95,6 +96,26 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     public void onFragmentInteraction(int selection, int pos) {
         if(selection == 123456 && pos == 123456){
             getSupportFragmentManager().popBackStack();
+        }
+        else {
+            final int [] args = {selection, pos};
+
+            listView = (ListView) findViewById(R.id.listView1);
+            listView.setLayoutAnimation(
+                    new LayoutAnimationController(
+                            AnimationUtils.loadAnimation(this, R.anim.front_exit),
+                            0.2F
+                    )
+            );
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    listView.setVisibility(View.INVISIBLE);
+                    startActivity(new Intent(MainActivity.this, Questions.class)
+                            .putExtra(Questions.ARGS, args));
+                    MainActivity.this.finish();
+                }
+            }, 200);
         }
     }
     /*
