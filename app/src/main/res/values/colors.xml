@@ -6,4 +6,6 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="vfgukftyvhj">#96f7f7</color>
+        <color name="pressed_color">#dfdfdf</color>
+        <color name="default_color">#ffffff</color>
 </resources>

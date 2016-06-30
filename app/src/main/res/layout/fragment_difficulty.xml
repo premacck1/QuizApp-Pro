@@ -16,7 +16,7 @@
             android:id="@+id/listView1"
             android:divider="@android:color/transparent"
             android:dividerHeight="25dp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 

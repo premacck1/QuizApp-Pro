@@ -18,7 +18,8 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView3"
         android:layout_gravity="center"
-        android:background="@drawable/welcome_bg" />
+        android:background="@drawable/welcome_bg"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:layout_width="240dp"
@@ -26,7 +27,8 @@
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal|top"
         android:layout_marginTop="70dp"
-        android:background="@drawable/welcome_above_text_small" />
+        android:background="@drawable/welcome_above_text_small"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:layout_width="280dp"
@@ -34,6 +36,7 @@
         android:id="@+id/imageView2"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="60dp"
-        android:background="@drawable/welcome_below_text_small" />
+        android:background="@drawable/welcome_below_text_small"
+        tools:ignore="ContentDescription" />
 
 </FrameLayout>
