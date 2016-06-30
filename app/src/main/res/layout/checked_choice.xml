@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal">
+    android:layout_height="wrap_content">
 
     <CheckedTextView
         android:id="@+id/checked_choice_button"
@@ -10,11 +9,11 @@
         android:layout_height="50dp"
         android:textAllCaps="false"
         android:layout_gravity="center_horizontal"
-        android:padding="5dp"
+        android:padding="10dp"
         android:textSize="20sp"
         android:typeface="normal"
-        android:textColor="#696767"
+        android:textColor="#ffffff"
         android:gravity="center"
         android:background="@drawable/selection_button_theme" />
 
-</LinearLayout>
+</FrameLayout>

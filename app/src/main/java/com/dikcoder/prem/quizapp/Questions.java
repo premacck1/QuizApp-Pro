@@ -15,7 +15,7 @@ public class Questions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
 
-        optionList = (ListView) this.findViewById(R.id.optionsList);
+        /*optionList = (ListView) this.findViewById(R.id.optionsList);
 
         String[] choices = {
                 "Option 1",
@@ -25,7 +25,7 @@ public class Questions extends AppCompatActivity {
         };
 
         CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), choices);
-        optionList.setAdapter(customAdapter);
+        optionList.setAdapter(customAdapter);*/
 /*
         optionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -35,24 +35,13 @@ public class Questions extends AppCompatActivity {
         });
 */
 
-
-
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-*/
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(Questions.this, MainActivity.class));
+        this.finish();
         super.onBackPressed();
     }
 }
