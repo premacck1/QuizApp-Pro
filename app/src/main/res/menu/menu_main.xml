@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_bookmark"
-        android:icon="@android:drawable/ic_input_get"
+        android:icon="@drawable/bookmarks"
         android:title="Bookmarks"
         app:showAsAction="always" />
 

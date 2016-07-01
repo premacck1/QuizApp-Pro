@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:id="change_rookie"
+        android:title="@string/difficulty_rookie"/>
+    <item android:id="change_apprentice"
+        android:title="@string/difficulty_apprentice"/>
+    <item android:id="change_pro"
+        android:title="@string/difficulty_pro"/>
+    <item android:id="change_hitman"
+        android:title="@string/difficulty_hitman"/>-->
+</menu>

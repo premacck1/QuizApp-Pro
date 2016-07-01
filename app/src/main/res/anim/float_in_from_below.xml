@@ -6,7 +6,7 @@
         android:toXDelta="0"
         android:fromYDelta="100"
         android:toYDelta="0"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+        android:interpolator="@android:anim/decelerate_interpolator"
         android:duration="800"
         android:startOffset="500"/>
 

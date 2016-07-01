@@ -15,7 +15,6 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener {
 
     ListView listView;
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                     listView.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(MainActivity.this, Questions.class)
                             .putExtra(Questions.ARGS, args));
-                    MainActivity.this.finish();
+//                    MainActivity.this.finish();
                 }
             }, 200);
         }

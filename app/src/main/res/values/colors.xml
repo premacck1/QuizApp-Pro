@@ -10,4 +10,5 @@
         <color name="default_color">#ffffff</color>
     <color name="bg_text">#383838</color>
     <color name="bg_text_checked">#cccccc</color>
+    <color name="welcome_page_text">#8d383838</color>
 </resources>
