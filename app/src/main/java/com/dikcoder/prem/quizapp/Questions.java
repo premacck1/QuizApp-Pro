@@ -1,11 +1,12 @@
 package com.dikcoder.prem.quizapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckedTextView;
-import android.widget.Toast;
 
 public class Questions extends AppCompatActivity{
 
@@ -84,15 +85,17 @@ public class Questions extends AppCompatActivity{
         temp = (CheckedTextView) v;
         if(temp !=null) {
             if (!temp.isChecked()) {
-                for (CheckedTextView item : allCheckedTextViews)
+                for (CheckedTextView item : allCheckedTextViews) {
                     item.setChecked(false);
+                    item.setTextColor(Color.parseColor("#000000"));
+                }
                 temp.setChecked(true);
-//                        temp.setBackgroundResource(R.drawable.checked_button_checked);
-                Toast.makeText(Questions.this, "Checked", Toast.LENGTH_SHORT).show();
+                temp.setTextColor(Color.parseColor("#FFFFFF"));
+                temp.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
             } else {
                 temp.setChecked(false);
-//                        temp.setBackgroundResource(R.drawable.checked_button_default);
-                Toast.makeText(Questions.this, "unChecked", Toast.LENGTH_SHORT).show();
+                temp.setTextColor(Color.parseColor("#000000"));
+                temp.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
             }
         }
     }

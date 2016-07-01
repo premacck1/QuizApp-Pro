@@ -28,11 +28,11 @@ import java.util.List;
  */
 public class Difficulty extends Fragment {
 
-
-    private ArrayAdapter<String> difficulty;
     private ListView listView;
     static String ARG_POSITION = "PositionArgs";
     static int fieldPosition;
+    private OnFragmentInteractionListener mListener;
+/*
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,20 +43,21 @@ public class Difficulty extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
 
     public Difficulty() {
         // Required empty public constructor
     }
 
-    /**
+    */
+/**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment Difficulty.
-     */
+     *//*
+
     // TODO: Rename and change types and number of parameters
     public static Difficulty newInstance(String param1, String param2) {
         Difficulty fragment = new Difficulty();
@@ -75,7 +76,7 @@ public class Difficulty extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class Difficulty extends Fragment {
 
         List<String> allFields = new ArrayList<>(Arrays.asList(choices));
 
-        difficulty = new ArrayAdapter<>(
+        ArrayAdapter<String> difficulty = new ArrayAdapter<>(
                 getContext(),
                 R.layout.choice,
                 R.id.choice_button,

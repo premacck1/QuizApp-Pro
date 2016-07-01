@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         listView.setLayoutAnimation(
                 new LayoutAnimationController(
                         AnimationUtils.loadAnimation(this, R.anim.front_exit),
-                        0.1F
+                        0.2F
                 )
         );
         final int position = pos;

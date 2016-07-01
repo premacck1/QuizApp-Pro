@@ -28,7 +28,7 @@ import java.util.List;
  * Use the {@link Field#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Field extends ListFragment implements AdapterView.OnItemClickListener{
+public class Field extends ListFragment{
 
     private ArrayAdapter<String> field;
     private ListView listView;
@@ -100,17 +100,11 @@ public class Field extends ListFragment implements AdapterView.OnItemClickListen
                             0.2F
                     )
             );
-/*            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                }
-            }, 200);*/
         }
         return rootView;
     }
 
     public void listItemPopulate(){
-
         String[] choices = {
                 "iOS",
                 "Java",
@@ -127,7 +121,6 @@ public class Field extends ListFragment implements AdapterView.OnItemClickListen
                 allFields);
 
         listView.setAdapter(field);
-
     }
 
     @Override
@@ -146,24 +139,6 @@ public class Field extends ListFragment implements AdapterView.OnItemClickListen
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
- /*   @Override
-    public void onDestroy() {
-        super.onDestroy();
-        *//*listView.setLayoutAnimation(
-                new LayoutAnimationController(
-                        AnimationUtils.loadAnimation(getContext(), R.anim.front_exit),
-                        0.2F
-                )
-        );
-        listView.setVisibility(View.GONE);*//*
-    }*/
 
     /**
      * This interface must be implemented by activities that contain this
