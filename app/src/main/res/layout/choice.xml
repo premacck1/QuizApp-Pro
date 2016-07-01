@@ -13,6 +13,6 @@
         android:typeface="normal"
         android:textColor="#696767"
         android:gravity="center"
-        android:background="@drawable/selection_button_theme" />
+        android:background="@drawable/button_theme" />
 
 </FrameLayout>
