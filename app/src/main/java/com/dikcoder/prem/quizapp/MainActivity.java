@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -51,7 +56,13 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()){
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.action_bookmark:
+                startActivity(new Intent(this, Bookmarks.class));
+        }
 
         //noinspection SimplifiableIfStatement
         /*
@@ -112,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                     listView.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(MainActivity.this, Questions.class)
                             .putExtra(Questions.ARGS, args));
+                    getSupportFragmentManager().popBackStack();
 //                    MainActivity.this.finish();
                 }
             }, 200);

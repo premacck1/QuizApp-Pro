@@ -2,7 +2,6 @@ package com.dikcoder.prem.quizapp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,6 +131,7 @@ public class Difficulty extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+/*
 
     @Override
     public void onPause() {
@@ -149,6 +149,7 @@ public class Difficulty extends Fragment {
         }, 200);
         super.onPause();
     }
+*/
 
     /**
      * This interface must be implemented by activities that contain this

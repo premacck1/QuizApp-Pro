@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal">
 
-        <Button
+        <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             style="@style/AppTheme.OptionsTextStyle"
             android:text="Sign up / Sign in"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
 
         <!--<com.facebook.login.widget.LoginButton

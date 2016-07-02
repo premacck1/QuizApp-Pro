@@ -1,10 +1,9 @@
 package com.dikcoder.prem.quizapp;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,15 +28,11 @@ public class Questions extends AppCompatActivity{
         option3 = (CheckedTextView) findViewById(R.id.checked_choice_button3);
         option4 = (CheckedTextView) findViewById(R.id.checked_choice_button4);
 
-        question = (TextView) findViewById(R.id.question_textView);
-        question.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf"));
-        question.setText("This is a sample question: Ishq ka rang kya hai?");
-        question.setTextSize(20);
-        registerForContextMenu(question);
+        ((TextView) findViewById(R.id.question_textView))
+                .setText("This is a sample question: Ishq ka rang kya hai?");
 
         allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
-        option1.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf"));
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +40,6 @@ public class Questions extends AppCompatActivity{
             }
         });
 
-        option2.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf"));
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +47,6 @@ public class Questions extends AppCompatActivity{
             }
         });
 
-        option3.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf"));
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +54,6 @@ public class Questions extends AppCompatActivity{
             }
         });
 
-        option4.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf"));
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,23 +73,18 @@ public class Questions extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.action_change_difficulty:
+            case R.id.action_q_change_difficulty:
                 this.openContextMenu(question);
+                break;
+            case R.id.action_q_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.action_q_bookmark:
+                startActivity(new Intent(this, Bookmarks.class));
 
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.context_difficulty, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        return super.onContextItemSelected(item);
     }
 
     /*    void setCheckedState(View v, CheckedTextView[] whichCheckedTextViews){

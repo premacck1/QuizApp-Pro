@@ -7,77 +7,62 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="#00FFFFFF">
 
-    <TextView
+    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/question_textView"
-        android:minHeight="150dp"
+        android:minHeight="100dp"
         android:maxHeight="250dp"
+        android:textSize="22sp"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/button_theme_default"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
 
-<!--    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:choiceMode="singleChoice">-->
-
-        <CheckedTextView
+        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
             android:id="@+id/checked_choice_button1"
             style="@style/AppTheme.OptionsTextStyle"
-            android:layout_below="@id/question_textView"
-            android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:text="Red"
             android:checked="false"
-            android:textSize="18sp" />
-        <CheckedTextView
+            android:textSize="18sp"
+            android:layout_above="@+id/checked_choice_button2"
+            android:layout_centerHorizontal="true" />
+        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
             android:id="@+id/checked_choice_button2"
             style="@style/AppTheme.OptionsTextStyle"
-            android:layout_below="@+id/checked_choice_button1"
-            android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:text="Blue"
             android:checked="false"
-            android:textSize="18sp" />
-        <CheckedTextView
+            android:textSize="18sp"
+            android:layout_above="@+id/checked_choice_button3"
+            android:layout_centerHorizontal="true" />
+        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
             android:id="@+id/checked_choice_button3"
             style="@style/AppTheme.OptionsTextStyle"
-            android:layout_below="@+id/checked_choice_button2"
-            android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:text="White"
             android:checked="false"
-            android:textSize="18sp" />
-        <CheckedTextView
+            android:textSize="18sp"
+            android:layout_above="@+id/checked_choice_button4"
+            android:layout_centerHorizontal="true" />
+        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
             android:id="@+id/checked_choice_button4"
             style="@style/AppTheme.OptionsTextStyle"
-            android:layout_below="@+id/checked_choice_button3"
-            android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:text="Yellow"
             android:checked="false"
-            android:textSize="18sp" />
-<!--
-    </ListView>-->
-
-    <!--<include layout="@layout/checked_choice"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/include"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />-->
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:id="@+id/fabPrevious"
@@ -87,9 +72,9 @@
         android:background="@drawable/fab_theme"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_above="@+id/checked_choice_button1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:id="@+id/fabNext"
@@ -98,8 +83,8 @@
         android:paddingLeft="10dp"
         android:src="@drawable/logo_next"
         android:background="@drawable/fab_theme"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignTop="@+id/fabPrevious"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

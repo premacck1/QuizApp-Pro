@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class FirstScreen extends AppCompatActivity{
 
-    private final int SPLASH_DISPLAY_LENGTH = 2500;
+    private final int SPLASH_DISPLAY_LENGTH = 1500;
     TextView tv1, tv2;
 
     @Override
