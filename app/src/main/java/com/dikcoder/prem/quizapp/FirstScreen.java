@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class FirstScreen extends AppCompatActivity{
 
-    private final int SPLASH_DISPLAY_LENGTH = 1500;
+    private final int SPLASH_DISPLAY_LENGTH = 2200;
     TextView tv1, tv2;
 
     @Override
@@ -22,7 +22,6 @@ public class FirstScreen extends AppCompatActivity{
 
         tv1.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguibl.ttf"));
         tv1.setShadowLayer(10, 4, 4, getResources().getColor(R.color.welcome_page_text));
-        tv2.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf"));
         tv2.setShadowLayer(10, 4, 4, getResources().getColor(R.color.welcome_page_text));
 
         tv1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
@@ -35,5 +34,10 @@ public class FirstScreen extends AppCompatActivity{
                 FirstScreen.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
+    }
+
+    @Override
+    public boolean releaseInstance() {
+        return super.releaseInstance();
     }
 }

@@ -87,4 +87,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ToggleButton
+        android:alpha="0.8"
+        android:textOff="+"
+        android:textOn="-"
+        android:textSize="50sp"
+        android:id="@+id/addBookmark"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bookmark_theme"
+        android:layout_alignTop="@+id/fabPrevious"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

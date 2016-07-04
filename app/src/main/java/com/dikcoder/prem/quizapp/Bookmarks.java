@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -112,6 +114,12 @@ public class Bookmarks extends AppCompatActivity {
             prepareListData();
             listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
             expandableListView.setAdapter(listAdapter);
+            expandableListView.setLayoutAnimation(
+                    new LayoutAnimationController(
+                            AnimationUtils.loadAnimation(getContext(), R.anim.float_in_expandable_listview)
+                            , 0.2F
+                    )
+            );
 
 
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);

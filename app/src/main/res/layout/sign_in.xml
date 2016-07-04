@@ -5,12 +5,13 @@
     android:layout_gravity="center_horizontal">
 
         <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+            android:id="@+id/sign_in_button"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             style="@style/AppTheme.OptionsTextStyle"
             android:text="Sign up / Sign in"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
 
         <!--<com.facebook.login.widget.LoginButton

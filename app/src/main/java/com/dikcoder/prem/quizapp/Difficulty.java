@@ -82,7 +82,6 @@ public class Difficulty extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_difficulty, container, false);
 
-
         String [] choices = {
                 "Rookie",
                 "Apprentice",

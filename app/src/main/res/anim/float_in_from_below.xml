@@ -8,12 +8,12 @@
         android:toYDelta="0"
         android:interpolator="@android:anim/decelerate_interpolator"
         android:duration="800"
-        android:startOffset="500"/>
+        android:startOffset="800"/>
 
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:duration="400"
-        android:startOffset="500"/>
+        android:duration="1000"
+        android:startOffset="800"/>
 
 </set>

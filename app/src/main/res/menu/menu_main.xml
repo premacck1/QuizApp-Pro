@@ -16,6 +16,7 @@
 
     <item
         android:id="@+id/action_about"
+        android:orderInCategory="80"
         android:title="About"
         app:showAsAction="never" />
 

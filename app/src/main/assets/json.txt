@@ -1,0 +1,330 @@
+{
+   "Java":[
+      {
+         "Rookie":[
+            {
+               "question":"What is Guava1 easy and the easy is peasy ",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is Guava2 easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is Guava3 easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is Guava4 easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Apprentice":[
+            {
+               "question":"What is Java1 normal",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is Java2 normal",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Pro":[
+            {
+               "question":"What is Java1 difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is Java2 difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Hitman":[
+            {
+               "question":"What is Java1 very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is Java2 very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      }
+   ],
+   "iOS":[
+      {
+         "Rookie":[
+            {
+               "question":"What is iOS easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Apprentice":[
+            {
+               "question":"What is iOS normal",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Pro":[
+            {
+               "question":"What is iOS difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      }
+      {
+         "Hitman":[
+            {
+               "question":"What is iOS very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is iOS very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      }
+   ],
+      "html":[
+      {
+         "Rookie":[
+            {
+               "question":"What does HTML stand for?",
+               "opt1":"Hyperlinks and Text Markup Language",
+               "opt2":"Hyper Text Markup Language",
+               "opt3":"Home Tool Markup Language",
+               "opt4":"None",
+               "ans":"Hyper Text Markup Language"
+            },
+ 			{
+               "question":"Choose the correct HTML tag for the largest heading",
+               "opt1":"<head>",
+               "opt2":"<h6>",
+               "opt3":"<heading>",
+               "opt4":"<h1>",
+               "ans":"<h1>"
+            }
+         ]
+      },
+      {
+         "Apprentice":[
+            {
+               "question":"Who is making the Web standards?",
+               "opt1":"Google",
+               "opt2":"Mozilla",
+               "opt3":"Microsoft",
+               "opt4":"The World Wide Web Consortium",
+               "ans":"The World Wide Web Consortium"
+            },
+			{
+               "question":"What is the correct HTML tag for inserting a line break?",
+               "opt1":"<br>",
+               "opt2":"<break>",
+               "opt3":"<lb>",
+               "opt4":"none",
+               "ans":"<br>"
+            }
+         ]
+      },
+      {
+         "Pro":[
+            {
+               "question":"How can you create an e-mail link?",
+               "opt1":"<mail>xxx@yyy</mail>",
+               "opt2":"<mail href=xxx@yyy>",
+               "opt3":"<a href=mailto:xxx@yyy>",
+               "opt4":"<a href=xxx@yyy>",
+               "ans":"<mail href=xxx@yyy>"
+            }
+         ]
+      }
+      {
+         "Hitman":[
+            {
+               "question":"What is HTML very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is HTML very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      }
+   ]
+   "JavaScript":[
+      {
+         "Rookie":[
+            {
+               "question":"What is JavaScript easy and the easy is peasy ",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is JavaScript easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is JavaScript easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is JavaScript easy",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Apprentice":[
+            {
+               "question":"What is JavaScript1 normal",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is JavaScript2 normal",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Pro":[
+            {
+               "question":"What is JavaScript1 difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is JavaScript2 difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      },
+      {
+         "Hitman":[
+            {
+               "question":"What is JavaScript1 very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            },
+            {
+               "question":"What is JavaScript2 very difficult",
+               "opt1":"Option 1",
+               "opt2":"Option 2",
+               "opt3":"Option 3",
+               "opt4":"Option 4",
+               "ans":"Option 1"
+            }
+         ]
+      }
+   ],
+}
