@@ -32,6 +32,7 @@ public class FirstScreen extends AppCompatActivity{
             public void run() {
                 FirstScreen.this.startActivity(new Intent(FirstScreen.this, MainActivity.class));
                 FirstScreen.this.finish();
+
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

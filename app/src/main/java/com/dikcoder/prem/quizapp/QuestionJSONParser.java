@@ -31,7 +31,7 @@ public class QuestionJSONParser {
                     difficultyIndex = 2;
                     break;
                 case "Hitman":
-                    difficultyIndex = 4;
+                    difficultyIndex = 3;
                     break;
                 default:
                     break;

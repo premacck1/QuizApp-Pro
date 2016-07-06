@@ -55,7 +55,7 @@ public class Questions extends AppCompatActivity{
         android.support.v7.app.ActionBar ab = this.getSupportActionBar();
         if (ab != null) ab.setSubtitle(selections[0] + " : " + selections[1]);
 
-        questionList = b.getParcelableArrayList("Questions");
+        questionList = b.getParcelableArrayList("Question");
         if(questionCount == 0)
             fabPrevious.setEnabled(false);
         else fabPrevious.setEnabled(true);

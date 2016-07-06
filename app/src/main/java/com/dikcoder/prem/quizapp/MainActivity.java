@@ -125,13 +125,12 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     }
 
 //    Doing parsing of JSON data
-    public ArrayList<QuestionBean> doInBackground(String JSONString, String difficulty){
+    public ArrayList<QuestionBean> doInBackground(String JSONString,String field, String difficulty){
         ArrayList<QuestionBean> fieldList = null;
-        JSONObject jObject = null;
+        JSONObject jObject;
+        /** Getting the parsed data as a List construct */
         try{
             jObject = new JSONObject(JSONString);
-//            new QuestionJSONParser().parse(jObject, field, difficulty);
-            /** Getting the parsed data as a List construct */
             fieldList = new QuestionJSONParser().parse(jObject, field, difficulty);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -303,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     public void onFragmentInteraction(int selection, int pos) {
         String[] questionArgs = Questions.getArgs(selection, pos);
         final int [] args = {selection, pos};
-        QUESTION = doInBackground(JSONString,questionArgs[1]);
+        QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
 
         listView = (ListView) findViewById(R.id.listView1);
         listView.setLayoutAnimation(
@@ -328,19 +327,25 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+        if(backStackCount == 1){
+            getSupportFragmentManager().popBackStack();
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
+        else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
             }
-        }, 2000);
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
     }
 }
