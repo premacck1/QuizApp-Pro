@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener {
 
     private ListView listView;
-    private String field = null, difficulty = null, JSONString = null, newJSONToWrite;
+    private String difficulty = null, JSONString = null, newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     }
 
 //    Doing parsing of JSON data
-    public ArrayList<QuestionBean> doInBackground(String JSONString, String difficulty){
+    public ArrayList<QuestionBean> doInBackground(String JSONString, String field, String difficulty){
         ArrayList<QuestionBean> fieldList = null;
         JSONObject jObject = null;
         try{
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 break;
             case R.id.action_about:
                 Dialog d = new Dialog(this);
-                d.setContentView(R.layout.about);
+//                d.setContentView(R.layout.about);
                 d.setTitle("About us");
                 d.show();
         }
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     public void onFragmentInteraction(int selection, int pos) {
         String[] questionArgs = Questions.getArgs(selection, pos);
         final int [] args = {selection, pos};
-        QUESTION = doInBackground(JSONString,questionArgs[1]);
+        QUESTION = doInBackground(JSONString,questionArgs[0], questionArgs[1]);
 
         listView = (ListView) findViewById(R.id.listView1);
         listView.setLayoutAnimation(
