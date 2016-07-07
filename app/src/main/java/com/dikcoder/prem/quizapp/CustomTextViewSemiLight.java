@@ -28,7 +28,6 @@ public class CustomTextViewSemiLight extends TextView {
     }
 
     private void applyCustomFont(Context context) {
-        Typeface customFont = Typeface.createFromAsset(context.getAssets(), "fonts/seguisl.ttf");
-        setTypeface(customFont);
+        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/seguisl.ttf"));
     }
 }

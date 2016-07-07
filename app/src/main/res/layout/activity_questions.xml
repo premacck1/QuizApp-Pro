@@ -28,42 +28,42 @@
         android:padding="10dp"
         android:layout_marginTop="10dp" />
 
-        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
-            android:id="@+id/checked_choice_button1"
-            style="@style/AppTheme.OptionsTextStyle"
-            android:textAlignment="center"
-            android:text="Red"
-            android:checked="false"
-            android:textSize="18sp"
-            android:layout_above="@+id/checked_choice_button2"
-            android:layout_centerHorizontal="true" />
-        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
-            android:id="@+id/checked_choice_button2"
-            style="@style/AppTheme.OptionsTextStyle"
-            android:textAlignment="center"
-            android:text="Blue"
-            android:checked="false"
-            android:textSize="18sp"
-            android:layout_above="@+id/checked_choice_button3"
-            android:layout_centerHorizontal="true" />
-        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
-            android:id="@+id/checked_choice_button3"
-            style="@style/AppTheme.OptionsTextStyle"
-            android:textAlignment="center"
-            android:text="White"
-            android:checked="false"
-            android:textSize="18sp"
-            android:layout_above="@+id/checked_choice_button4"
-            android:layout_centerHorizontal="true" />
-        <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
-            android:id="@+id/checked_choice_button4"
-            style="@style/AppTheme.OptionsTextStyle"
-            android:textAlignment="center"
-            android:text="Yellow"
-            android:checked="false"
-            android:textSize="18sp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+    <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
+        android:layout_width="match_parent"
+        android:id="@+id/checked_choice_button1"
+        style="@style/AppTheme.OptionsTextStyle"
+        android:textAlignment="center"
+        android:checked="false"
+        android:textSize="15sp"
+        android:layout_above="@+id/checked_choice_button2"
+        android:layout_centerHorizontal="true" />
+    <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
+        android:layout_width="match_parent"
+        android:id="@+id/checked_choice_button2"
+        style="@style/AppTheme.OptionsTextStyle"
+        android:textAlignment="center"
+        android:checked="false"
+        android:textSize="15sp"
+        android:layout_above="@+id/checked_choice_button3"
+        android:layout_centerHorizontal="true" />
+    <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
+        android:layout_width="match_parent"
+        android:id="@+id/checked_choice_button3"
+        style="@style/AppTheme.OptionsTextStyle"
+        android:textAlignment="center"
+        android:checked="false"
+        android:textSize="15sp"
+        android:layout_above="@+id/checked_choice_button4"
+        android:layout_centerHorizontal="true" />
+    <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
+        android:layout_width="match_parent"
+        android:id="@+id/checked_choice_button4"
+        style="@style/AppTheme.OptionsTextStyle"
+        android:textAlignment="center"
+        android:checked="false"
+        android:textSize="15sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:id="@+id/fabPrevious"
@@ -78,6 +78,36 @@
         android:layout_alignParentStart="true" />
 
     <ImageButton
+        android:alpha="0.8"
+        android:id="@+id/fabSkip"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@android:drawable/ic_menu_set_as"
+        android:background="@drawable/bookmark_theme"
+        android:paddingTop="5dp"
+        android:paddingLeft="8dp"
+        android:layout_marginLeft="25dp"
+        android:layout_alignTop="@+id/fabPrevious"
+        android:layout_toRightOf="@+id/fabPrevious"
+        android:layout_toEndOf="@+id/fabPrevious" />
+
+    <ToggleButton
+        android:alpha="0.8"
+        android:textOff="+"
+        android:textOn="Ø"
+        android:textSize="40sp"
+        android:hapticFeedbackEnabled="true"
+        android:id="@+id/addBookmark"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="25dp"
+        android:textColor="#f1f1f1"
+        android:background="@drawable/bookmark_theme"
+        android:layout_alignTop="@+id/fabNext"
+        android:layout_toLeftOf="@+id/fabNext"
+        android:layout_toStartOf="@+id/fabNext" />
+
+    <ImageButton
         android:id="@+id/fabNext"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -88,17 +118,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <ToggleButton
-        android:alpha="0.8"
-        android:textOff="+"
-        android:textOn="-"
-        android:textSize="50sp"
-        android:hapticFeedbackEnabled="true"
-        android:id="@+id/addBookmark"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/bookmark_theme"
-        android:layout_alignTop="@+id/fabPrevious"
-        android:layout_centerHorizontal="true"/>
-
+    <!--øØƟӨ-->
 </RelativeLayout>

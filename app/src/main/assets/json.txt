@@ -82,7 +82,8 @@
           "opt4": "default access",
           "ans": "default access"
         }
-      ],
+      ]
+    }, {
       "Apprentice": [
         {
           "question": "Which class does not override the equals() and hashCode() methods?",
@@ -164,7 +165,8 @@
           "opt4": "All of the above",
           "ans": "All of the above"
         }
-      ],
+      ]
+    }, {
       "Pro": [
         {
           "question": "Which is true about an anonymous inner class?",
@@ -246,7 +248,8 @@
           "opt4": "exits synchronized code",
           "ans": "wait()"
         }
-      ],
+      ]
+    }, {
       "Hitman": [
         {
           "question": "The throw statement can throw?",
@@ -351,7 +354,7 @@
           "ans": "Proprietary"
         },
         {
-          "question": "World’s most popular mobile operating system with highest market share?",
+          "question": "Worldï¿½s most popular mobile operating system with highest market share?",
           "opt1": "iOS",
           "opt2": "Android",
           "opt3": "Windows Phone",
@@ -414,7 +417,8 @@
           "opt4": "Play Store",
           "ans": "App Store"
         }
-      ],
+      ]
+    }, {
       "Apprentice": [
         {
           "question": "Which keyword do you use to declare enumeration?",
@@ -496,7 +500,8 @@
           "opt4": "protocol",
           "ans": "category"
         }
-      ],
+      ]
+    }, {
       "Pro": [
         {
           "question": "There are ____ fundamental building blocks in Objective-C.",
@@ -578,7 +583,8 @@
           "opt4": "locating",
           "ans": "dereferencing"
         }
-      ],
+      ]
+    }, {
       "Hitman": [
         {
           "question": "A logical subdivision of a program within which all names must be unique.",
@@ -746,7 +752,8 @@
           "opt4": "H5",
           "ans": "H1"
         }
-      ],
+      ]
+    }, {
       "Apprentice": [
         {
           "question": "the correct HTML element to define important text:",
@@ -828,7 +835,8 @@
           "opt4": "<input type=\"text\">",
           "ans": "<input type=\"text\">"
         }
-      ],
+      ]
+    }, {
       "Pro": [
         {
           "question": "What is the correct HTML for making a drop-down list?",
@@ -910,7 +918,8 @@
           "opt4": "PREFORMAT",
           "ans": "PREFORMAT"
         }
-      ],
+      ]
+    }, {
       "Hitman": [
         {
           "question": "Tags and test that are not directly displayed on the page are written in _____ section.",
@@ -925,7 +934,7 @@
           "opt1": "<hr>",
           "opt2": "<line>",
           "opt3": "<tr>",
-          "opt4": "<line direction=”horizontal”>",
+          "opt4": "<line direction=ï¿½horizontalï¿½>",
           "ans": "<hr>"
         },
         {
@@ -940,7 +949,7 @@
           "question": "To create a combo box (drop down box) which tag will you use?",
           "opt1": "<select>",
           "opt2": "<list>",
-          "opt3": "<input type=”dropdown”>",
+          "opt3": "<input type=ï¿½dropdownï¿½>",
           "opt4": "all of above",
           "ans": "<select>"
         },
@@ -977,7 +986,7 @@
           "ans": "6"
         },
         {
-          "question": "Text within <EM> … </EM> tag is displayed as:",
+          "question": "Text within <EM> ï¿½ </EM> tag is displayed as:",
           "opt1": "bold",
           "opt2": "italic",
           "opt3": "list",
@@ -1078,7 +1087,8 @@
           "opt4": "delete",
           "ans": "instanceof"
         }
-      ],
+      ]
+    }, {
       "Apprentice": [
         {
           "question": "Javascript is __ language.",
@@ -1160,7 +1170,8 @@
           "opt4": "'object', 'object'",
           "ans": "'object', 'object'"
         }
-      ],
+      ]
+    }, {
       "Pro": [
         {
           "question": "How do you create a new object in JavaScript?",
@@ -1242,7 +1253,8 @@
           "opt4": "None of the above",
           "ans": "undefined"
         }
-      ],
+      ]
+    }, {
       "Hitman": [
         {
           "question": "__ statement is used to test for a specific condition.",

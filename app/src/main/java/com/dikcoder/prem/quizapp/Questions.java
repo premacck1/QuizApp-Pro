@@ -25,9 +25,8 @@ public class Questions extends AppCompatActivity{
     private int correctAnswers = 0, incorrectAnswers = 0, questionCount = 0;
     private boolean isBookmarked = false;
     private String selectedOption, answer, field, difficulty;
-    private Stack<QuestionBean> previusQuestion = new Stack<>();
+    private Stack<QuestionBean> previousQuestion = new Stack<>();
     private Stack<String> previousAnswer = new Stack<>();
-    private boolean isPreviousPressed = false;
     private DatabaseHolder dbHandler;
     private ArrayList<QuestionBean> questionList;
     private QuestionBean questionBean;
@@ -35,7 +34,7 @@ public class Questions extends AppCompatActivity{
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
     TextView question;
-    ImageButton fabPrevious, fabNext;
+    ImageButton fabPrevious, fabSkip, fabNext;
     ToggleButton addBookmark;
     CheckedTextView option1, option2, option3, option4, temp;
     CheckedTextView[] allCheckedTextViews;
@@ -50,19 +49,19 @@ public class Questions extends AppCompatActivity{
 
 //        GET THE SELECTED FIELD AND DIFFICULTY.
         Bundle b = getIntent().getExtras();
-        String[] selections = getArgs((int) b.get(FIELD_ARG),(int) b.get(DIFFICULTY_ARG));
+        String[] selections = {b.get(FIELD_ARG).toString(), b.get(DIFFICULTY_ARG).toString()};
 
         android.support.v7.app.ActionBar ab = this.getSupportActionBar();
         if (ab != null) ab.setSubtitle(selections[0] + " : " + selections[1]);
 
         questionList = b.getParcelableArrayList("Question");
-        if(questionCount == 0)
-            fabPrevious.setEnabled(false);
-        else fabPrevious.setEnabled(true);
+//        if(questionCount == 0)
+//            fabPrevious.setEnabled(false);
+//        else fabPrevious.setEnabled(true);
 
-        populate(questionCount);
-//        ((TextView) findViewById(R.id.question_textView))
-//                .setText("This is a sample question: Ishq ka rang kya hai?");
+        questionBean = questionList.get(questionCount);
+        populate();
+        answer = questionBean.getAnswer();
 
         allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
@@ -107,39 +106,48 @@ public class Questions extends AppCompatActivity{
                 if (selectedOption != null){
                     if (selectedOption.equalsIgnoreCase(answer)){
                         correctAnswers++;
-                        previusQuestion.push(questionBean);
-                        previousAnswer.push(selectedOption);
                     }
                     else incorrectAnswers++;
-                    questionCount++;
 
-                    if (questionCount < questionList.size()){
-                        isBookmarked = false;
-                        selectedOption = null;
-                        addBookmark.setChecked(false);
-                        fabPrevious.setEnabled(true);
-                        populate(questionCount);
-                    }
-                    else{
-                        onCompletion();
-                    }
+                    showNextQuestion();
                 }
                 else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+                builder.setMessage("Are you sure to skip this question?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showNextQuestion();
+                        getSelectedAnswer(selectedOption);
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
         fabPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (previusQuestion.size()>0) {
-                    QuestionBean questionBean = previusQuestion.pop();
-                    question.setText(questionBean.getQuestion().trim());
-                    option1.setText(questionBean.getOption1().trim());
-                    option2.setText(questionBean.getOption2().trim());
-                    option3.setText(questionBean.getOption3().trim());
-                    option4.setText(questionBean.getOption4().trim());
+                if (previousQuestion.size()>0) {
+                    questionBean = previousQuestion.pop();
+                    populate();
                     answer = questionBean.getAnswer();
                     selectedOption = previousAnswer.pop();
+                    getSelectedAnswer(selectedOption);
                     questionCount--;
                 }
                 else{
@@ -150,41 +158,18 @@ public class Questions extends AppCompatActivity{
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public static String[] getArgs(int field, int difficulty){
-        String [] args = new String[2];
-        switch (field){
-            case 0:
-                args[0] = "iOS";
-                break;
-            case 1:
-                args[0] = "Java";
-                break;
-            case 2:
-                args[0] = "HTML";
-                break;
-            case 3:
-                args[0] = "JavaScript";
-                break;
-            default:
-                break;
+    public void getSelectedAnswer(String selectedOption){
+        if (selectedOption != null) {
+            if (selectedOption.equals(option1.getText().toString())) {
+                clickAction(option1);
+            } else if (selectedOption.equals(option2.getText().toString())) {
+                clickAction(option2);
+            } else if (selectedOption.equals(option3.getText().toString())) {
+                clickAction(option3);
+            } else if (selectedOption.equals(option4.getText().toString())) {
+                clickAction(option4);
+            }
         }
-        switch (difficulty){
-            case 0:
-                args[1] = "Rookie";
-                break;
-            case 1:
-                args[1] = "Apprentice";
-                break;
-            case 2:
-                args[1] = "Pro";
-                break;
-            case 3:
-                args[1] = "Hitman";
-                break;
-            default:
-                break;
-        }
-        return args;
     }
 
     public void instantiate(){
@@ -193,19 +178,26 @@ public class Questions extends AppCompatActivity{
         option2 = (CheckedTextView) findViewById(R.id.checked_choice_button2);
         option3 = (CheckedTextView) findViewById(R.id.checked_choice_button3);
         option4 = (CheckedTextView) findViewById(R.id.checked_choice_button4);
-        fabNext = (ImageButton) findViewById(R.id.fabNext);
         fabPrevious = (ImageButton) findViewById(R.id.fabPrevious);
+        fabNext = (ImageButton) findViewById(R.id.fabNext);
+        fabSkip = (ImageButton) findViewById(R.id.fabSkip);
         addBookmark = (ToggleButton) findViewById(R.id.addBookmark);
     }
 
-    public void populate(int count){
-        questionBean = questionList.get(count);
+    public void populate(){
         question.setText(questionBean.getQuestion().trim());
         option1.setText(questionBean.getOption1().trim());
+        option1.setChecked(false);
+        option1.setTextColor(Color.parseColor("#000000"));
         option2.setText(questionBean.getOption2().trim());
+        option2.setChecked(false);
+        option2.setTextColor(Color.parseColor("#000000"));
         option3.setText(questionBean.getOption3().trim());
+        option3.setChecked(false);
+        option3.setTextColor(Color.parseColor("#000000"));
         option4.setText(questionBean.getOption4().trim());
-        answer = questionBean.getAnswer();
+        option4.setChecked(false);
+        option4.setTextColor(Color.parseColor("#000000"));
     }
 
     public void clickAction(View v) {
@@ -235,24 +227,43 @@ public class Questions extends AppCompatActivity{
 //            IF THE QUESTION IS BOOKMARKED
             if (!t.isChecked()) {
                 isBookmarked = false;
-                t.setTextColor(Color.parseColor("#3b3b3b"));
+//                t.setTextColor(Color.parseColor("#3b3b3b"));
                 t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
                 Toast.makeText(Questions.this, "Bookmark removed", Toast.LENGTH_SHORT).show();
             }
 //            IF THE QUESTION IS NOT BOOKMARKED
             else {
                 isBookmarked = true;
-                t.setTextColor(Color.parseColor("#cecece"));
+//                t.setTextColor(Color.parseColor("#cecece"));
                 t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
                 Toast.makeText(Questions.this, "Bookmark added", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    public void showNextQuestion(){
+        previousQuestion.push(questionBean);
+        previousAnswer.push(selectedOption);
+        questionCount++;
+
+        if (questionCount < questionList.size()){
+            isBookmarked = false;
+            selectedOption = null;
+            addBookmark.setChecked(false);
+//                        fabPrevious.setEnabled(true);
+            questionBean = questionList.get(questionCount);
+            populate();
+            answer = questionBean.getAnswer();
+        }
+        else{
+            onCompletion();
+        }
+    }
+
     public void onCompletion(){
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
         builder.setMessage("You have completed the quiz");
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -260,9 +271,10 @@ public class Questions extends AppCompatActivity{
                 Questions.this.finish();
             }
         });
-        builder.setNeutralButton("Home", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Take another quiz", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Questions.this, MainActivity.class));
                 Questions.this.finish();
             }
         });
@@ -290,7 +302,7 @@ public class Questions extends AppCompatActivity{
                 break;
             case R.id.action_about:
                 Dialog d = new Dialog(this);
-//                d.setContentView(R.layout.about);
+                d.setContentView(R.layout.about);
                 d.setTitle("About us");
                 d.show();
                 break;
@@ -298,6 +310,7 @@ public class Questions extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(Questions.this, MainActivity.class));

@@ -1,5 +1,6 @@
 package com.dikcoder.prem.quizapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -119,5 +120,10 @@ public class Results extends AppCompatActivity {
         mLevelTextView.setText("Level " + (++mLevel));
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(Results.this, MainActivity.class));
+        this.finish();
     }
 }

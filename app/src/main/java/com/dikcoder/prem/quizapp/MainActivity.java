@@ -38,7 +38,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener {
 
     private ListView listView;
-    private String field = null, difficulty = null, JSONString = null, newJSONToWrite;
+    private String JSONString = null;
+    private String newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
 
@@ -205,6 +206,43 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
     }
 
+    public static String[] getArgs(int field, int difficulty){
+        String [] args = new String[2];
+        switch (field){
+            case 0:
+                args[0] = "iOS";
+                break;
+            case 1:
+                args[0] = "Java";
+                break;
+            case 2:
+                args[0] = "HTML";
+                break;
+            case 3:
+                args[0] = "JavaScript";
+                break;
+            default:
+                break;
+        }
+        switch (difficulty){
+            case 0:
+                args[1] = "Rookie";
+                break;
+            case 1:
+                args[1] = "Apprentice";
+                break;
+            case 2:
+                args[1] = "Pro";
+                break;
+            case 3:
+                args[1] = "Hitman";
+                break;
+            default:
+                break;
+        }
+        return args;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -300,8 +338,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
     @Override
     public void onFragmentInteraction(int selection, int pos) {
-        String[] questionArgs = Questions.getArgs(selection, pos);
-        final int [] args = {selection, pos};
+        final String[] questionArgs = getArgs(selection, pos);
         QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
 
         listView = (ListView) findViewById(R.id.listView1);
@@ -316,8 +353,8 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             public void run() {
                 listView.setVisibility(View.INVISIBLE);
                 Intent i = new Intent(MainActivity.this, Questions.class);
-                i.putExtra(Questions.FIELD_ARG, args[0]);
-                i.putExtra(Questions.DIFFICULTY_ARG, args[1]);
+                i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
+                i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
                 i.putExtra("Question", QUESTION);
                 startActivity(i);
                 MainActivity.this.finish();
