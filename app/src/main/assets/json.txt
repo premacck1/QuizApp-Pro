@@ -1,330 +1,1330 @@
 {
-   "Java":[
-      {
-         "Rookie":[
-            {
-               "question":"What is Guava1 easy and the easy is peasy ",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is Guava2 easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is Guava3 easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is Guava4 easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Apprentice":[
-            {
-               "question":"What is Java1 normal",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is Java2 normal",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Pro":[
-            {
-               "question":"What is Java1 difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is Java2 difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Hitman":[
-            {
-               "question":"What is Java1 very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is Java2 very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      }
-   ],
-   "iOS":[
-      {
-         "Rookie":[
-            {
-               "question":"What is iOS easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Apprentice":[
-            {
-               "question":"What is iOS normal",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Pro":[
-            {
-               "question":"What is iOS difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      }
-      {
-         "Hitman":[
-            {
-               "question":"What is iOS very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is iOS very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      }
-   ],
-      "html":[
-      {
-         "Rookie":[
-            {
-               "question":"What does HTML stand for?",
-               "opt1":"Hyperlinks and Text Markup Language",
-               "opt2":"Hyper Text Markup Language",
-               "opt3":"Home Tool Markup Language",
-               "opt4":"None",
-               "ans":"Hyper Text Markup Language"
-            },
- 			{
-               "question":"Choose the correct HTML tag for the largest heading",
-               "opt1":"<head>",
-               "opt2":"<h6>",
-               "opt3":"<heading>",
-               "opt4":"<h1>",
-               "ans":"<h1>"
-            }
-         ]
-      },
-      {
-         "Apprentice":[
-            {
-               "question":"Who is making the Web standards?",
-               "opt1":"Google",
-               "opt2":"Mozilla",
-               "opt3":"Microsoft",
-               "opt4":"The World Wide Web Consortium",
-               "ans":"The World Wide Web Consortium"
-            },
-			{
-               "question":"What is the correct HTML tag for inserting a line break?",
-               "opt1":"<br>",
-               "opt2":"<break>",
-               "opt3":"<lb>",
-               "opt4":"none",
-               "ans":"<br>"
-            }
-         ]
-      },
-      {
-         "Pro":[
-            {
-               "question":"How can you create an e-mail link?",
-               "opt1":"<mail>xxx@yyy</mail>",
-               "opt2":"<mail href=xxx@yyy>",
-               "opt3":"<a href=mailto:xxx@yyy>",
-               "opt4":"<a href=xxx@yyy>",
-               "ans":"<mail href=xxx@yyy>"
-            }
-         ]
-      }
-      {
-         "Hitman":[
-            {
-               "question":"What is HTML very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is HTML very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      }
-   ]
-   "JavaScript":[
-      {
-         "Rookie":[
-            {
-               "question":"What is JavaScript easy and the easy is peasy ",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is JavaScript easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is JavaScript easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is JavaScript easy",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Apprentice":[
-            {
-               "question":"What is JavaScript1 normal",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is JavaScript2 normal",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Pro":[
-            {
-               "question":"What is JavaScript1 difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is JavaScript2 difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      },
-      {
-         "Hitman":[
-            {
-               "question":"What is JavaScript1 very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            },
-            {
-               "question":"What is JavaScript2 very difficult",
-               "opt1":"Option 1",
-               "opt2":"Option 2",
-               "opt3":"Option 3",
-               "opt4":"Option 4",
-               "ans":"Option 1"
-            }
-         ]
-      }
-   ],
+  "Java": [
+    {
+      "Rookie": [
+        {
+          "question": "Which one of these lists contains only Java programming language keywords?",
+          "opt1": "class, if, void, long",
+          "opt2": "goto, instanceof, native, throws",
+          "opt3": "try, virtual, throw, final",
+          "opt4": "strictfp, constant, super, do",
+          "ans": "goto, instanceof, native, throws"
+        },
+        {
+          "question": "Which is a reserved word in the Java programming language?",
+          "opt1": "method",
+          "opt2": "native",
+          "opt3": "subclasses",
+          "opt4": "reference",
+          "ans": "native"
+        },
+        {
+          "question": "Which is a valid keyword in java?",
+          "opt1": "interface",
+          "opt2": "string",
+          "opt3": "Float",
+          "opt4": "unsigned",
+          "ans": "interface"
+        },
+        {
+          "question": "Which is a legal array declarations?",
+          "opt1": "int [/] myScores [/];",
+          "opt2": "char [/] myChars;",
+          "opt3": "Dog myDogs [/];",
+          "opt4": "All are correct",
+          "ans": "All are correct"
+        },
+        {
+          "question": "Which is a valid declaration of a char?",
+          "opt1": "char c1 = 064770;",
+          "opt2": "char c2 = 'face';",
+          "opt3": "char c3 = iface;",
+          "opt4": "char c4 = u0022;",
+          "ans": "char c1 = 064770;"
+        },
+        {
+          "question": "Which is the valid declaration within an interface definition?",
+          "opt1": "public double methoda();",
+          "opt2": "public final double methoda();",
+          "opt3": "static void methoda(double d1);",
+          "opt4": "protected void methoda(double d1);",
+          "ans": "public double methoda();"
+        },
+        {
+          "question": "Which is a valid declaration of a boolean?",
+          "opt1": "boolean b1 = 0;",
+          "opt2": "boolean b2 = 'false';",
+          "opt3": "boolean b3 = false;",
+          "opt4": "boolean b4 = no;",
+          "ans": "boolean b3 = false;"
+        },
+        {
+          "question": "What is the numerical range of a char?",
+          "opt1": "-128 to 127",
+          "opt2": "-(215) to (215) - 1",
+          "opt3": "0 to 32767",
+          "opt4": "0 to 65535",
+          "ans": "0 to 65535"
+        },
+        {
+          "question": "What is the prototype of the default constructor?",
+          "opt1": "Test( )",
+          "opt2": "Test(void)",
+          "opt3": "public Test( )",
+          "opt4": "public Test(void)",
+          "ans": "public Test( )"
+        },
+        {
+          "question": "Which gives access to members of another class in the same package?",
+          "opt1": "public",
+          "opt2": "private",
+          "opt3": "protected",
+          "opt4": "default access",
+          "ans": "default access"
+        }
+      ],
+      "Apprentice": [
+        {
+          "question": "Which class does not override the equals() and hashCode() methods?",
+          "opt1": "java.lang.String",
+          "opt2": "java.lang.Double",
+          "opt3": "java.lang.StringBuffer",
+          "opt4": "java.lang.Character",
+          "ans": "java.lang.StringBuffer"
+        },
+        {
+          "question": "Which interface does java.util.Hashtable implement?",
+          "opt1": "Java.util.Map",
+          "opt2": "Java.util.List",
+          "opt3": "Java.util.HashTable",
+          "opt4": "Java.util.Collection",
+          "ans": "Java.util.Map"
+        },
+        {
+          "question": "Which interface provides the capability to store objects using a key-value pair?",
+          "opt1": "Java.util.Map",
+          "opt2": "Java.util.Set",
+          "opt3": "Java.util.List",
+          "opt4": "Java.util.Collection",
+          "ans": "Java.util.Map"
+        },
+        {
+          "question": "Which is valid declaration of a float?",
+          "opt1": "float f = 1.0;",
+          "opt2": "float f = 1F;",
+          "opt3": "float f = \"1\";",
+          "opt4": "float f = 1.0d;",
+          "ans": "float f = 1F;"
+        },
+        {
+          "question": "What is the numerical range of char?",
+          "opt1": "0 to 32767",
+          "opt2": "0 to 65535",
+          "opt3": "-256 to 255",
+          "opt4": "-32768 to 32767",
+          "ans": "0 to 65535"
+        },
+        {
+          "question": "Which of the following are Java reserved words?",
+          "opt1": "run",
+          "opt2": "import",
+          "opt3": "implement",
+          "opt4": "extend",
+          "ans": "import"
+        },
+        {
+          "question": "Which statement is true for the class java.util.HashSet?",
+          "opt1": "Its elements are ordered",
+          "opt2": "Its guaranteed to be immutable",
+          "opt3": "Its elements are guaranteed to be unique",
+          "opt4": "Its elements are accessed using a unique key",
+          "ans": "Its elements are guaranteed to be unique"
+        },
+        {
+          "question": "Which of the following statements about the hashcode() method are incorrect?",
+          "opt1": "The value returned is used to help locate objects",
+          "opt2": "It is required to return a positive int value",
+          "opt3": "Two new empty Strings produce same hashcodes",
+          "opt4": "It is not inherited from Object",
+          "ans": "It is required to return a positive int value"
+        },
+        {
+          "question": "Which statement is true for the class java.util.ArrayList?",
+          "opt1": "The elements are ordered",
+          "opt2": "It is guaranteed to be immutable",
+          "opt3": "The elements are unique",
+          "opt4": "The elements are accessed using a unique key",
+          "ans": "The elements are ordered"
+        },
+        {
+          "question": "Which of the following is true about ListIterator?",
+          "opt1": "It can determine its position in the List",
+          "opt2": "It enables forward and backward iteration",
+          "opt3": "It can modify the List during iteration",
+          "opt4": "All of the above",
+          "ans": "All of the above"
+        }
+      ],
+      "Pro": [
+        {
+          "question": "Which is true about an anonymous inner class?",
+          "opt1": "It can extend multiple classes",
+          "opt2": "It can implement multiple interfaces",
+          "opt3": "It can extend exactly one class",
+          "opt4": "None of the above",
+          "ans": "It can extend exactly one class"
+        },
+        {
+          "question": "Which is true about a method-local inner class?",
+          "opt1": "It must be marked final",
+          "opt2": "It can be marked abstract",
+          "opt3": "It can be marked public",
+          "opt4": "It can be marked static",
+          "ans": "It can be marked abstract"
+        },
+        {
+          "question": "correct syntax for anonymous inner class instance?",
+          "opt1": "new Runnable() { };",
+          "opt2": "new Runnable(public void run(){});",
+          "opt3": "new Runnable{public void run(){}};",
+          "opt4": "All of the above",
+          "ans": "new Runnable{public void run(){}};"
+        },
+        {
+          "question": "Which method starts a thread execution?",
+          "opt1": "init();",
+          "opt2": "start();",
+          "opt3": "run();",
+          "opt4": "resume();",
+          "ans": "start();"
+        },
+        {
+          "question": "Which statement is true?",
+          "opt1": "The Error class is a RuntimeException",
+          "opt2": "catch(X x) can catch subclasses of X",
+          "opt3": "try block is only used for Errors",
+          "opt4": "catch block can catch all the errors",
+          "ans": "catch(X x) can catch subclasses of X"
+        },
+        {
+          "question": "Which is valid constructor for Thread?",
+          "opt1": "Thread(Runnable r, String name)",
+          "opt2": "Thread(Runnable r, int priority)",
+          "opt3": "Thread(int priority)",
+          "opt4": "Thread(Runnable r, ThreadGroup g)",
+          "ans": "Thread(Runnable r, String name)"
+        },
+        {
+          "question": "Which is the method of the Object class?",
+          "opt1": "isInterrupted();",
+          "opt2": "notify();",
+          "opt3": "synchronized();",
+          "opt4": "sleep(long msecs);",
+          "ans": "notify();"
+        },
+        {
+          "question": "Which method is defined in class Thread?",
+          "opt1": "start()",
+          "opt2": "wait()",
+          "opt3": "notify()",
+          "opt4": "terminate()",
+          "ans": "start()"
+        },
+        {
+          "question": "Which guarantees that a thread will leave the running state?",
+          "opt1": "yield()",
+          "opt2": "notify()",
+          "opt3": "notifyAll()",
+          "opt4": "sleep(1000)",
+          "ans": "sleep(1000)"
+        },
+        {
+          "question": "Which will directly stop the execution of a Thread?",
+          "opt1": "notify()",
+          "opt2": "notifyall()",
+          "opt3": "wait()",
+          "opt4": "exits synchronized code",
+          "ans": "wait()"
+        }
+      ],
+      "Hitman": [
+        {
+          "question": "The throw statement can throw?",
+          "opt1": "Event",
+          "opt2": "Object",
+          "opt3": "Error",
+          "opt4": "None",
+          "ans": "Error"
+        },
+        {
+          "question": "Which will contain the body of the thread?",
+          "opt1": "run();",
+          "opt2": "start();",
+          "opt3": "main();",
+          "opt4": "stop();",
+          "ans": "run();"
+        },
+        {
+          "question": "Which method registers a thread in a thread scheduler?",
+          "opt1": "construct();",
+          "opt2": "run();",
+          "opt3": "start();",
+          "opt4": "register();",
+          "ans": "start();"
+        },
+        {
+          "question": "Which of the following will not directly cause a thread to stop?",
+          "opt1": "notify()",
+          "opt2": "wait()",
+          "opt3": "sleep()",
+          "opt4": "InputStream access",
+          "ans": "notify()"
+        },
+        {
+          "question": "Which of the following would compile without error?",
+          "opt1": "int a = Math.abs(-5);",
+          "opt2": "int b = Math.abs(5.0);",
+          "opt3": "int c = Math.abs(5.5F);",
+          "opt4": "int d = Math.abs(5L);",
+          "ans": "int a = Math.abs(-5);"
+        },
+        {
+          "question": "Which of the following is valid call to Math.max?",
+          "opt1": "Math.max(1,4)",
+          "opt2": "Math.max(2.3, 5)",
+          "opt3": "Math.max(-1.5, -2.8f)",
+          "opt4": "All of the above",
+          "ans": "All of the above"
+        },
+        {
+          "question": "Which will produce an answer closest in value to a double, d, while not being greater than d?",
+          "opt1": "(int)Math.min(d);",
+          "opt2": "(int)Math.max(d);",
+          "opt3": "(int)Math.abs(d);",
+          "opt4": "(int)Math.floor(d);",
+          "ans": "(int)Math.floor(d);"
+        },
+        {
+          "question": "Which is true about the result obtained from calling Math.random()?",
+          "opt1": "result is less than 0.0",
+          "opt2": "The result is less than 1.0",
+          "opt3": "The result is greater than 1.0",
+          "opt4": "The result is equal to 1.0",
+          "ans": "The result is less than 1.0"
+        },
+        {
+          "question": "which of these will create and start a thread?",
+          "opt1": "new Runnable(MyRunnable).start();",
+          "opt2": "new Thread(MyRunnable).run();",
+          "opt3": "new Thread(new MyRunnable()).start();",
+          "opt4": "new MyRunnable().start();",
+          "ans": "new Thread(new MyRunnable()).start();"
+        },
+        {
+          "question": "Which classinterface defines the wait(), notify(),and notifyAll() methods?",
+          "opt1": "Object",
+          "opt2": "Thread",
+          "opt3": "Runnable",
+          "opt4": "Class",
+          "ans": "Object"
+        }
+      ]
+    }
+  ],
+  "iOS": [
+    {
+      "Rookie": [
+        {
+          "question": "iOS was first released in?",
+          "opt1": "2008",
+          "opt2": "2005",
+          "opt3": "2006",
+          "opt4": "2007",
+          "ans": "2007"
+        },
+        {
+          "question": "What typre of software is iOS?",
+          "opt1": "Proprietary",
+          "opt2": "Open-source",
+          "opt3": "Secret",
+          "opt4": "None of these",
+          "ans": "Proprietary"
+        },
+        {
+          "question": "World’s most popular mobile operating system with highest market share?",
+          "opt1": "iOS",
+          "opt2": "Android",
+          "opt3": "Windows Phone",
+          "opt4": "Java ME",
+          "ans": "Android"
+        },
+        {
+          "question": "Which one of these devices does not run on iOS?",
+          "opt1": "iPhone",
+          "opt2": "iPad",
+          "opt3": "iPod",
+          "opt4": "iSee",
+          "ans": "iSee"
+        },
+        {
+          "question": "The system belongs to which OS family?",
+          "opt1": "Windows NT",
+          "opt2": "Darwin",
+          "opt3": "Linux",
+          "opt4": "QNX",
+          "ans": "Darwin"
+        },
+        {
+          "question": "Multitasking for iOS was first released in which year?",
+          "opt1": "2010",
+          "opt2": "2008",
+          "opt3": "2012",
+          "opt4": "2011",
+          "ans": "2010"
+        },
+        {
+          "question": "What was the original name of iOS?",
+          "opt1": "iPad OS",
+          "opt2": "iPhone OS",
+          "opt3": "iPod OS",
+          "opt4": "iOS is the original name",
+          "ans": ""
+        },
+        {
+          "question": "Who has the largest market share for tablets worldwide?",
+          "opt1": "iOS",
+          "opt2": "Android",
+          "opt3": "Kindle",
+          "opt4": "None",
+          "ans": "iOS"
+        },
+        {
+          "question": "iOS is a mobile operating system developed by",
+          "opt1": "LG",
+          "opt2": "Siemens",
+          "opt3": "Apple Inc.",
+          "opt4": "Samsung",
+          "ans": "Apple Inc."
+        },
+        {
+          "question": "What is the official application store of iOS?",
+          "opt1": "Apple Play",
+          "opt2": "App Store",
+          "opt3": "Jolla Store",
+          "opt4": "Play Store",
+          "ans": "App Store"
+        }
+      ],
+      "Apprentice": [
+        {
+          "question": "Which keyword do you use to declare enumeration?",
+          "opt1": "var",
+          "opt2": "let",
+          "opt3": "enum",
+          "opt4": "e(num)",
+          "ans": "enum"
+        },
+        {
+          "question": "A class that's defined solely so that other classes can inherit from it?",
+          "opt1": "Anonymous object",
+          "opt2": "Abstract class",
+          "opt3": "ARC",
+          "opt4": "Binary",
+          "ans": "Abstract class"
+        },
+        {
+          "question": "An object of unknown class. Interface is published through protocol declaration?",
+          "opt1": "Protocols",
+          "opt2": "Unsigned",
+          "opt3": "Anonymous Object",
+          "opt4": "Reciever",
+          "ans": "Anonymous Object"
+        },
+        {
+          "question": "_____ allows you to add new methods to existing classes",
+          "opt1": "Categories",
+          "opt2": "Dangling Pointer",
+          "opt3": "Factory",
+          "opt4": "Memory Leak",
+          "ans": "Categories"
+        },
+        {
+          "question": "______ operators take a single operand",
+          "opt1": "Long long",
+          "opt2": "Framework",
+          "opt3": "Unitary",
+          "opt4": "Enumerations",
+          "ans": "Unitary"
+        },
+        {
+          "question": "Same as class object. (first way to say it.)",
+          "opt1": "factory",
+          "opt2": "double",
+          "opt3": "assign",
+          "opt4": "mutex",
+          "ans": "factory"
+        },
+        {
+          "question": "An object id with a value of 0?",
+          "opt1": "C Operators",
+          "opt2": "Developer intent",
+          "opt3": "nil",
+          "opt4": "[reciever message];",
+          "ans": "nil"
+        },
+        {
+          "question": "A _______ method is one that is likely to be unsupported in the future.",
+          "opt1": "Categories",
+          "opt2": "deprecated",
+          "opt3": "delegate",
+          "opt4": "Enumerations",
+          "ans": "deprecated"
+        },
+        {
+          "question": "A ____ ____ is where you free memory and then accidentally continue to use it.",
+          "opt1": "dangling pointer",
+          "opt2": "Unsigned",
+          "opt3": "procedural language",
+          "opt4": "nonatomic",
+          "ans": "dangling pointer"
+        },
+        {
+          "question": "A set of method definitions that is segregated from the rest of the class definition?",
+          "opt1": "instance",
+          "opt2": "category",
+          "opt3": "Unsigned",
+          "opt4": "protocol",
+          "ans": "category"
+        }
+      ],
+      "Pro": [
+        {
+          "question": "There are ____ fundamental building blocks in Objective-C.",
+          "opt1": "10",
+          "opt2": "9",
+          "opt3": "8",
+          "opt4": "6",
+          "ans": "9"
+        },
+        {
+          "question": "A method that can operate on class objects rather than instances of the class",
+          "opt1": "instance",
+          "opt2": "class method",
+          "opt3": "zero",
+          "opt4": "%",
+          "ans": "class method"
+        },
+        {
+          "question": "The mathematical concept of 'order of operations' is known as the 'order of ______?",
+          "opt1": "Superset",
+          "opt2": "C operators",
+          "opt3": "precedence",
+          "opt4": "Categories",
+          "ans": "precedence"
+        },
+        {
+          "question": "____ provide a concise & elegant method for defining a discrete set of values.",
+          "opt1": "inheritance",
+          "opt2": "Enumerations",
+          "opt3": "informal protocol",
+          "opt4": "Interface Builder",
+          "ans": "Enumerations"
+        },
+        {
+          "question": "Placing a ____ before a normal variable name gives it's address.",
+          "opt1": "selector",
+          "opt2": "abstract superclass",
+          "opt3": "class object",
+          "opt4": "ampersand (&)",
+          "ans": ""
+        },
+        {
+          "question": "Correct syntax for calling a method?",
+          "opt1": "delegates",
+          "opt2": "[receiver message];",
+          "opt3": "@interface",
+          "opt4": "dynamic binding",
+          "ans": "[receiver message];"
+        },
+        {
+          "question": "A ____ _____ is where you forget to free up memory.",
+          "opt1": "designation",
+          "opt2": "pointer",
+          "opt3": "memory leak",
+          "opt4": "exception",
+          "ans": "memory leak"
+        },
+        {
+          "question": "The most flexible C data type: ______.",
+          "opt1": "pointers",
+          "opt2": "struct",
+          "opt3": "enum",
+          "opt4": "None of the above",
+          "ans": "struct"
+        },
+        {
+          "question": "Objective-C is a _____ of the C language.",
+          "opt1": "id",
+          "opt2": "attribute",
+          "opt3": "subset",
+          "opt4": "superset",
+          "ans": "superset"
+        },
+        {
+          "question": "The process of setting or reading the value at an address pointed to by a pointer.",
+          "opt1": "dereferencing",
+          "opt2": "pointing",
+          "opt3": "unitary",
+          "opt4": "locating",
+          "ans": "dereferencing"
+        }
+      ],
+      "Hitman": [
+        {
+          "question": "A logical subdivision of a program within which all names must be unique.",
+          "opt1": "remote message",
+          "opt2": "comma-separated",
+          "opt3": "namespace",
+          "opt4": "square brackets",
+          "ans": "namespace"
+        },
+        {
+          "question": "A class is said to do this when it declares that it implements all the methods in the protocol.",
+          "opt1": "framework",
+          "opt2": "cast",
+          "opt3": "adopt",
+          "opt4": "build",
+          "ans": "adopt"
+        },
+        {
+          "question": "Objective-C binds methods and arguments at _____ instead of compile time.",
+          "opt1": "run time",
+          "opt2": "compile time",
+          "opt3": "interfaces",
+          "opt4": "None",
+          "ans": "compile time"
+        },
+        {
+          "question": "Objective-C methods are called using ____ _____.",
+          "opt1": "NS String",
+          "opt2": "static typing",
+          "opt3": "designated",
+          "opt4": "square brackets",
+          "ans": "square brackets"
+        },
+        {
+          "question": "A message sent from one application to an object in another application.",
+          "opt1": "package",
+          "opt2": "Smalltalk",
+          "opt3": "remote message",
+          "opt4": "quanta",
+          "ans": ""
+        },
+        {
+          "question": "A compiler feature that provides automated memory management.",
+          "opt1": "ARC",
+          "opt2": "superset",
+          "opt3": "delegates",
+          "opt4": "NSString",
+          "ans": "ARC"
+        },
+        {
+          "question": "C-style strings are stored in an array of _____.",
+          "opt1": "integers",
+          "opt2": "chars",
+          "opt3": "strings",
+          "opt4": "objects",
+          "ans": "chars"
+        },
+        {
+          "question": "Property attribute that causes the setter to store a zeroing weak reference.",
+          "opt1": "Encapsulation",
+          "opt2": "doubles",
+          "opt3": "weak",
+          "opt4": "cycles",
+          "ans": "weak"
+        },
+        {
+          "question": "The root class in Objective-C.",
+          "opt1": "Object",
+          "opt2": "NSObject",
+          "opt3": "Dispach",
+          "opt4": "CObject",
+          "ans": "NSObject"
+        },
+        {
+          "question": "Property attribute that synthesizes accessors that are not thread safe.",
+          "opt1": "pointers",
+          "opt2": "nonatomic",
+          "opt3": "doubles",
+          "opt4": "cycles",
+          "ans": "nonatomic"
+        }
+      ]
+    }
+  ],
+  "HTML": [
+    {
+      "Rookie": [
+        {
+          "question": "Which tag is used for line break in HTML?",
+          "opt1": "bl",
+          "opt2": "lb",
+          "opt3": "bk",
+          "opt4": "br",
+          "ans": "br"
+        },
+        {
+          "question": "HTML stands for:",
+          "opt1": "Heavy Text Markup Language",
+          "opt2": "Hyper Text Markup Language",
+          "opt3": "Hyper Text Marking Language",
+          "opt4": "Hyber Text Markup Language",
+          "ans": "Hyper Text Markup Language"
+        },
+        {
+          "question": "The title tag is given in?",
+          "opt1": "Footer",
+          "opt2": "Head",
+          "opt3": "Body",
+          "opt4": "Paragraph",
+          "ans": "Head"
+        },
+        {
+          "question": "The space between the table data value and its border is called?",
+          "opt1": "Cell shaping",
+          "opt2": "Cell spacing",
+          "opt3": "Cell framing",
+          "opt4": "Cell padding",
+          "ans": "Cell padding"
+        },
+        {
+          "question": "HTML documents are having extension?",
+          "opt1": "code",
+          "opt2": "html",
+          "opt3": "doc",
+          "opt4": "web",
+          "ans": "html"
+        },
+        {
+          "question": "What are the different levels of headings in HTML?",
+          "opt1": "1-3",
+          "opt2": "1-5",
+          "opt3": "1-4",
+          "opt4": "1-6",
+          "ans": "1-6"
+        },
+        {
+          "question": "Which of the following is a bulleted list?",
+          "opt1": "OI",
+          "opt2": "BI",
+          "opt3": "UI",
+          "opt4": "TI",
+          "ans": "UI"
+        },
+        {
+          "question": "The following tag is used to define a row in a table:",
+          "opt1": "td",
+          "opt2": "tr",
+          "opt3": "table",
+          "opt4": "tb",
+          "ans": "tr"
+        },
+        {
+          "question": "The following tag is used to define a paragraph:",
+          "opt1": "par",
+          "opt2": "p",
+          "opt3": "Paragraph",
+          "opt4": "None of these",
+          "ans": "p"
+        },
+        {
+          "question": "Which heading style is the biggest?",
+          "opt1": "H",
+          "opt2": "H6",
+          "opt3": "H1",
+          "opt4": "H5",
+          "ans": "H1"
+        }
+      ],
+      "Apprentice": [
+        {
+          "question": "the correct HTML element to define important text:",
+          "opt1": "<i>",
+          "opt2": "<b>",
+          "opt3": "<strong>",
+          "opt4": "<important>",
+          "ans": "<important>"
+        },
+        {
+          "question": "Choose the correct HTML element to define emphasized text:",
+          "opt1": "<i>",
+          "opt2": "<italic>",
+          "opt3": "<em>",
+          "opt4": "<e>",
+          "ans": "<em>"
+        },
+        {
+          "question": "Which character is used to indicate an end tag?",
+          "opt1": "/",
+          "opt2": "*",
+          "opt3": ">",
+          "opt4": "^",
+          "ans": "/"
+        },
+        {
+          "question": "How can you open a link in a new tab/browser window?",
+          "opt1": "target=\"new\"",
+          "opt2": "target=\"_blank\"",
+          "opt3": "\"url\" new",
+          "opt4": "target=\"new tab\"",
+          "ans": "target=\"new\">"
+        },
+        {
+          "question": "Which of these elements are all <table> elements?",
+          "opt1": "<table><head><tfoot>",
+          "opt2": "<thead><body><tr>",
+          "opt3": "<table><tr><tt>",
+          "opt4": "<table><title><td>",
+          "ans": "<table><head><tfoot>"
+        },
+        {
+          "question": "Inline elements are normally displayed without starting a new line.",
+          "opt1": "True",
+          "opt2": "False",
+          "opt3": "Not necessary",
+          "opt4": "Maybe",
+          "ans": "True"
+        },
+        {
+          "question": "How can you make a numbered list?",
+          "opt1": "<ol>",
+          "opt2": "<ul>",
+          "opt3": "<list>",
+          "opt4": "<dl>",
+          "ans": "<ol>"
+        },
+        {
+          "question": "How can you make a bulleted list?",
+          "opt1": "<dl>",
+          "opt2": "<list>",
+          "opt3": "<ol>",
+          "opt4": "<ul>",
+          "ans": "<ul>"
+        },
+        {
+          "question": "What is the correct HTML for making a checkbox?",
+          "opt1": "<checkbox>",
+          "opt2": "<input type=\"check\">",
+          "opt3": "<check>",
+          "opt4": "<input type=\"checkbox\">",
+          "ans": "<input type=\"checkbox\">"
+        },
+        {
+          "question": "What is the correct HTML for making a text input field?",
+          "opt1": "<textfield>",
+          "opt2": "<textinput type=\"text\">",
+          "opt3": "<input type=\"textfield\">",
+          "opt4": "<input type=\"text\">",
+          "ans": "<input type=\"text\">"
+        }
+      ],
+      "Pro": [
+        {
+          "question": "What is the correct HTML for making a drop-down list?",
+          "opt1": "<input type=\"list\">",
+          "opt2": "<select>",
+          "opt3": "<input type=\"dropdown\">",
+          "opt4": "<list>",
+          "ans": "<input type=\"list\">"
+        },
+        {
+          "question": "What is the correct HTML for making a text area?",
+          "opt1": "<input type=\"textarea\">",
+          "opt2": "<textarea>",
+          "opt3": "<input type=\"text\">",
+          "opt4": "<input type=\"textbox\">",
+          "ans": ""
+        },
+        {
+          "question": "An <iframe> is used to display a web page within a web page.",
+          "opt1": "False",
+          "opt2": "True",
+          "opt3": "<iframe> is nothing",
+          "opt4": "Maybe",
+          "ans": "True"
+        },
+        {
+          "question": "HTML comments start with <!-- and end with -->",
+          "opt1": "True",
+          "opt2": "False",
+          "opt3": "Maybe",
+          "opt4": "Not necessary",
+          "ans": "True"
+        },
+        {
+          "question": "Block elements are normally displayed without starting a new line.",
+          "opt1": "False",
+          "opt2": "True",
+          "opt3": "Maybe",
+          "opt4": "Not necessary",
+          "ans": "False"
+        },
+        {
+          "question": "Which HTML element defines the title of a document?",
+          "opt1": "<head>",
+          "opt2": "<title>",
+          "opt3": "<meta>",
+          "opt4": "<body>",
+          "ans": "<title>"
+        },
+        {
+          "question": "Standard attributes specified when defining a FRAME?",
+          "opt1": "SRC and NAME",
+          "opt2": "SRC, NAME, and ROW",
+          "opt3": "NAME and FRAMESET",
+          "opt4": "BODY, SRC, and TITLE",
+          "ans": "NAME and FRAMESET"
+        },
+        {
+          "question": "Which of the following is not an attribute of the FRAME tag?",
+          "opt1": "SCROLLING",
+          "opt2": "AUTO",
+          "opt3": "MARGINWIDTH",
+          "opt4": "FRAMEBORDER",
+          "ans": "MARGINWIDTH"
+        },
+        {
+          "question": "Which of the following is not a valid attribute of the INPUT tag?",
+          "opt1": "TEXT",
+          "opt2": "NAME",
+          "opt3": "SIZE",
+          "opt4": "MAXLENGTH",
+          "ans": "TEXT"
+        },
+        {
+          "question": "Which tag is most suited for laying out a FORM?",
+          "opt1": "TEXT",
+          "opt2": "POST",
+          "opt3": "PRE",
+          "opt4": "PREFORMAT",
+          "ans": "PREFORMAT"
+        }
+      ],
+      "Hitman": [
+        {
+          "question": "Tags and test that are not directly displayed on the page are written in _____ section.",
+          "opt1": "<html>",
+          "opt2": "<head>",
+          "opt3": "<title>",
+          "opt4": "<body>",
+          "ans": "<head>"
+        },
+        {
+          "question": "Which tag inserts a line horizontally on your web page?",
+          "opt1": "<hr>",
+          "opt2": "<line>",
+          "opt3": "<tr>",
+          "opt4": "<line direction=”horizontal”>",
+          "ans": "<hr>"
+        },
+        {
+          "question": "What does vlink attribute mean?",
+          "opt1": "visited link",
+          "opt2": "virtual link",
+          "opt3": "very good link",
+          "opt4": "active link",
+          "ans": "visited link"
+        },
+        {
+          "question": "To create a combo box (drop down box) which tag will you use?",
+          "opt1": "<select>",
+          "opt2": "<list>",
+          "opt3": "<input type=”dropdown”>",
+          "opt4": "all of above",
+          "ans": "<select>"
+        },
+        {
+          "question": "Which of the following is not a pair tag?",
+          "opt1": "<p>",
+          "opt2": "<u>",
+          "opt3": "<i>",
+          "opt4": "<img>",
+          "ans": "<img>"
+        },
+        {
+          "question": "Some tags enclose the text. Those tags are known as:",
+          "opt1": "Couple tags",
+          "opt2": "Single tags",
+          "opt3": "Double tags",
+          "opt4": "Pair tags",
+          "ans": "Pair tags"
+        },
+        {
+          "question": "The _____ character tells browsers to stop tagging the text:",
+          "opt1": "?",
+          "opt2": "/",
+          "opt3": ">",
+          "opt4": "%",
+          "ans": ""
+        },
+        {
+          "question": "There are ____ different of heading tags in HTML.",
+          "opt1": "4",
+          "opt2": "5",
+          "opt3": "6",
+          "opt4": "8",
+          "ans": "6"
+        },
+        {
+          "question": "Text within <EM> … </EM> tag is displayed as:",
+          "opt1": "bold",
+          "opt2": "italic",
+          "opt3": "list",
+          "opt4": "indented",
+          "ans": "italic"
+        },
+        {
+          "question": "Which HTML tag would be used to display power in expression (A+B)2 ?",
+          "opt1": "<P>",
+          "opt2": "<SUP>",
+          "opt3": "<SUB>",
+          "opt4": "<B>",
+          "ans": "<SUP>"
+        }
+      ]
+    }
+  ],
+  "JavaScript": [
+    {
+      "Rookie": [
+        {
+          "question": "Javascript is __ language.",
+          "opt1": "Client Side",
+          "opt2": "Server Side",
+          "opt3": "Both",
+          "opt4": "None",
+          "ans": "Client Side"
+        },
+        {
+          "question": "The browser uses __ tag to detect javascript.",
+          "opt1": "<js></js>",
+          "opt2": "<script type=\"text/javascript\"/>",
+          "opt3": "<scripting></scripting>",
+          "opt4": "<javascript></javascript>",
+          "ans": "<script type=\"text/javascript\"/>"
+        },
+        {
+          "question": "What is the alternate name for Java script?",
+          "opt1": "LimeScript",
+          "opt2": "Coffee Script",
+          "opt3": "ECMScript",
+          "opt4": "ECMAScript",
+          "ans": "ECMAScript"
+        },
+        {
+          "question": "JavaScript variables are case-sensitive.",
+          "opt1": "True",
+          "opt2": "False",
+          "opt3": "Maybe",
+          "opt4": "Maybe not",
+          "ans": "True"
+        },
+        {
+          "question": "Which of the following is not a valid JavaScript variable name?",
+          "opt1": "5myvalue",
+          "opt2": "myvalue",
+          "opt3": "myvalue5",
+          "opt4": "None of the above",
+          "ans": "5myvalue"
+        },
+        {
+          "question": "What is the output of this expression? x = 2 + \"2\"; document.write(x);",
+          "opt1": "22",
+          "opt2": "2",
+          "opt3": "4",
+          "opt4": "Syntax Error",
+          "ans": "22"
+        },
+        {
+          "question": "Which is the correct order of precedence of Arithmetic operators?",
+          "opt1": "+/*-",
+          "opt2": "+-*/",
+          "opt3": "*/+-",
+          "opt4": "+*-/",
+          "ans": "*/+-"
+        },
+        {
+          "question": "What is the output of this strict equality operator? 5 === \"5\"?",
+          "opt1": "True",
+          "opt2": "False",
+          "opt3": "Maybe",
+          "opt4": "Maybe not",
+          "ans": "False"
+        },
+        {
+          "question": "The __ operator determines the type of a given object.",
+          "opt1": "typeof",
+          "opt2": "void",
+          "opt3": "instanceof",
+          "opt4": "delete",
+          "ans": "typeof"
+        },
+        {
+          "question": "The __ operator determines whether an object is an instance of another object.",
+          "opt1": "typeof",
+          "opt2": "void",
+          "opt3": "instanceof",
+          "opt4": "delete",
+          "ans": "instanceof"
+        }
+      ],
+      "Apprentice": [
+        {
+          "question": "Javascript is __ language.",
+          "opt1": "Loosely Typed",
+          "opt2": "Strongly Typed",
+          "opt3": "Dynamic",
+          "opt4": "Loosely Typed & Dynamic",
+          "ans": ""
+        },
+        {
+          "question": "Which of the following is a JavaScript datatype?",
+          "opt1": "Null",
+          "opt2": "Object",
+          "opt3": "Undefined",
+          "opt4": "All of them",
+          "ans": "All of them"
+        },
+        {
+          "question": "typeof NaN (Not a Number)?",
+          "opt1": "Number",
+          "opt2": "String",
+          "opt3": "NaN",
+          "opt4": "Object",
+          "ans": "Number"
+        },
+        {
+          "question": "typeof null?",
+          "opt1": "Number",
+          "opt2": "String",
+          "opt3": "NaN",
+          "opt4": "Object",
+          "ans": "Object"
+        },
+        {
+          "question": "typeof Infinity?",
+          "opt1": "Number",
+          "opt2": "String",
+          "opt3": "NaN",
+          "opt4": "Object",
+          "ans": "Number"
+        },
+        {
+          "question": "What is the output? x = 100 / \"Mango\";",
+          "opt1": "null",
+          "opt2": "undefined",
+          "opt3": "NaN",
+          "opt4": "Infinity",
+          "ans": "NaN"
+        },
+        {
+          "question": "What does pop() method of the array do?",
+          "opt1": "removes the first element",
+          "opt2": "removes the last element",
+          "opt3": "adds element to the array at first position",
+          "opt4": "adds element to the array at last position",
+          "ans": "adds element to the array at last position"
+        },
+        {
+          "question": "The __ method of an Array object adds and/or removes elements from an array.",
+          "opt1": "Reverse",
+          "opt2": "Shift",
+          "opt3": "Slice",
+          "opt4": "Splice",
+          "ans": "Splice"
+        },
+        {
+          "question": "__ returns true if a variable is an array, if not false.",
+          "opt1": "Array.isArray()",
+          "opt2": "Array.of()",
+          "opt3": "Array.from()",
+          "opt4": "Array.observe()",
+          "ans": "Array.isArray()"
+        },
+        {
+          "question": "typeof ([\\]), typeof (new Array())",
+          "opt1": "'array', 'object'",
+          "opt2": "'object', 'array'",
+          "opt3": "'array' , 'array'",
+          "opt4": "'object', 'object'",
+          "ans": "'object', 'object'"
+        }
+      ],
+      "Pro": [
+        {
+          "question": "How do you create a new object in JavaScript?",
+          "opt1": "var obj = {};",
+          "opt2": "var obj = Object();",
+          "opt3": "var obj=new {};",
+          "opt4": "None of the above",
+          "ans": "var obj = {};"
+        },
+        {
+          "question": "Which of the following is a server-side JavaScript object?",
+          "opt1": "FileUpLoad",
+          "opt2": "Function",
+          "opt3": "File",
+          "opt4": "Date",
+          "ans": "File"
+        },
+        {
+          "question": "What is the use of \"this\" keyword in javascript?",
+          "opt1": "refers to current object",
+          "opt2": "refers to previous object",
+          "opt3": "variable which contains value",
+          "opt4": "None of the above",
+          "ans": "refers to current object"
+        },
+        {
+          "question": "Which of the following is a client-side JavaScript object?",
+          "opt1": "Database",
+          "opt2": "Cursor",
+          "opt3": "Client",
+          "opt4": "FileUpLoad",
+          "ans": "FileUpLoad"
+        },
+        {
+          "question": "How to add properties to object? var car = {};",
+          "opt1": "car.make = \"Ford\";",
+          "opt2": "car[\"make\"] = \"Ford\";",
+          "opt3": "var car = {make: Ford};",
+          "opt4": "All of the above",
+          "ans": "All of the above"
+        },
+        {
+          "question": "Which operator creates a new object from the specified object type?",
+          "opt1": "obj",
+          "opt2": "new",
+          "opt3": "create",
+          "opt4": "None of the above",
+          "ans": "new"
+        },
+        {
+          "question": "Is it valid to nest functions in JavaScript?",
+          "opt1": "No",
+          "opt2": "Yes",
+          "opt3": "Maybe",
+          "opt4": "Maybe not",
+          "ans": "Yes"
+        },
+        {
+          "question": "Function name becomes optional in JavaScript when it is...?",
+          "opt1": "defined within function",
+          "opt2": "defined using constructor",
+          "opt3": "defined as an expression",
+          "opt4": "predefined",
+          "ans": "defined as an expression"
+        },
+        {
+          "question": "Array-like object containing the arguments passed to currently executing function?",
+          "opt1": "arguments",
+          "opt2": "function",
+          "opt3": "args",
+          "opt4": "None of the above",
+          "ans": "arguments"
+        },
+        {
+          "question": "The missing parameters int the function get assigned the value __.",
+          "opt1": "undefined",
+          "opt2": "null",
+          "opt3": "Syntax Error",
+          "opt4": "None of the above",
+          "ans": "undefined"
+        }
+      ],
+      "Hitman": [
+        {
+          "question": "__ statement is used to test for a specific condition.",
+          "opt1": "Select",
+          "opt2": "If",
+          "opt3": "Switch",
+          "opt4": "For",
+          "ans": "If"
+        },
+        {
+          "question": "What are the looping structures are available in javascripts?",
+          "opt1": "for, foreach",
+          "opt2": "foreach, while",
+          "opt3": "do-while, foreach",
+          "opt4": "for, while, do-while",
+          "ans": "for, while, do-while"
+        },
+        {
+          "question": "isNaN function returns _____ if the argument is not a number.",
+          "opt1": "true",
+          "opt2": "false",
+          "opt3": "null",
+          "opt4": "undefined",
+          "ans": "true"
+        },
+        {
+          "question": "__ statement breaks the loop and executes the code after the loop.",
+          "opt1": "continue",
+          "opt2": "break",
+          "opt3": "return",
+          "opt4": "goto",
+          "ans": "break"
+        },
+        {
+          "question": "parseFloat(\"9.9Hello\")?",
+          "opt1": "9",
+          "opt2": "9.9",
+          "opt3": "99",
+          "opt4": "9.9Hello",
+          "ans": "9.9"
+        },
+        {
+          "question": "__ returns the milliseconds in a date string.",
+          "opt1": "getTime()",
+          "opt2": "Date.UTC()",
+          "opt3": "Date.parse()",
+          "opt4": "None of the above",
+          "ans": "Date.parse()"
+        },
+        {
+          "question": "The JavaScript __ class represents regular expressions.",
+          "opt1": "RegExpObj",
+          "opt2": "RegExpClass",
+          "opt3": "RegExp",
+          "opt4": "StringExp",
+          "ans": "RegExp"
+        },
+        {
+          "question": "How to test the pattern for a given text?",
+          "opt1": "text==pattern",
+          "opt2": "text.equals(pattern)",
+          "opt3": "text.test(pattern)",
+          "opt4": "pattern.test(text)",
+          "ans": "pattern.test(text)"
+        },
+        {
+          "question": "eval(20*4)=?",
+          "opt1": "NaN",
+          "opt2": "204",
+          "opt3": "24",
+          "opt4": "80",
+          "ans": "80"
+        },
+        {
+          "question": "Which are the ways to enumerate all properties of an object?",
+          "opt1": "for...in loops",
+          "opt2": "Object.keys()",
+          "opt3": "Object.getOwnPropertyNames()",
+          "opt4": "All of the above",
+          "ans": "All of the above"
+        }
+      ]
+    }
+  ]
 }

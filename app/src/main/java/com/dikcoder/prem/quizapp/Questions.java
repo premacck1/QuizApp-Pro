@@ -290,7 +290,7 @@ public class Questions extends AppCompatActivity{
                 break;
             case R.id.action_about:
                 Dialog d = new Dialog(this);
-                d.setContentView(R.layout.about);
+//                d.setContentView(R.layout.about);
                 d.setTitle("About us");
                 d.show();
                 break;
