@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
@@ -25,7 +26,9 @@ public class FirstScreen extends AppCompatActivity{
         tv2.setShadowLayer(10, 4, 4, getResources().getColor(R.color.welcome_page_text));
 
         tv1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
-        tv2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_below));
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.float_in_from_below);
+        anim.setStartOffset(800);
+        tv2.startAnimation(anim);
 
         new Handler().postDelayed(new Runnable() {
             @Override

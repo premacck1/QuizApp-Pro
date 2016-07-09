@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -39,12 +40,20 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     private String JSONString = null;
     private String newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
+    public static FragmentManager fragmentManager;
+
     protected static ArrayList<QuestionBean> QUESTION = null;
+
+    @Override
+    public boolean releaseInstance() {
+        return super.releaseInstance();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             return;
         }
@@ -243,7 +252,11 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
     @Override
     protected void onResume() {
-        super.onResume();
+        if (Difficulty.BACK_FROM_RESULTS){
+            onFragmentInteraction(123, 123);
+            super.onResume();
+        }
+        else super.onResume();
     }
 
     @Override
@@ -307,14 +320,19 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
     @Override
     public void onFragmentInteraction(int selection, int pos) {
-        final String[] questionArgs = getArgs(selection, pos);
-        QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
-        Intent i = new Intent(MainActivity.this, Questions.class);
-        i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
-        i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
-        i.putExtra("Question", QUESTION);
-        startActivity(i);
-        MainActivity.this.finish();
+        if (Difficulty.BACK_FROM_RESULTS){
+            getSupportFragmentManager().popBackStack();
+        }
+        else {
+            final String[] questionArgs = getArgs(selection, pos);
+            QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
+            Intent i = new Intent(MainActivity.this, Questions.class);
+            i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
+            i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
+            i.putExtra("Question", QUESTION);
+            startActivity(i);
+        }
+//        MainActivity.this.finish();
 
 /*
         listView = (ListView) findViewById(R.id.listView1);

@@ -43,6 +43,7 @@ public class Questions extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+        Difficulty.BACK_FROM_RESULTS = false;
 
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
         instantiate();
@@ -92,6 +93,8 @@ public class Questions extends AppCompatActivity{
                 clickAction(option4);
             }
         });
+
+//        ON CLICK LISTENERS FOR NAVIGATION BUTTONS
 
         addBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +156,40 @@ public class Questions extends AppCompatActivity{
                 else{
                     Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+//        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
+
+        addBookmark.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(Questions.this, "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        fabNext.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(Questions.this, "Next question", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        fabSkip.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(Questions.this, "Skip this question", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        fabPrevious.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -274,7 +311,6 @@ public class Questions extends AppCompatActivity{
         builder.setNegativeButton("Take another quiz", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Questions.this, MainActivity.class));
                 Questions.this.finish();
             }
         });
@@ -313,9 +349,33 @@ public class Questions extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(Questions.this, MainActivity.class));
-        this.finish();
-        super.onBackPressed();
+//        startActivity(new Intent(Questions.this, MainActivity.class));
+//        this.finish();
+        if (!Difficulty.BACK_FROM_RESULTS) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+            builder.setTitle("Too hard?");
+            builder.setMessage("Go back and change difficulty?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Yes please", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Difficulty.BACK_FROM_RESULTS = true;
+                    onBackPressed();
+                }
+            });
+            builder.setNegativeButton("I can take it", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+//            AlertDialog alert = builder.create();
+            builder.show();
+        }
+        else {
+            Difficulty.BACK_FROM_RESULTS = false;
+            super.onBackPressed();
+        }
     }
 
     /*    void setCheckedState(View v, CheckedTextView[] whichCheckedTextViews){

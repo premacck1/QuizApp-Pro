@@ -38,8 +38,8 @@ public class Field extends ListFragment{
             listItemPopulate();
             listView.setLayoutAnimation(
                     new LayoutAnimationController(
-                            AnimationUtils.loadAnimation(getContext(), R.anim.back_entrance),
-                            0.2F
+                            AnimationUtils.loadAnimation(getContext(), R.anim.float_in_from_below),
+                            0.1F
                     )
             );
             new Handler().postDelayed(new Runnable() {
@@ -48,7 +48,7 @@ public class Field extends ListFragment{
                     introText.setText(R.string.intro);
                     introText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.float_in_from_above));
                 }
-            }, 200);
+            }, 300);
         }
 
         //IF THE FRAGMENT HAS ALREADY STARTED BEFORE AND USER IS JUST RETURNING BACK TO THE PAGE
@@ -57,7 +57,7 @@ public class Field extends ListFragment{
             listView.setLayoutAnimation(
                     new LayoutAnimationController(
                             AnimationUtils.loadAnimation(getContext(), R.anim.front_entrance),
-                            0.2F
+                            0.1F
                     )
             );
             new Handler().postDelayed(new Runnable() {

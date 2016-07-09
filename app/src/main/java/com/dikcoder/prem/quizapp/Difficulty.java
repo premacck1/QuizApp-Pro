@@ -24,11 +24,25 @@ public class Difficulty extends Fragment {
     private TextView difficultyText;
     static String ARG_POSITION = "PositionArgs";
     static int fieldPosition;
+    public static boolean BACK_FROM_RESULTS = false;
     private OnFragmentInteractionListener mListener;
 
-    @Override
+/*    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            Bundle args;
+            args = this.getArguments();
+            fieldPosition = (int) args.get(ARG_POSITION);
+            if (fieldPosition == 123){
+                mListener.onFragmentInteraction(123, 123);
+            }
+        }
+    }*/
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (getArguments() != null) {
             Bundle args;
             args = this.getArguments();
@@ -39,6 +53,7 @@ public class Difficulty extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        BACK_FROM_RESULTS = false;
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_difficulty, container, false);
 
@@ -63,14 +78,14 @@ public class Difficulty extends Fragment {
         listView.setLayoutAnimation(
                 new LayoutAnimationController(
                         AnimationUtils.loadAnimation(getContext(), R.anim.back_entrance),
-                        0.2F
+                        0.1F
                 )
         );
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 difficultyText.setText(R.string.intro_difficulty);
-                difficultyText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.float_in_from_above));
+                difficultyText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.front_entrance));
             }
         }, 200);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

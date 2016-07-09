@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".Questions">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <ToggleButton
-    android:textOff=""
-    android:textOn=""
-    android:hapticFeedbackEnabled="true"
-    android:id="@+id/addBookmark"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:background="@drawable/bookmark_theme"
-    android:contentDescription="@string/add_or_remove_bookmark"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true" />
-
-    <ScrollView
+    <RelativeLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true">
+        tools:context=".MainActivity">
+
+        <ToggleButton
+        android:textOff=""
+        android:textOn=""
+        android:hapticFeedbackEnabled="true"
+        android:id="@+id/addBookmark"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bookmark_theme"
+        android:contentDescription="@string/add_or_remove_bookmark"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -38,9 +38,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_above="@+id/fabPrevious"
-                android:layout_alignParentTop="true">
+                android:layout_height="wrap_content">
 
                 <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
                     android:layout_width="match_parent"
@@ -48,12 +46,12 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/question_textView"
                     android:minHeight="100dp"
-                    android:maxHeight="250dp"
-                    android:textSize="18sp"
+                    android:maxHeight="200dp"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
@@ -112,27 +110,25 @@
                 android:layout_height="60dp"
                 android:id="@+id/checked_choice_button2"
                 android:layout_above="@+id/checked_choice_button3"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp" />
+                android:layout_centerHorizontal="true" />
 
             <include layout="@layout/checked_choice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/checked_choice_button3"
                 android:layout_above="@+id/checked_choice_button4"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp" />
+                android:layout_centerHorizontal="true" />
 
             <include layout="@layout/checked_choice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/checked_choice_button4"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp" />
+                android:layout_centerHorizontal="true" />
+
             <!--øØƟӨ-->
         </LinearLayout>
 
-    </ScrollView>
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

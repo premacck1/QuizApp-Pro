@@ -7,13 +7,11 @@
         android:fromYDelta="200"
         android:toYDelta="0"
         android:interpolator="@android:anim/decelerate_interpolator"
-        android:duration="800"
-        android:startOffset="800"/>
+        android:duration="800"/>
 
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:duration="1000"
-        android:startOffset="800"/>
+        android:duration="1000"/>
 
 </set>
