@@ -934,7 +934,7 @@
           "opt1": "<hr>",
           "opt2": "<line>",
           "opt3": "<tr>",
-          "opt4": "<line direction=�horizontal�>",
+          "opt4": "<line direction="horizontal">",
           "ans": "<hr>"
         },
         {

@@ -14,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
         if(isConnected()){
             // call AsyncTask to perform network operation on separate thread
-            new HttpAsyncTask().execute("http://probable-sprite-95723.appspot.com/json.json");
+            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
         }
         try{
             String string = readFromFile();
@@ -273,42 +271,21 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 d.setTitle("About us");
                 d.show();
         }
-
-        //noinspection SimplifiableIfStatement
-        /*
-        if (id == R.id.action_settings) {
-            return true;
-        }*/
-
         return super.onOptionsItemSelected(item);
     }
-
-//    public void setActionBarTitle(int position){
-//        ab = MainActivity.this.getSupportActionBar();
-//        assert ab != null;
-//        ab.setDisplayShowHomeEnabled(true);
-//        switch(position){
-//            case 0:
-//                ab.setTitle("Select iOS difficulty");
-//                break;
-//            case 1:
-//                ab.setTitle("Select Java difficulty");
-//                break;
-//            case 2:
-//                ab.setTitle("Select HTML difficulty");
-//                break;
-//            case 3:
-//                ab.setTitle("Select JavaScript difficulty");
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
     @Override
     public void onFragmentInteraction(View v, int pos) {
-/*        Difficulty difficulty = (Difficulty) getSupportFragmentManager().findFragmentById(R.id.difficulty_fragment);
-        */
+        Difficulty mdifficulty = new Difficulty();
+        Bundle args = new Bundle();
+        args.putInt(Difficulty.ARG_POSITION, pos);
+        mdifficulty.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.main_fragment_container, mdifficulty);
+        transaction.addToBackStack(null);
+        transaction.commit();
+/*
         listView = (ListView) findViewById(android.R.id.list);
         listView.setLayoutAnimation(
                 new LayoutAnimationController(
@@ -316,31 +293,30 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                         0.2F
                 )
         );
-
-        final int position = pos;
+*/
+/*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Difficulty mdifficulty = new Difficulty();
-                Bundle args = new Bundle();
-                args.putInt(Difficulty.ARG_POSITION, position);
-                mdifficulty.setArguments(args);
 
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-                transaction.replace(R.id.main_fragment_container, mdifficulty);
-                transaction.addToBackStack(null);
-                transaction.commit();
 //                setActionBarTitle(position);
             }
         }, 200);
+*/
     }
 
     @Override
     public void onFragmentInteraction(int selection, int pos) {
         final String[] questionArgs = getArgs(selection, pos);
         QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
+        Intent i = new Intent(MainActivity.this, Questions.class);
+        i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
+        i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
+        i.putExtra("Question", QUESTION);
+        startActivity(i);
+        MainActivity.this.finish();
 
+/*
         listView = (ListView) findViewById(R.id.listView1);
         listView.setLayoutAnimation(
                 new LayoutAnimationController(
@@ -348,18 +324,14 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                         0.2F
                 )
         );
-        new Handler().postDelayed(new Runnable() {
+*/
+/*        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 listView.setVisibility(View.INVISIBLE);
-                Intent i = new Intent(MainActivity.this, Questions.class);
-                i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
-                i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
-                i.putExtra("Question", QUESTION);
-                startActivity(i);
-                MainActivity.this.finish();
             }
         }, 200);
+*/
     }
 
     @Override

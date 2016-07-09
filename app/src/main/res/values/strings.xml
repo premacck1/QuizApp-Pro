@@ -7,6 +7,8 @@
     <string name="field_java">Java</string>
     <string name="field_html">HTML</string>
     <string name="field_javascript">JavaScript</string>
+    <string name="intro">Do you really have what it takes?\nTest your skills in the following fields:</string>
+    <string name="intro_difficulty">Now select a difficulty level\nand get on with the test!</string>
 
     <!--DIFFICULTIES-->
     <string name="difficulty_rookie">Rookie</string>
@@ -93,4 +95,8 @@
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="skip_the_current_question">Skip the current question</string>
+    <string name="previous_question">Previous question</string>
+    <string name="next_question">Next Question</string>
+    <string name="add_or_remove_bookmark">Add or remove bookmark</string>
 </resources>
