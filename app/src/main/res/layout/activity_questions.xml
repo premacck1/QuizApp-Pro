@@ -7,17 +7,17 @@
     tools:context=".Questions">
 
     <ToggleButton
-    android:textOff=""
-    android:textOn=""
-    android:hapticFeedbackEnabled="true"
-    android:id="@+id/addBookmark"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:background="@drawable/bookmark_theme"
-    android:contentDescription="@string/add_or_remove_bookmark"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true" />
+        android:textOff=""
+        android:textOn=""
+        android:hapticFeedbackEnabled="true"
+        android:id="@+id/addBookmark"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bookmark_theme"
+        android:contentDescription="@string/add_or_remove_bookmark"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -69,7 +69,6 @@
                     android:background="@drawable/fab_theme"
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
-                    android:layout_above="@+id/checked_choice_button1"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:contentDescription="@string/previous_question" />
@@ -78,12 +77,9 @@
                     android:id="@+id/fabSkip"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/ic_action_skip"
+                    android:src="@drawable/skip2"
                     android:background="@drawable/fab_theme"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="8dp"
                     android:contentDescription="@string/skip_the_current_question"
-                    android:layout_above="@+id/checked_choice_button1"
                     android:layout_centerHorizontal="true" />
 
                 <ImageButton
@@ -103,32 +99,24 @@
             <include layout="@layout/checked_choice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/checked_choice_button1"
-                android:layout_above="@+id/checked_choice_button2"
-                android:layout_centerHorizontal="true" />
+                android:id="@+id/checked_choice_button1" />
 
             <include layout="@layout/checked_choice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/checked_choice_button2"
-                android:layout_above="@+id/checked_choice_button3"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp" />
 
             <include layout="@layout/checked_choice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/checked_choice_button3"
-                android:layout_above="@+id/checked_choice_button4"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp" />
 
             <include layout="@layout/checked_choice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/checked_choice_button4"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp" />
             <!--øØƟӨ-->
         </LinearLayout>

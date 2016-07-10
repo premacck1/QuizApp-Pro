@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -40,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     private String JSONString = null;
     private String newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
-    public static FragmentManager fragmentManager;
-
     protected static ArrayList<QuestionBean> QUESTION = null;
 
     @Override
@@ -53,11 +50,9 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             return;
         }
-
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -96,7 +91,19 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
     }
 
-//    Write to JSON file in Internal Memory
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+    @Override
+    protected void onResumeFragments() {
+        if (Difficulty.BACK_FROM_RESULTS == 2){
+            getSupportFragmentManager().popBackStack();
+        }
+        super.onResumeFragments();
+    }
+
+    //    Write to JSON file in Internal Memory
     public void writeToFile(String data){
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(
@@ -251,15 +258,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     }
 
     @Override
-    protected void onResume() {
-        if (Difficulty.BACK_FROM_RESULTS){
-            onFragmentInteraction(123, 123);
-            super.onResume();
-        }
-        else super.onResume();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -286,8 +284,10 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onFragmentInteraction(View v, int pos) {
+        Difficulty.BACK_FROM_RESULTS = 0;
         Difficulty mdifficulty = new Difficulty();
         Bundle args = new Bundle();
         args.putInt(Difficulty.ARG_POSITION, pos);
@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
     @Override
     public void onFragmentInteraction(int selection, int pos) {
-        if (Difficulty.BACK_FROM_RESULTS){
+        if (Difficulty.BACK_FROM_RESULTS == 1 || Difficulty.BACK_FROM_RESULTS == 2){
             getSupportFragmentManager().popBackStack();
         }
         else {

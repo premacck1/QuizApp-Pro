@@ -99,4 +99,5 @@
     <string name="previous_question">Previous question</string>
     <string name="next_question">Next Question</string>
     <string name="add_or_remove_bookmark">Add or remove bookmark</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

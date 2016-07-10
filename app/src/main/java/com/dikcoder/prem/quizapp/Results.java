@@ -28,6 +28,7 @@ public class Results extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+        Difficulty.BACK_FROM_RESULTS = 2;
 
         // Create the next level button, which tries to show an interstitial when clicked.
         mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
@@ -122,7 +123,7 @@ public class Results extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Difficulty.BACK_FROM_RESULTS = true;
+        Difficulty.BACK_FROM_RESULTS = 2;
         super.onBackPressed();
     }
 }

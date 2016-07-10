@@ -25,11 +25,11 @@ public class DatabaseHolder {
     public static final String Table_Create = "create table QuizTable (field text not null, difficulty text not null,question text not null, option1 text not null, option2 text not null, option3 text not null, option4 text not null, answer text not null);";
 
     DatabaseHelper dbHelper;
-    Context ctx;
+    Context context;
     SQLiteDatabase db;
-    public DatabaseHolder(Context ctx) {
-        this.ctx = ctx;
-        dbHelper = new DatabaseHelper(ctx);
+    public DatabaseHolder(Context context) {
+        this.context = context;
+        dbHelper = new DatabaseHelper(context);
     }
 
     public DatabaseHolder open() {

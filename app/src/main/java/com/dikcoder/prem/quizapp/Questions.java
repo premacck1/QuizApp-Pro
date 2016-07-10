@@ -30,7 +30,6 @@ public class Questions extends AppCompatActivity{
     private DatabaseHolder dbHandler;
     private ArrayList<QuestionBean> questionList;
     private QuestionBean questionBean;
-
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
     TextView question;
@@ -43,7 +42,8 @@ public class Questions extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
-        Difficulty.BACK_FROM_RESULTS = false;
+
+        Difficulty.BACK_FROM_RESULTS = 0;
 
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
         instantiate();
@@ -52,20 +52,22 @@ public class Questions extends AppCompatActivity{
         Bundle b = getIntent().getExtras();
         String[] selections = {b.get(FIELD_ARG).toString(), b.get(DIFFICULTY_ARG).toString()};
 
+//        SET UP ACTION BAR
         android.support.v7.app.ActionBar ab = this.getSupportActionBar();
         if (ab != null) ab.setSubtitle(selections[0] + " : " + selections[1]);
+        assert ab != null;
+        ab.setDisplayShowHomeEnabled(true);
+        ab.setDisplayHomeAsUpEnabled(true);
 
+//        GET THE QUESTIONS CORRESPONDING TO THE SELECTED FIELD AND DIFFICULTY
         questionList = b.getParcelableArrayList("Question");
-//        if(questionCount == 0)
-//            fabPrevious.setEnabled(false);
-//        else fabPrevious.setEnabled(true);
-
         questionBean = questionList.get(questionCount);
         populate();
         answer = questionBean.getAnswer();
 
         allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
+//        ON CLICK LISTENERS FOR THE 4 OPTIONS (CheckedTextViews)
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +97,6 @@ public class Questions extends AppCompatActivity{
         });
 
 //        ON CLICK LISTENERS FOR NAVIGATION BUTTONS
-
         addBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +161,6 @@ public class Questions extends AppCompatActivity{
         });
 
 //        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
-
         addBookmark.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -192,7 +192,6 @@ public class Questions extends AppCompatActivity{
                 return true;
             }
         });
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void getSelectedAnswer(String selectedOption){
@@ -255,7 +254,6 @@ public class Questions extends AppCompatActivity{
                 selectedOption = null;
                 temp.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
             }
-//            System.out.println("Selected Answer Id: " + selectedOption);
         }
     }
 
@@ -264,14 +262,12 @@ public class Questions extends AppCompatActivity{
 //            IF THE QUESTION IS BOOKMARKED
             if (!t.isChecked()) {
                 isBookmarked = false;
-//                t.setTextColor(Color.parseColor("#3b3b3b"));
                 t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
                 Toast.makeText(Questions.this, "Bookmark removed", Toast.LENGTH_SHORT).show();
             }
 //            IF THE QUESTION IS NOT BOOKMARKED
             else {
                 isBookmarked = true;
-//                t.setTextColor(Color.parseColor("#cecece"));
                 t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
                 Toast.makeText(Questions.this, "Bookmark added", Toast.LENGTH_SHORT).show();
             }
@@ -297,6 +293,8 @@ public class Questions extends AppCompatActivity{
         }
     }
 
+//    ALERTS
+
     public void onCompletion(){
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
         builder.setMessage("You have completed the quiz");
@@ -311,13 +309,58 @@ public class Questions extends AppCompatActivity{
         builder.setNegativeButton("Take another quiz", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Questions.this.finish();
+                Difficulty.BACK_FROM_RESULTS = 2;
+                onBackPressed();
             }
         });
         AlertDialog alert = builder.create();
         alert.show();
     }
 
+    public void changeDifficulty(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+        builder.setTitle("Too hard?");
+        builder.setMessage("Go back and change difficulty?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes please", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Difficulty.BACK_FROM_RESULTS = 1;
+                onBackPressed();
+            }
+        });
+        builder.setNegativeButton("I can take it", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Difficulty.BACK_FROM_RESULTS = 0;
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+    public void gotoHome(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+        builder.setTitle("Leaving already?");
+        builder.setMessage("Sure to exit the current quiz?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yep", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Difficulty.BACK_FROM_RESULTS = 2;
+                onBackPressed();
+            }
+        });
+        builder.setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Difficulty.BACK_FROM_RESULTS = 0;
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+//    OPTIONS MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_questions, menu);
@@ -327,6 +370,10 @@ public class Questions extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            case android.R.id.home:
+                Difficulty.BACK_FROM_RESULTS = 3;
+                onBackPressed();
+                break;
             case R.id.action_change_difficulty:
                 this.openContextMenu(question);
                 break;
@@ -349,51 +396,24 @@ public class Questions extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-//        startActivity(new Intent(Questions.this, MainActivity.class));
-//        this.finish();
-        if (!Difficulty.BACK_FROM_RESULTS) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-            builder.setTitle("Too hard?");
-            builder.setMessage("Go back and change difficulty?");
-            builder.setCancelable(false);
-            builder.setPositiveButton("Yes please", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Difficulty.BACK_FROM_RESULTS = true;
-                    onBackPressed();
-                }
-            });
-            builder.setNegativeButton("I can take it", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-//            AlertDialog alert = builder.create();
-            builder.show();
-        }
-        else {
-            Difficulty.BACK_FROM_RESULTS = false;
-            super.onBackPressed();
+        switch (Difficulty.BACK_FROM_RESULTS){
+//            CALLED TO CHANGE THE DIFFICULTY (BACK BUTTON PRESSED)
+            case 0:
+                changeDifficulty();
+                break;
+//            CALLED IF "TAKE ANOTHER QUIZ" SELECTED FROM onCompletion() // OR CONFIRMED EXIT FROM gotoHome()
+            case 2:
+                super.onBackPressed();
+                break;
+//            CALLED ON ACTION BAR UP BUTTON PRESS
+            case 3:
+                gotoHome();
+                break;
+//            DEFAULT EXIT CALL, GENERALLY WHEN Difficulty.BACK_FROM_RESULTS == 1
+            default:
+                Difficulty.BACK_FROM_RESULTS = 0;
+                super.onBackPressed();
+                break;
         }
     }
-
-    /*    void setCheckedState(View v, CheckedTextView[] whichCheckedTextViews){
-                        CheckedTextView
-                        //Uncheck all others
-                        for (CheckedTextView item : whichCheckedTextViews)
-                            item.setChecked(false);
-                        //Detect which checkedTextView initiated on click event
-                        switch(v.getId()){
-                            case R.id.checked_choice_button1:
-                            case R.id.checked_choice_button2:
-                            case R.id.checked_choice_button3:
-                            case R.id.checked_choice_button4:
-                                temp.setChecked(true);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    */
 }

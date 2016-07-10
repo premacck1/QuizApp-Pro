@@ -24,7 +24,7 @@ public class Difficulty extends Fragment {
     private TextView difficultyText;
     static String ARG_POSITION = "PositionArgs";
     static int fieldPosition;
-    public static boolean BACK_FROM_RESULTS = false;
+    public static int BACK_FROM_RESULTS = 0;
     private OnFragmentInteractionListener mListener;
 
 /*    @Override
@@ -42,6 +42,7 @@ public class Difficulty extends Fragment {
 
     @Override
     public void onResume() {
+        BACK_FROM_RESULTS = 0;
         super.onResume();
         if (getArguments() != null) {
             Bundle args;
@@ -53,7 +54,6 @@ public class Difficulty extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        BACK_FROM_RESULTS = false;
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_difficulty, container, false);
 
@@ -108,7 +108,9 @@ public class Difficulty extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
