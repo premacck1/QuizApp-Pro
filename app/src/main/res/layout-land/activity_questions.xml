@@ -75,7 +75,7 @@
                     android:id="@+id/fabSkip"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/skip2"
+                    android:src="@drawable/ic_action_skip"
                     android:background="@drawable/fab_theme"
                     android:contentDescription="@string/skip_the_current_question"
                     android:layout_centerHorizontal="true" />

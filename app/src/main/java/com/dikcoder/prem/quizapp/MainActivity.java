@@ -281,6 +281,13 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 d.setContentView(R.layout.about);
                 d.setTitle("About us");
                 d.show();
+                break;
+            case R.id.action_help:
+                Dialog d1 = new Dialog(this);
+                d1.setContentView(R.layout.help);
+                d1.setTitle("Help");
+                d1.show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,5 +1,6 @@
 package com.dikcoder.prem.quizapp;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -65,10 +66,16 @@ public class Results extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()){
 
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.action_settings:
+                return true;
+            case R.id.action_help:
+                Dialog d1 = new Dialog(this);
+                d1.setContentView(R.layout.help);
+                d1.setTitle("Help");
+                d1.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

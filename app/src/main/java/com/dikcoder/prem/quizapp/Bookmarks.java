@@ -1,5 +1,7 @@
 package com.dikcoder.prem.quizapp;
 
+import android.app.Dialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -78,6 +80,12 @@ public class Bookmarks extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+            case R.id.action_help:
+                Dialog d1 = new Dialog(this);
+                d1.setContentView(R.layout.help);
+                d1.setTitle("Help");
+                d1.show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -100,6 +108,8 @@ public class Bookmarks extends AppCompatActivity {
         ExpandableListView expandableListView;
         List<String> listDataHeader;
         HashMap<String, List<String>> listDataChild;
+        DatabaseHolder dbHandler;
+
         public PlaceholderFragment() {
         }
 
@@ -138,31 +148,50 @@ public class Bookmarks extends AppCompatActivity {
         }
 
         private void prepareListData() {
-            listDataHeader = new ArrayList<String>();
-            listDataChild = new HashMap<String, List<String>>();
+            listDataHeader = new ArrayList<>();
+            listDataChild = new HashMap<>();
 
-            // Adding child data
-            listDataHeader.add("Bookmarked Question 1");
-            listDataHeader.add("Bookmarked Question 2");
-            listDataHeader.add("Bookmarked Question 3");
+            dbHandler = new DatabaseHolder(getContext());
+            dbHandler.open();
+            Cursor bookmarkedQuestions = dbHandler.returnBookmarkedQuestion(getField());
+            bookmarkedQuestions.moveToNext();
 
-            // Adding child data
-            List<String> q1 = new ArrayList<String>();
-            q1.add("Answer to question 1");
+            int location = 0;
 
-            List<String> q2 = new ArrayList<String>();
-            q2.add("Answer to question 2");
+//            POPULATING THE expandableListView
+            while (!bookmarkedQuestions.isAfterLast()) {
+                // Adding header data
+                listDataHeader.add(bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
 
-            List<String> q3 = new ArrayList<String>();
-            q3.add("Answer to question 3");
+                // Adding child data
+                List<String> q1 = new ArrayList<String>();
+                q1.add(bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("answer")));
 
-            List<String> q4 = new ArrayList<String>();
-            q4.add("Answer to question 3");
-
-            listDataChild.put(listDataHeader.get(0), q1); // Header, Child data
-            listDataChild.put(listDataHeader.get(1), q2);
-            listDataChild.put(listDataHeader.get(2), q3);
-            listDataChild.put(listDataHeader.get(2), q4);
+                listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
+                location++;
+                bookmarkedQuestions.moveToNext();
+            }
+            dbHandler.close();
+        }
+        public String getField(){
+            String field = null;
+            switch(getArguments().getInt(ARG_SECTION_NUMBER)){
+                case 1:
+                    field = "iOS";
+                    break;
+                case 2:
+                    field = "Java";
+                    break;
+                case 3:
+                    field = "HTML";
+                    break;
+                case 4:
+                    field = "Javascript";
+                    break;
+                default:
+                    break;
+            }
+            return field;
         }
     }
 

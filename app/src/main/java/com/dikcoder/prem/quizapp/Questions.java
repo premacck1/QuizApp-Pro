@@ -3,6 +3,7 @@ package com.dikcoder.prem.quizapp;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -23,7 +24,6 @@ import java.util.Stack;
 public class Questions extends AppCompatActivity{
 
     private int correctAnswers = 0, incorrectAnswers = 0, questionCount = 0;
-    private boolean isBookmarked = false;
     private String selectedOption, answer, field, difficulty;
     private Stack<QuestionBean> previousQuestion = new Stack<>();
     private Stack<String> previousAnswer = new Stack<>();
@@ -32,6 +32,7 @@ public class Questions extends AppCompatActivity{
     private QuestionBean questionBean;
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
+    private String[] selections;
     TextView question;
     ImageButton fabPrevious, fabSkip, fabNext;
     ToggleButton addBookmark;
@@ -42,15 +43,15 @@ public class Questions extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
-
         Difficulty.BACK_FROM_RESULTS = 0;
+        dbHandler = new DatabaseHolder(getApplicationContext());
 
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
         instantiate();
 
 //        GET THE SELECTED FIELD AND DIFFICULTY.
         Bundle b = getIntent().getExtras();
-        String[] selections = {b.get(FIELD_ARG).toString(), b.get(DIFFICULTY_ARG).toString()};
+        selections = new String[]{b.get(FIELD_ARG).toString(), b.get(DIFFICULTY_ARG).toString()};
 
 //        SET UP ACTION BAR
         android.support.v7.app.ActionBar ab = this.getSupportActionBar();
@@ -234,6 +235,8 @@ public class Questions extends AppCompatActivity{
         option4.setText(questionBean.getOption4().trim());
         option4.setChecked(false);
         option4.setTextColor(Color.parseColor("#000000"));
+        addBookmark.setChecked(false);
+        isBookmarked();
     }
 
     public void clickAction(View v) {
@@ -257,18 +260,66 @@ public class Questions extends AppCompatActivity{
         }
     }
 
+    public boolean isBookmarked(){
+//        dbHandler.dropTable();
+        dbHandler.open();
+        boolean areQuestionsEqual = false;
+        Cursor questionToBeCompared = dbHandler.returnQuestion();
+        questionToBeCompared.moveToNext();
+        if (!questionToBeCompared.isAfterLast()) {
+            while (!questionToBeCompared.isAfterLast()) {
+                String questionInDb = questionToBeCompared.getString(questionToBeCompared.getColumnIndex("question"));
+                String questionOnScreen = question.getText().toString();
+
+//            REPLACE THE SINGLE QUOTES (THAT RESULT IN SQLiteException)
+/*          if (questionInDb.contains("'"))
+                questionInDb = questionInDb.replace("'", "\'");
+            if(questionOnScreen.contains("'"))
+                questionOnScreen = questionOnScreen.replace("'", "\'");
+*/
+//            CHECK IF THE QUESTION IS ALREADY BOOKMARKED
+                areQuestionsEqual = questionOnScreen.equalsIgnoreCase(questionInDb);
+                if (areQuestionsEqual) {
+                    questionToBeCompared.moveToLast();
+                    questionToBeCompared.moveToNext();
+                }
+                questionToBeCompared.moveToNext();
+            }
+        }
+        if (areQuestionsEqual) {
+            addBookmark.setChecked(true);
+            dbHandler.close();
+            return true;
+        } else {
+            addBookmark.setChecked(false);
+            dbHandler.close();
+            return false;
+        }
+    }
+
     public void bookmarkAction(ToggleButton t) {
         if(t !=null) {
 //            IF THE QUESTION IS BOOKMARKED
             if (!t.isChecked()) {
-                isBookmarked = false;
                 t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
+                dbHandler.open();
+                dbHandler.deleteData(question.getText().toString());
+                dbHandler.close();
                 Toast.makeText(Questions.this, "Bookmark removed", Toast.LENGTH_SHORT).show();
             }
 //            IF THE QUESTION IS NOT BOOKMARKED
             else {
-                isBookmarked = true;
                 t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
+                dbHandler.open();
+                dbHandler.insertData(selections[0], selections[1],
+                        question.getText().toString(),
+                        option1.getText().toString(),
+                        option2.getText().toString(),
+                        option3.getText().toString(),
+                        option4.getText().toString(),
+                        answer);
+
+                dbHandler.close();
                 Toast.makeText(Questions.this, "Bookmark added", Toast.LENGTH_SHORT).show();
             }
         }
@@ -280,7 +331,6 @@ public class Questions extends AppCompatActivity{
         questionCount++;
 
         if (questionCount < questionList.size()){
-            isBookmarked = false;
             selectedOption = null;
             addBookmark.setChecked(false);
 //                        fabPrevious.setEnabled(true);
@@ -360,7 +410,7 @@ public class Questions extends AppCompatActivity{
         builder.show();
     }
 
-//    OPTIONS MENU
+    //    OPTIONS MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_questions, menu);
@@ -388,6 +438,12 @@ public class Questions extends AppCompatActivity{
                 d.setContentView(R.layout.about);
                 d.setTitle("About us");
                 d.show();
+                break;
+            case R.id.action_help:
+                Dialog d1 = new Dialog(this);
+                d1.setContentView(R.layout.help);
+                d1.setTitle("Help");
+                d1.show();
                 break;
         }
 

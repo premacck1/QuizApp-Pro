@@ -429,7 +429,7 @@
           "ans": "enum"
         },
         {
-          "question": "A class that's defined solely so that other classes can inherit from it?",
+          "question": "A class that is defined solely so that other classes can inherit from it?",
           "opt1": "Anonymous object",
           "opt2": "Abstract class",
           "opt3": "ARC",
@@ -520,7 +520,7 @@
           "ans": "class method"
         },
         {
-          "question": "The mathematical concept of 'order of operations' is known as the 'order of ______?",
+          "question": "The mathematical concept of Order of Operations is known as the Order of ______?",
           "opt1": "Superset",
           "opt2": "C operators",
           "opt3": "precedence",
@@ -536,7 +536,7 @@
           "ans": "Enumerations"
         },
         {
-          "question": "Placing a ____ before a normal variable name gives it's address.",
+          "question": "Placing a ____ before a normal variable name gives the address of it.",
           "opt1": "selector",
           "opt2": "abstract superclass",
           "opt3": "class object",
@@ -1164,11 +1164,11 @@
         },
         {
           "question": "typeof ([\\]), typeof (new Array())",
-          "opt1": "'array', 'object'",
-          "opt2": "'object', 'array'",
-          "opt3": "'array' , 'array'",
-          "opt4": "'object', 'object'",
-          "ans": "'object', 'object'"
+          "opt1": "array, object",
+          "opt2": "object, array",
+          "opt3": "array , array",
+          "opt4": "object, object",
+          "ans": "object, object"
         }
       ]
     }, {

@@ -39,7 +39,10 @@ public class DatabaseHolder {
     public void close() {
         dbHelper.close();
     }
-    public long insertData(String field_l, String difficulty_l, String question_l, String option1_l, String option2_l, String option3_l, String option4_l, String answer_l) {
+    public long insertData(String field_l, String difficulty_l,
+                           String question_l,
+                           String option1_l, String option2_l, String option3_l, String option4_l,
+                           String answer_l) {
         ContentValues content = new ContentValues();
         content.put(field, field_l);
         content.put(difficulty, difficulty_l);
@@ -57,6 +60,21 @@ public class DatabaseHolder {
     }
     public Cursor returnData() {
         return db.query(tableName, new String[] {field,difficulty,question,option1,option2,option3,option4,answer}, null, null, null, null, null);
+    }
+    public Cursor returnQuestion(){
+        return db.query(tableName, new String[]{question}, null, null, null, null, null);
+    }
+    public Cursor returnBookmarkedQuestion(String field){
+        return db.query(true, tableName, new String[]{DatabaseHolder.field, question, answer}, DatabaseHolder.field + " = '"+ field +"'", null, null, null, null, null);
+    }
+
+    public void dropTable(){
+        db.execSQL("DROP TABLE IF EXISTS QuizTable");
+        try{
+            db.execSQL(Table_Create);
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
     public static class DatabaseHelper extends SQLiteOpenHelper {
 

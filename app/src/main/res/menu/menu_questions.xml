@@ -36,5 +36,10 @@
             android:id="@+id/action_leaderboard"
             android:title="Leaderboard"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/action_help"
+            android:title="Help"
+            android:icon="@drawable/ic_action_help"
+            app:showAsAction="always"/>
     </group>
 </menu>

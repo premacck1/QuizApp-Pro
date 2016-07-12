@@ -21,7 +21,6 @@ public class FontCache {
             } catch (Exception e) {
                 return null;
             }
-
             fontCache.put(fontname, typeface);
         }
 
