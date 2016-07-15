@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
 //        CREATE THE RESULT PIE CHART
         mChart = (PieChart) findViewById(R.id.resultPieChart);
         createPieChart();
+        mChart.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
         // Create the next level button, which tries to show an interstitial when clicked.
         mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
         assert mNextLevelButton != null;
