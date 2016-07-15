@@ -274,6 +274,9 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()){
+            case R.id.action_donate:
+                startActivity(new Intent(this, Results.class));
+                break;
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
@@ -376,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hit back again to exit", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override

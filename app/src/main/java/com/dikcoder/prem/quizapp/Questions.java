@@ -23,176 +23,204 @@ import java.util.Stack;
 
 public class Questions extends AppCompatActivity{
 
-    private int correctAnswers = 0, incorrectAnswers = 0, questionCount = 0;
-    private String selectedOption, answer, field, difficulty;
+    static int CORRECT_ANSWERS = 0,
+            INCORRECT_ANSWERS = 0,
+            QUESTION_COUNT = 0;
+    static String FIELD_ARG = "fieldSelection";
+    static String DIFFICULTY_ARG = "difficultySelection";
+
+    private String selectedOption, answer;
     private Stack<QuestionBean> previousQuestion = new Stack<>();
     private Stack<String> previousAnswer = new Stack<>();
     private DatabaseHolder dbHandler;
     private ArrayList<QuestionBean> questionList;
     private QuestionBean questionBean;
-    static String FIELD_ARG = "fieldSelection";
-    static String DIFFICULTY_ARG = "difficultySelection";
     private String[] selections;
-    TextView question;
-    ImageButton fabPrevious, fabSkip, fabNext;
-    ToggleButton addBookmark;
-    CheckedTextView option1, option2, option3, option4, temp;
-    CheckedTextView[] allCheckedTextViews;
+    private TextView question;
+    private ImageButton fabPrevious, fabSkip, fabNext;
+    private ToggleButton addBookmark;
+    private CheckedTextView option1;
+    private CheckedTextView option2;
+    private CheckedTextView option3;
+    private CheckedTextView option4;
+    private CheckedTextView[] allCheckedTextViews;
+
+    public Questions() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
-        Difficulty.BACK_FROM_RESULTS = 0;
-        dbHandler = new DatabaseHolder(getApplicationContext());
-
-//        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
-        instantiate();
 
 //        GET THE SELECTED FIELD AND DIFFICULTY.
         Bundle b = getIntent().getExtras();
         selections = new String[]{b.get(FIELD_ARG).toString(), b.get(DIFFICULTY_ARG).toString()};
 
-//        SET UP ACTION BAR
-        android.support.v7.app.ActionBar ab = this.getSupportActionBar();
-        if (ab != null) ab.setSubtitle(selections[0] + " : " + selections[1]);
-        assert ab != null;
-        ab.setDisplayShowHomeEnabled(true);
-        ab.setDisplayHomeAsUpEnabled(true);
-
 //        GET THE QUESTIONS CORRESPONDING TO THE SELECTED FIELD AND DIFFICULTY
         questionList = b.getParcelableArrayList("Question");
-        questionBean = questionList.get(questionCount);
-        populate();
-        answer = questionBean.getAnswer();
+        if (questionList != null) {
+            Difficulty.BACK_FROM_RESULTS = 0;
+            dbHandler = new DatabaseHolder(getApplicationContext());
 
-        allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
+//        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
+            instantiate();
+
+
+//        SET UP ACTION BAR
+            android.support.v7.app.ActionBar ab = this.getSupportActionBar();
+            if (ab != null) ab.setSubtitle(selections[0] + " : " + selections[1]);
+            assert ab != null;
+            ab.setDisplayShowHomeEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+
+            questionBean = questionList.get(QUESTION_COUNT);
+            populate();
+            answer = questionBean.getAnswer();
+
+            allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
 //        ON CLICK LISTENERS FOR THE 4 OPTIONS (CheckedTextViews)
-        option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickAction(option1);
-            }
-        });
+            option1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickAction(option1);
+                }
+            });
 
-        option2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickAction(option2);
-            }
-        });
+            option2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickAction(option2);
+                }
+            });
 
-        option3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickAction(option3);
-            }
-        });
+            option3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickAction(option3);
+                }
+            });
 
-        option4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickAction(option4);
-            }
-        });
+            option4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickAction(option4);
+                }
+            });
 
 //        ON CLICK LISTENERS FOR NAVIGATION BUTTONS
-        addBookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bookmarkAction(addBookmark);
-            }
-        });
-
-        fabNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedOption != null){
-                    if (selectedOption.equalsIgnoreCase(answer)){
-                        correctAnswers++;
-                    }
-                    else incorrectAnswers++;
-
-                    showNextQuestion();
+            addBookmark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bookmarkAction(addBookmark);
                 }
-                else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
 
-        fabSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-                builder.setMessage("Are you sure to skip this question?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            fabNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectedOption != null){
+                        if (selectedOption.equalsIgnoreCase(answer)){
+                            CORRECT_ANSWERS++;
+                        }
+                        else INCORRECT_ANSWERS++;
+
                         showNextQuestion();
-                        getSelectedAnswer(selectedOption);
                     }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
+                    else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        fabPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (previousQuestion.size()>0) {
-                    questionBean = previousQuestion.pop();
-                    populate();
-                    answer = questionBean.getAnswer();
-                    selectedOption = previousAnswer.pop();
-                    getSelectedAnswer(selectedOption);
-                    questionCount--;
+            fabSkip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+                    builder.setMessage("Are you sure to skip this question?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showNextQuestion();
+                            getSelectedAnswer(selectedOption);
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
-                else{
-                    Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
+            });
+
+            fabPrevious.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (previousQuestion.size()>0) {
+                        questionBean = previousQuestion.pop();
+                        populate();
+                        answer = questionBean.getAnswer();
+                        selectedOption = previousAnswer.pop();
+                        getSelectedAnswer(selectedOption);
+                        CORRECT_ANSWERS--;
+                        QUESTION_COUNT--;
+                    }
+                    else{
+                        Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
 
 //        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
-        addBookmark.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(Questions.this, "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+            addBookmark.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(Questions.this, "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
 
-        fabNext.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(Questions.this, "Next question", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+            fabNext.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(Questions.this, "Next question", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
 
-        fabSkip.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(Questions.this, "Skip this question", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+            fabSkip.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(Questions.this, "Skip this question", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
 
-        fabPrevious.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+            fabPrevious.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+        }
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+            builder.setMessage("Sorry, but the questions couldn't be loaded.");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(Questions.this, Results.class));
+                    Questions.this.finish();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public void getSelectedAnswer(String selectedOption){
@@ -240,7 +268,7 @@ public class Questions extends AppCompatActivity{
     }
 
     public void clickAction(View v) {
-        temp = (CheckedTextView) v;
+        CheckedTextView temp = (CheckedTextView) v;
         if(temp !=null) {
             if (!temp.isChecked()) {
                 for (CheckedTextView item : allCheckedTextViews) {
@@ -328,13 +356,13 @@ public class Questions extends AppCompatActivity{
     public void showNextQuestion(){
         previousQuestion.push(questionBean);
         previousAnswer.push(selectedOption);
-        questionCount++;
+        QUESTION_COUNT++;
 
-        if (questionCount < questionList.size()){
+        if (QUESTION_COUNT < questionList.size()){
             selectedOption = null;
             addBookmark.setChecked(false);
 //                        fabPrevious.setEnabled(true);
-            questionBean = questionList.get(questionCount);
+            questionBean = questionList.get(QUESTION_COUNT);
             populate();
             answer = questionBean.getAnswer();
         }
@@ -453,22 +481,23 @@ public class Questions extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         switch (Difficulty.BACK_FROM_RESULTS){
-//            CALLED TO CHANGE THE DIFFICULTY (BACK BUTTON PRESSED)
+//            CALLED TO CONFIRM EXIT (BACK BUTTON PRESS)
             case 0:
-                changeDifficulty();
+                gotoHome();
                 break;
 //            CALLED IF "TAKE ANOTHER QUIZ" SELECTED FROM onCompletion() // OR CONFIRMED EXIT FROM gotoHome()
             case 2:
                 super.onBackPressed();
                 break;
-//            CALLED ON ACTION BAR UP BUTTON PRESS
+//            CALLED ON ACTION BAR UP BUTTON PRESS (CHANGE THE DIFFICULTY)
             case 3:
-                gotoHome();
+                changeDifficulty();
                 break;
 //            DEFAULT EXIT CALL, GENERALLY WHEN Difficulty.BACK_FROM_RESULTS == 1
             default:
                 Difficulty.BACK_FROM_RESULTS = 0;
                 super.onBackPressed();
+                this.finish();
                 break;
         }
     }

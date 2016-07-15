@@ -3,27 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dikcoder.prem.quizapp.Results">
+    tools:context="com.dikcoder.prem.quizapp.Results"
+    android:background="#75000000">
 
-    <com.github.mikephil.charting.charts.PieChart android:layout_height="385dp"
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_height="385dp"
         android:layout_width="match_parent"
         android:id="@+id/resultPieChart" />
 
     <!-- view for AdMob Interstitial Ad -->
-    <TextView
+<!--    <TextView
         android:id="@+id/app_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/interstitial_ad_sample"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/resultPieChart"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
 
     <TextView
         android:id="@+id/level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_title"
+        android:layout_below="@+id/resultPieChart"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="@string/start_level"
         android:textAppearance="?android:attr/textAppearanceLarge" />
