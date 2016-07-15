@@ -4,7 +4,6 @@ package com.dikcoder.prem.quizapp;
  * Created by Prem $ on 7/2/2016.
  */
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +28,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosition) {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+                .get(childPosition);
     }
 
     @Override
@@ -53,8 +52,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListChild);
-
+        txtListChild.setTypeface(MainActivity.fontTypefaceLight);
         txtListChild.setText(childText);
+
         return convertView;
     }
 
@@ -91,7 +91,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.setTypeface(MainActivity.fontTypefaceSemiLight);
         lblListHeader.setText(headerTitle);
 
         return convertView;

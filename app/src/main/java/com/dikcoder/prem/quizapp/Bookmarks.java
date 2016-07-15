@@ -1,6 +1,7 @@
 package com.dikcoder.prem.quizapp;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,8 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -140,10 +142,32 @@ public class Bookmarks extends AppCompatActivity {
                             , 0.2F
                     )
             );
-
-
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    final View v = view;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Confirm delete?");
+                    builder.setMessage("Sure to delete this question?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Yep", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            v.setVisibility(View.GONE);
+                        }
+                    });
+                    builder.setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
+            });
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
 

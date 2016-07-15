@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     private String newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
+    public static Typeface fontTypefaceSemiLight, fontTypefaceLight;
 
     @Override
     public boolean releaseInstance() {
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         if (savedInstanceState != null) {
             return;
         }
+        fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
+        fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
