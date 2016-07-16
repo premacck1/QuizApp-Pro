@@ -142,7 +142,7 @@ public class Questions extends AppCompatActivity{
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             showNextQuestion();
-                            getSelectedAnswer(selectedOption);
+//                            getSelectedAnswer(selectedOption);
                         }
                     });
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -165,7 +165,6 @@ public class Questions extends AppCompatActivity{
                         answer = questionBean.getAnswer();
                         selectedOption = previousAnswer.pop();
                         getSelectedAnswer(selectedOption);
-                        CORRECT_ANSWERS--;
                         QUESTION_COUNT--;
                     }
                     else{

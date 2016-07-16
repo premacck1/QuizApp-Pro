@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kobakei.ratethisapp.RateThisApp;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +51,17 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
+//        Stop showing 'rate this' dialog
+        RateThisApp.stopRateDialog(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -57,10 +70,18 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
         fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
         fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
+
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_fragment_container, mField).commit();
+
+//        APP-RATING DIALOG CODE
+//        Custom criteria: 3 days and 5 launches
+        RateThisApp.Config config = new RateThisApp.Config(3, 5);
+//        Custom title
+        config.setTitle(R.string.rate_us);
+        RateThisApp.init(config);
 
         if(isConnected()){
             // call AsyncTask to perform network operation on separate thread

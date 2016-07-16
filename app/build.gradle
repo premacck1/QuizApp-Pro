@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.google.android.gms:play-services-ads:9.2.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+    compile 'io.github.kobakei:ratethisapp:1.0.5'
 }
 
 apply plugin: 'com.google.gms.google-services'
