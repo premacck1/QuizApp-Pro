@@ -23,6 +23,8 @@ public class DatabaseHolder {
     public static final String databaseName = "quizDatabase";
     public static final int database_version = 1;
     public static final String Table_Create = "create table QuizTable (field text not null, difficulty text not null,question text not null, option1 text not null, option2 text not null, option3 text not null, option4 text not null, answer text not null);";
+    public static final String quiz_version = "create table QuizVersion (field text not null);";
+
 
     DatabaseHelper dbHelper;
     Context context;
@@ -70,8 +72,10 @@ public class DatabaseHolder {
 
     public void dropTable(){
         db.execSQL("DROP TABLE IF EXISTS QuizTable");
+        db.execSQL("DROP TABLE IF EXISTS QuizVersion");
         try{
             db.execSQL(Table_Create);
+            db.execSQL(quiz_version);
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -88,6 +92,7 @@ public class DatabaseHolder {
             // TODO Auto-generated method stub
             try{
                 db.execSQL(Table_Create);
+                db.execSQL(quiz_version);
             } catch(SQLException e) {
                 e.printStackTrace();
             }
@@ -97,6 +102,7 @@ public class DatabaseHolder {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // TODO Auto-generated method stub
             db.execSQL("DROP TABLE IF EXISTS QuizTable");
+            db.execSQL("DROP TABLE IF EXISTS QuizVersion");
             onCreate(db);
         }
 

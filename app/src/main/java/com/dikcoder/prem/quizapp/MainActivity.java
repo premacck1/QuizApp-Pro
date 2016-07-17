@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
     public static Typeface fontTypefaceSemiLight, fontTypefaceLight;
+    private String version;
 
     @Override
     public boolean releaseInstance() {
@@ -62,9 +63,11 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_fragment_container, mField).commit();
 
+//        version = DatabaseHolder.
         if(isConnected()){
             // call AsyncTask to perform network operation on separate thread
-            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
+            new HttpAsyncTask().execute("https://json-956.appspot.com/version.txt");
+//            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
         }
         try{
             String string = readFromFile();
@@ -211,7 +214,10 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
         @Override
         protected String doInBackground(String... params) {
-            return GET(params[0]);
+            if(!(GET(params[0]).equals(version))) {
+                return GET("https://json-956.appspot.com/json.txt");
+            }
+            return null;
         }
 
         @Override
