@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kobakei.ratethisapp.RateThisApp;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,11 +44,21 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
     public static Typeface fontTypefaceSemiLight, fontTypefaceLight;
-    private String version;
 
     @Override
     public boolean releaseInstance() {
         return super.releaseInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
+//        Stop showing 'rate this' dialog
+        RateThisApp.stopRateDialog(this);
     }
 
     @Override
@@ -58,16 +70,22 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
         fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
         fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
+
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_fragment_container, mField).commit();
 
-//        version = DatabaseHolder.
+//        APP-RATING DIALOG CODE
+//        Custom criteria: 3 days and 5 launches
+        RateThisApp.Config config = new RateThisApp.Config(3, 5);
+//        Custom title
+        config.setTitle(R.string.rate_us);
+        RateThisApp.init(config);
+
         if(isConnected()){
             // call AsyncTask to perform network operation on separate thread
-            new HttpAsyncTask().execute("https://json-956.appspot.com/version.txt");
-//            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
+            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
         }
         try{
             String string = readFromFile();
@@ -214,10 +232,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
         @Override
         protected String doInBackground(String... params) {
-            if(!(GET(params[0]).equals(version))) {
-                return GET("https://json-956.appspot.com/json.txt");
-            }
-            return null;
+            return GET(params[0]);
         }
 
         @Override
@@ -280,6 +295,9 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()){
+            case R.id.action_donate:
+                startActivity(new Intent(this, Results.class));
+                break;
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
@@ -382,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hit back again to exit", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
