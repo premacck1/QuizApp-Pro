@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener,
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
     public static Typeface fontTypefaceSemiLight, fontTypefaceLight;
+    private String version;
+    private DatabaseHolder dbHandler;
 
     @Override
     public boolean releaseInstance() {
@@ -70,6 +74,16 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
         fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
 
+        //initializing db handler
+        dbHandler = new DatabaseHolder(getApplicationContext());
+        dbHandler.open();
+        Cursor versionCursor = dbHandler.getQuestionVersion();
+        versionCursor.moveToNext();
+        if (!versionCursor.isAfterLast()) {
+            version = versionCursor.getString(versionCursor.getColumnIndex("version"));
+        }
+        dbHandler.close();
+
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -84,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
         if(isConnected()){
             // call AsyncTask to perform network operation on separate thread
-            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
+            new HttpAsyncTask().execute("http://json-956.appspot.com/version.txt");
+//            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
         }
         try{
             String string = readFromFile();
@@ -182,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         try{
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
             while((line = bufferedReader.readLine()) != null){
                 stringBuilder.append(line);
             }
@@ -201,6 +216,30 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         return stringBuilder.toString();
     }
 
+    public static String getVersionFromInputStream(InputStream inputStream){
+        BufferedReader bufferedReader = null;
+        String versionStr = "";
+        String line;
+        try{
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
+            while((line = bufferedReader.readLine()) != null){
+                versionStr = line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (bufferedReader !=null){
+                try{
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return versionStr;
+    }
+
     public static String GET(String URLString){
         InputStream inputStream;
         String result = null;
@@ -211,7 +250,16 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 //            receive response as inputStream
             inputStream = new BufferedInputStream(urlConnection.getInputStream());
 //            convert inputStream to string
-            result = getStringFromInputStream(inputStream);
+//            StringHelperClass ubis = new StringHelperClass(inputStream);
+//            System.out.println("detected BOM: " + ubis.getBOM());
+//            ubis.skipBOM();
+            if(URLString.contains("version")){
+                result = getVersionFromInputStream(inputStream);
+                if (result.codePointAt(0) == 0xfeff)
+                {result = result.substring(1, result.length());}
+            } else {
+                result = getStringFromInputStream(inputStream);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,7 +279,14 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
         @Override
         protected String doInBackground(String... params) {
-            return GET(params[0]);
+            if(!(version.equals(GET(params[0]).trim()))) {
+                // DB Update with new Version
+                dbHandler.open();
+                dbHandler.updateVersion(GET(params[0].trim()),"1");
+                dbHandler.close();
+                return GET("https://json-956.appspot.com/json.txt");
+            }
+            return null;
         }
 
         @Override

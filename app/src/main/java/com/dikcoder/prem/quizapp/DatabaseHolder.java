@@ -20,9 +20,14 @@ public class DatabaseHolder {
     public static final String option4 = "option4";
     public static final String answer = "answer";
     public static final String tableName = "QuizTable";
+    public static final String versionTableName = "QuizVersion";
     public static final String databaseName = "quizDatabase";
+    public static final String version = "version";
+    public static final String version_id = "version_id";
     public static final int database_version = 1;
     public static final String Table_Create = "create table QuizTable (field text not null, difficulty text not null,question text not null, option1 text not null, option2 text not null, option3 text not null, option4 text not null, answer text not null);";
+    public static final String quiz_version = "create table QuizVersion (version text not null, version_id text not null);";
+    public static final String version_insert = "INSERT INTO QuizVersion(version, version_id) VALUES('1', '1');";
 
     DatabaseHelper dbHelper;
     Context context;
@@ -70,12 +75,32 @@ public class DatabaseHolder {
 
     public void dropTable(){
         db.execSQL("DROP TABLE IF EXISTS QuizTable");
+        db.execSQL("DROP TABLE IF EXISTS QuizVersion");
         try{
             db.execSQL(Table_Create);
+            db.execSQL(quiz_version);
         } catch(SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public long insertVersion(String version_l, String version_id_l) {
+        ContentValues content = new ContentValues();
+        content.put(version, version_l);
+        content.put(version_id, version_id_l);
+        return db.insertOrThrow(versionTableName, null, content);
+    }
+
+    public long updateVersion(String version_l,  String version_id_l) {
+        ContentValues content = new ContentValues();
+        content.put(version, version_l);
+        return db.update(versionTableName, content,"version_id="+version_id_l,null);
+    }
+
+    public Cursor getQuestionVersion() {
+        return db.query(versionTableName, new String[]{version}, null, null, null, null, null);
+    }
+
     public static class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
@@ -88,6 +113,8 @@ public class DatabaseHolder {
             // TODO Auto-generated method stub
             try{
                 db.execSQL(Table_Create);
+                db.execSQL(quiz_version);
+                db.execSQL(version_insert);
             } catch(SQLException e) {
                 e.printStackTrace();
             }
@@ -97,6 +124,7 @@ public class DatabaseHolder {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // TODO Auto-generated method stub
             db.execSQL("DROP TABLE IF EXISTS QuizTable");
+            db.execSQL("DROP TABLE IF EXISTS QuizVersion");
             onCreate(db);
         }
 
