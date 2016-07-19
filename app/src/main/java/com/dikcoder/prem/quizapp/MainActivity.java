@@ -217,6 +217,30 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         return stringBuilder.toString();
     }
 
+    public static String getVersionFromInputStream(InputStream inputStream){
+        BufferedReader bufferedReader = null;
+        String versionStr = "";
+        String line;
+        try{
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
+            while((line = bufferedReader.readLine()) != null){
+                versionStr = line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (bufferedReader !=null){
+                try{
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return versionStr;
+    }
+
     public static String GET(String URLString){
         InputStream inputStream;
         String result = null;
@@ -227,9 +251,16 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 //            receive response as inputStream
             inputStream = new BufferedInputStream(urlConnection.getInputStream());
 //            convert inputStream to string
-            result = getStringFromInputStream(inputStream);
-            //StringHelperClass ubis = new StringHelperClass(result);
-
+//            StringHelperClass ubis = new StringHelperClass(inputStream);
+//            System.out.println("detected BOM: " + ubis.getBOM());
+//            ubis.skipBOM();
+            if(URLString.contains("version")){
+                result = getVersionFromInputStream(inputStream);
+                if (result.codePointAt(0) == 0xfeff)
+                {result = result.substring(1, result.length());}
+            } else {
+                result = getStringFromInputStream(inputStream);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
