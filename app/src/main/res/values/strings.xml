@@ -120,4 +120,23 @@
     <string name="next_question">Next Question</string>
     <string name="add_or_remove_bookmark">Add or remove bookmark</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_login">Connect</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in with Google</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <!-- Button labels -->
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="email_id">Email ID: </string>
+    <string name="user_name">Username: </string>
+    <string name="sign_in">Sign in</string>
 </resources>

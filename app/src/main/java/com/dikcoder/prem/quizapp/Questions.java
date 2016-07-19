@@ -213,7 +213,7 @@ public class Questions extends AppCompatActivity{
             builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(Questions.this, Results.class));
+//                    startActivity(new Intent(Questions.this, Results.class));
                     Questions.this.finish();
                 }
             });

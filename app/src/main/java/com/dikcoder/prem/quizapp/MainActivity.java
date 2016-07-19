@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.kobakei.ratethisapp.RateThisApp;
@@ -36,9 +35,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener,
+        Difficulty.OnFragmentInteractionListener {
 
-    private ListView listView;
     private String JSONString = null;
     private String newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     protected void onResume() {
         super.onResume();
     }
+
     @Override
     protected void onResumeFragments() {
         if (Difficulty.BACK_FROM_RESULTS == 2){
@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
         super.onResumeFragments();
     }
-
     //    Write to JSON file in Internal Memory
     public void writeToFile(String data){
         try {

@@ -33,14 +33,21 @@
         app:mrl_rippleDelayClick="true"
         app:mrl_rippleRoundedCorners="2dp">
 
-        <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+        <!--<com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"/>-->
+
+        <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+            android:id="@+id/sign_in"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:background="@drawable/checked_button"
-            android:text="Sign up / Sign in"
+            android:text="@string/connect"
             android:textSize="20sp"/>
 
     </com.balysv.materialripple.MaterialRippleLayout>

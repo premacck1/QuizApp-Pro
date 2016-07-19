@@ -13,24 +13,12 @@
         android:outAnimation="@anim/float_out_expandable_listview">
 
         <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
-            android:background="#cccccc"
+            android:background="#f5f5f5"
             android:id="@+id/lblListHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"/>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/delete_in_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_delete"/>
-
-        </LinearLayout>
 
     </ViewSwitcher>
 

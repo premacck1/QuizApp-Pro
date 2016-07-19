@@ -1,6 +1,7 @@
 package com.dikcoder.prem.quizapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
@@ -68,6 +69,15 @@ public class Field extends ListFragment{
                 }
             }, 200);
         }
+
+        CustomTextViewSemiLight sign_in = (CustomTextViewSemiLight) rootView.findViewById(R.id.sign_in);
+        if (sign_in != null)
+            sign_in.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                }
+            });
         return rootView;
     }
 
