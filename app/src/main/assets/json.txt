@@ -354,7 +354,7 @@
           "ans": "Proprietary"
         },
         {
-          "question": "World�s most popular mobile operating system with highest market share?",
+          "question": "Worldï¿½s most popular mobile operating system with highest market share?",
           "opt1": "iOS",
           "opt2": "Android",
           "opt3": "Windows Phone",
@@ -429,7 +429,7 @@
           "ans": "enum"
         },
         {
-          "question": "A class that is defined solely so that other classes can inherit from it?",
+          "question": "A class that's defined solely so that other classes can inherit from it?",
           "opt1": "Anonymous object",
           "opt2": "Abstract class",
           "opt3": "ARC",
@@ -520,7 +520,7 @@
           "ans": "class method"
         },
         {
-          "question": "The mathematical concept of Order of Operations is known as the Order of ______?",
+          "question": "The mathematical concept of 'order of operations' is known as the 'order of ______?",
           "opt1": "Superset",
           "opt2": "C operators",
           "opt3": "precedence",
@@ -536,7 +536,7 @@
           "ans": "Enumerations"
         },
         {
-          "question": "Placing a ____ before a normal variable name gives the address of it.",
+          "question": "Placing a ____ before a normal variable name gives it's address.",
           "opt1": "selector",
           "opt2": "abstract superclass",
           "opt3": "class object",
@@ -934,7 +934,7 @@
           "opt1": "<hr>",
           "opt2": "<line>",
           "opt3": "<tr>",
-          "opt4": "<line direction="horizontal">",
+          "opt4": "<line direction=ï¿½horizontalï¿½>",
           "ans": "<hr>"
         },
         {
@@ -949,7 +949,7 @@
           "question": "To create a combo box (drop down box) which tag will you use?",
           "opt1": "<select>",
           "opt2": "<list>",
-          "opt3": "<input type=�dropdown�>",
+          "opt3": "<input type=ï¿½dropdownï¿½>",
           "opt4": "all of above",
           "ans": "<select>"
         },
@@ -986,7 +986,7 @@
           "ans": "6"
         },
         {
-          "question": "Text within <EM> � </EM> tag is displayed as:",
+          "question": "Text within <EM> ï¿½ </EM> tag is displayed as:",
           "opt1": "bold",
           "opt2": "italic",
           "opt3": "list",
@@ -1164,11 +1164,11 @@
         },
         {
           "question": "typeof ([\\]), typeof (new Array())",
-          "opt1": "array, object",
-          "opt2": "object, array",
-          "opt3": "array , array",
-          "opt4": "object, object",
-          "ans": "object, object"
+          "opt1": "'array', 'object'",
+          "opt2": "'object', 'array'",
+          "opt3": "'array' , 'array'",
+          "opt4": "'object', 'object'",
+          "ans": "'object', 'object'"
         }
       ]
     }, {

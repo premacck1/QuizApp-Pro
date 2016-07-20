@@ -9,12 +9,17 @@ import java.util.ArrayList;
 /**
  * Created by Prem $ on 7/4/2016.
  */
-public class QuestionJSONParser {
+public class QuestionJSONParser extends ArrayList<QuestionBean> {
+
+//    QuestionJSONParser (JSONObject jObject, String field, String difficulty){
+//        parse(jObject, field, difficulty);
+//    }
+
     /** Receives a JSONObject and returns a list */
     public ArrayList<QuestionBean> parse(JSONObject jObject, String field, String difficulty){
 
-        JSONArray jFieldArray = null;
-        JSONArray jDifficultyArray = null;
+        JSONArray jFieldArray;
+        JSONArray jFinalArray = null;
         
         try {
             /** Retrieves all the elements in the 'field' array */
@@ -37,7 +42,7 @@ public class QuestionJSONParser {
                     break;
             }
             JSONObject difficultyObj = jFieldArray.getJSONObject(difficultyIndex);
-            jDifficultyArray = difficultyObj.getJSONArray(difficulty);
+            jFinalArray = difficultyObj.getJSONArray(difficulty);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -45,10 +50,10 @@ public class QuestionJSONParser {
         /** Invoking getQuestions with the array of json object
          * where each json object represent a field
          */
-        return getQuestions(jDifficultyArray,field,difficulty);
+        return getQuestions(jFinalArray,field,difficulty);
     }
 
-    private ArrayList<QuestionBean> getQuestions(JSONArray jQuestions,String d,String m){
+    private ArrayList<QuestionBean> getQuestions(JSONArray jQuestions,String field,String difficulty){
         
         int questionCount = jQuestions.length();
         ArrayList<QuestionBean> fieldList = new ArrayList<>();
@@ -58,7 +63,7 @@ public class QuestionJSONParser {
         for(int i=0; i<questionCount; i++){
             try {
                 /** Call getQuestion with question JSON object to parse the question */
-                question = getQuestion((JSONObject)jQuestions.get(i),d,m);
+                question = getQuestion((JSONObject)jQuestions.get(i),field,difficulty);
                 fieldList.add(question);
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -59,13 +59,12 @@ public class Questions extends AppCompatActivity{
 
 //        GET THE QUESTIONS CORRESPONDING TO THE SELECTED FIELD AND DIFFICULTY
         questionList = b.getParcelableArrayList("Question");
-        if (questionList != null) {
+//        if (questionList != null) {
             Difficulty.BACK_FROM_RESULTS = 0;
             dbHandler = new DatabaseHolder(getApplicationContext());
 
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
             instantiate();
-
 
 //        SET UP ACTION BAR
             android.support.v7.app.ActionBar ab = this.getSupportActionBar();
@@ -205,7 +204,7 @@ public class Questions extends AppCompatActivity{
                     return true;
                 }
             });
-        }
+/*        }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
             builder.setMessage("Sorry, but the questions couldn't be loaded.");
@@ -219,7 +218,12 @@ public class Questions extends AppCompatActivity{
             });
             AlertDialog alert = builder.create();
             alert.show();
-        }
+        }*/
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     public void getSelectedAnswer(String selectedOption){
@@ -447,6 +451,9 @@ public class Questions extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            case R.id.action_account:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
             case android.R.id.home:
                 Difficulty.BACK_FROM_RESULTS = 3;
                 onBackPressed();

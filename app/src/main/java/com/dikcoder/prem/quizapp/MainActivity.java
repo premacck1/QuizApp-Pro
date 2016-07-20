@@ -27,14 +27,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener,
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
         fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
 
-        //initializing db handler
+//        initializing db handler
         dbHandler = new DatabaseHolder(getApplicationContext());
         dbHandler.open();
         Cursor versionCursor = dbHandler.getQuestionVersion();
@@ -96,37 +94,40 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         config.setTitle(R.string.rate_us);
         RateThisApp.init(config);
 
+//        FIRST GET THE VERSION
         if(isConnected()){
-            // call AsyncTask to perform network operation on separate thread
             new HttpAsyncTask().execute("http://json-956.appspot.com/version.txt");
-//            new HttpAsyncTask().execute("https://json-956.appspot.com/json.txt");
         }
+
         try{
             String string = readFromFile();
             if(string != null)
                 JSONString = string;
             else{
-                AssetManager assetManager = getResources().getAssets();
-                InputStream inputStream;
-                try{
-                    inputStream = assetManager.open("json.txt");
-                    JSONString = getStringFromInputStream(inputStream);
+                if(isConnected()){
+//                 call AsyncTask to perform network operation on separate thread
+//                new HttpAsyncTask().execute("http://json-956.appspot.com/version.txt");
+                    new HttpAsyncTask().execute("https://json-956.appspot.com/json-1.txt");
                 }
-                catch (IOException e){
-                    e.printStackTrace();
+                else {
+                    readFromFileAnyways();
                 }
             }
         }
         catch (IOException e){
-            AssetManager assetManager = getResources().getAssets();
-            InputStream inputStream;
-            try{
-                inputStream = assetManager.open("json.txt");
-                JSONString = getStringFromInputStream(inputStream);
-            }
-            catch (IOException io){
-                io.printStackTrace();
-            }
+            readFromFileAnyways();
+        }
+    }
+
+    public void readFromFileAnyways(){
+        AssetManager assetManager = getResources().getAssets();
+        InputStream inputStream;
+        try{
+            inputStream = assetManager.open("json.txt");
+            JSONString = getStringFromInputStream(inputStream);
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             BufferedWriter bufferedWriter = new BufferedWriter(
                     new FileWriter(
                             new File(
-                                    getFilesDir() + File.separator + "json.txt"
+                                    String.valueOf(getAssets().open("json.txt"))
                             )
                     )
             );
@@ -162,10 +163,8 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 //    Read from JSON file in Internal Memory
     public String readFromFile() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(
-                        new File(
-                                getFilesDir() + File.separator + "json.txt"
-                        )
+                new InputStreamReader(
+                        getAssets().open("json.txt")
                 )
         );
         String read;
@@ -180,15 +179,15 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
 //    Doing parsing of JSON data
     public ArrayList<QuestionBean> doInBackground(String JSONString,String field, String difficulty){
-        ArrayList<QuestionBean> fieldList = null;
-        JSONObject jObject;
-        /** Getting the parsed data as a List construct */
-        try{
-            jObject = new JSONObject(JSONString);
-            fieldList = new QuestionJSONParser().parse(jObject, field, difficulty);
+        ArrayList<QuestionBean> fieldList;
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSONString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        /** Getting the parsed data as a List construct */
+        fieldList = new QuestionJSONParser().parse(jsonObject, field, difficulty);
         return fieldList;
     }
 
@@ -249,10 +248,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 //            receive response as inputStream
             inputStream = new BufferedInputStream(urlConnection.getInputStream());
-//            convert inputStream to string
-//            StringHelperClass ubis = new StringHelperClass(inputStream);
-//            System.out.println("detected BOM: " + ubis.getBOM());
-//            ubis.skipBOM();
+
             if(URLString.contains("version")){
                 result = getVersionFromInputStream(inputStream);
                 if (result.codePointAt(0) == 0xfeff)
@@ -349,6 +345,9 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()){
+            case R.id.action_account:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
             case R.id.action_donate:
                 startActivity(new Intent(this, Results.class));
                 break;
@@ -387,24 +386,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         transaction.replace(R.id.main_fragment_container, mdifficulty);
         transaction.addToBackStack(null);
         transaction.commit();
-/*
-        listView = (ListView) findViewById(android.R.id.list);
-        listView.setLayoutAnimation(
-                new LayoutAnimationController(
-                        AnimationUtils.loadAnimation(this, R.anim.front_exit),
-                        0.2F
-                )
-        );
-*/
-/*
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-//                setActionBarTitle(position);
-            }
-        }, 200);
-*/
     }
 
     @Override
@@ -421,24 +402,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             i.putExtra("Question", QUESTION);
             startActivity(i);
         }
-//        MainActivity.this.finish();
-
-/*
-        listView = (ListView) findViewById(R.id.listView1);
-        listView.setLayoutAnimation(
-                new LayoutAnimationController(
-                        AnimationUtils.loadAnimation(this, R.anim.front_exit),
-                        0.2F
-                )
-        );
-*/
-/*        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setVisibility(View.INVISIBLE);
-            }
-        }, 200);
-*/
     }
 
     @Override

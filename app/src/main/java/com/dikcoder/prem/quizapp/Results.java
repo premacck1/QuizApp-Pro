@@ -1,6 +1,7 @@
 package com.dikcoder.prem.quizapp;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -214,6 +215,9 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
+            case R.id.action_account:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
             case android.R.id.home:
                 resetFlags();
                 this.finish();
