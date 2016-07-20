@@ -23,7 +23,7 @@ import java.util.Stack;
 
 public class Questions extends AppCompatActivity{
 
-    static int CORRECT_ANSWERS = 0,
+    public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
             QUESTION_COUNT = 0;
     static String FIELD_ARG = "fieldSelection";
@@ -51,7 +51,6 @@ public class Questions extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_questions);
 
 //        GET THE SELECTED FIELD AND DIFFICULTY.
         Bundle b = getIntent().getExtras();
@@ -59,7 +58,9 @@ public class Questions extends AppCompatActivity{
 
 //        GET THE QUESTIONS CORRESPONDING TO THE SELECTED FIELD AND DIFFICULTY
         questionList = b.getParcelableArrayList("Question");
-//        if (questionList != null) {
+        if (questionList != null) {
+            setContentView(R.layout.activity_questions);
+
             Difficulty.BACK_FROM_RESULTS = 0;
             dbHandler = new DatabaseHolder(getApplicationContext());
 
@@ -120,12 +121,18 @@ public class Questions extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     if (selectedOption != null){
+
+                        dbHandler.open();
                         if (selectedOption.equalsIgnoreCase(answer)){
-                            CORRECT_ANSWERS++;
+                            dbHandler.insertCorrectAnswer(question.getText().toString(), selectedOption);
                         }
-                        else INCORRECT_ANSWERS++;
+                        else {
+                            dbHandler.insertIncorrectAnswer(question.getText().toString(), selectedOption, answer);
+                        }
+                        dbHandler.close();
 
                         showNextQuestion();
+                        printFlags();
                     }
                     else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
                 }
@@ -140,8 +147,13 @@ public class Questions extends AppCompatActivity{
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
+                            dbHandler.open();
+                            dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
+                            dbHandler.close();
+
                             showNextQuestion();
-//                            getSelectedAnswer(selectedOption);
+                            printFlags();
                         }
                     });
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -164,7 +176,18 @@ public class Questions extends AppCompatActivity{
                         answer = questionBean.getAnswer();
                         selectedOption = previousAnswer.pop();
                         getSelectedAnswer(selectedOption);
-                        QUESTION_COUNT--;
+                        String currentQuestion = question.getText().toString();
+
+                        dbHandler.open();
+                        int isQuestionPresentInAnswersTable = dbHandler.isQuestionPresentInAnswersTable(currentQuestion);
+                        if (isQuestionPresentInAnswersTable < 0)
+                            dbHandler.deleteQuestion(-1, currentQuestion);
+                        else if (isQuestionPresentInAnswersTable > 0)
+                            dbHandler.deleteQuestion(1, currentQuestion);
+                        else dbHandler.deleteQuestion(0, currentQuestion);
+                        dbHandler.close();
+
+                        printFlags();
                     }
                     else{
                         Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
@@ -204,11 +227,11 @@ public class Questions extends AppCompatActivity{
                     return true;
                 }
             });
-/*        }
+        }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
             builder.setMessage("Sorry, but the questions couldn't be loaded.");
-            builder.setCancelable(true);
+            builder.setCancelable(false);
             builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -218,7 +241,22 @@ public class Questions extends AppCompatActivity{
             });
             AlertDialog alert = builder.create();
             alert.show();
-        }*/
+        }
+    }
+
+    public void resetFlags() {
+        QUESTION_COUNT = 0;
+        CORRECT_ANSWERS = 0;
+        INCORRECT_ANSWERS = 0;
+        dbHandler.open();
+        dbHandler.resetAllTables();
+        dbHandler.close();
+    }
+
+    public void printFlags(){
+        System.out.println("Question count: "+QUESTION_COUNT);
+        System.out.println("Correct: "+CORRECT_ANSWERS);
+        System.out.println("incorrect: "+INCORRECT_ANSWERS);
     }
 
     @Override
@@ -292,7 +330,6 @@ public class Questions extends AppCompatActivity{
     }
 
     public boolean isBookmarked(){
-//        dbHandler.dropTable();
         dbHandler.open();
         boolean areQuestionsEqual = false;
         Cursor questionToBeCompared = dbHandler.returnQuestion();
@@ -308,6 +345,7 @@ public class Questions extends AppCompatActivity{
             if(questionOnScreen.contains("'"))
                 questionOnScreen = questionOnScreen.replace("'", "\'");
 */
+
 //            CHECK IF THE QUESTION IS ALREADY BOOKMARKED
                 areQuestionsEqual = questionOnScreen.equalsIgnoreCase(questionInDb);
                 if (areQuestionsEqual) {
@@ -359,12 +397,11 @@ public class Questions extends AppCompatActivity{
     public void showNextQuestion(){
         previousQuestion.push(questionBean);
         previousAnswer.push(selectedOption);
-        QUESTION_COUNT++;
+//        QUESTION_COUNT++;
 
         if (QUESTION_COUNT < questionList.size()){
             selectedOption = null;
             addBookmark.setChecked(false);
-//                        fabPrevious.setEnabled(true);
             questionBean = questionList.get(QUESTION_COUNT);
             populate();
             answer = questionBean.getAnswer();
@@ -407,6 +444,7 @@ public class Questions extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 1;
+                resetFlags();
                 onBackPressed();
             }
         });
@@ -428,6 +466,7 @@ public class Questions extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 2;
+                resetFlags();
                 onBackPressed();
             }
         });

@@ -1,13 +1,18 @@
 package com.dikcoder.prem.quizapp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -48,24 +53,47 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (isConnected()) {
 //        SET UP ACTION BAR
-        android.support.v7.app.ActionBar ab = this.getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayShowHomeEnabled(true);
-        ab.setDisplayHomeAsUpEnabled(true);
+            android.support.v7.app.ActionBar ab = this.getSupportActionBar();
+            assert ab != null;
+            ab.setDisplayShowHomeEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
 
-        buildNewGoogleApiClient();
-        setContentView(R.layout.activity_login);
+            buildNewGoogleApiClient();
+            setContentView(R.layout.activity_login);
 
-        if (dp != null){
-            ((ImageView)findViewById(R.id.profile_pic)).setImageBitmap(dp);
-        }
+            if (dp != null) {
+                ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
+            }
 
 //        Customize sign-in button.a red button may be displayed when Google+ scopes are requested
-        customizeSignBtn();
-        setBtnClickListeners();
-        progress_dialog = new ProgressDialog(this);
-        progress_dialog.setMessage("Signing in....");
+            customizeSignBtn();
+            setBtnClickListeners();
+            progress_dialog = new ProgressDialog(this);
+            progress_dialog.setMessage("Signing in....");
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            builder.setTitle("No Internet?");
+            builder.setMessage("Sorry, but we couldn't find any internet connections.\nFirst connect to a network then come here again.");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+//                    startActivity(new Intent(Questions.this, Results.class));
+                    LoginActivity.this.finish();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager conman = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = conman.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
     /*
@@ -113,19 +141,21 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     protected void onStart() {
         super.onStart();
-        google_api_client.connect();
+        if (isConnected()) {
+            google_api_client.connect();
+        }
     }
 
     protected void onStop() {
         super.onStop();
-        if (google_api_client.isConnected()) {
+        if (isConnected()) {
             google_api_client.disconnect();
         }
     }
 
     protected void onResume(){
         super.onResume();
-        if (google_api_client.isConnected()) {
+        if (isConnected()) {
             google_api_client.connect();
         }
     }
@@ -340,9 +370,9 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         String personPhotoUrl = currentPerson.getImage().getUrl();
         String email = Plus.AccountApi.getAccountName(google_api_client);
         TextView   user_name = (TextView) findViewById(R.id.username);
-        user_name.setText("Name: "+personName);
-        TextView gemail_id = (TextView)findViewById(R.id.emailId);
-        gemail_id.setText("Email Id: " +email);
+        user_name.setText(personName);
+        TextView gmail_id = (TextView)findViewById(R.id.emailId);
+        gmail_id.setText("(" + email + ")");
         setProfilePic(personPhotoUrl);
         progress_dialog.dismiss();
         Toast.makeText(this, "Person information is shown!", Toast.LENGTH_LONG).show();

@@ -44,12 +44,15 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     private InterstitialAd mInterstitialAd;
     private TextView mLevelTextView;
     boolean doubleBackToExitPressedOnce = false;
+    private DatabaseHolder dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
         Difficulty.BACK_FROM_RESULTS = 2;
+        dbHandler = new DatabaseHolder(getApplicationContext());
 
 //        CREATE THE RESULT PIE CHART
         mChart = (PieChart) findViewById(R.id.resultPieChart);
@@ -171,6 +174,9 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         Questions.QUESTION_COUNT = 0;
         Questions.CORRECT_ANSWERS = 0;
         Questions.INCORRECT_ANSWERS = 0;
+        dbHandler.open();
+        dbHandler.resetAllTables();
+        dbHandler.close();
     }
 
 /*

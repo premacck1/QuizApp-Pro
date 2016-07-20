@@ -2,6 +2,7 @@ package com.dikcoder.prem.quizapp;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         Difficulty.OnFragmentInteractionListener {
 
     private String JSONString = null;
-    private String newJSONToWrite;
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
     public static Typeface fontTypefaceSemiLight, fontTypefaceLight;
@@ -179,16 +180,21 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 
 //    Doing parsing of JSON data
     public ArrayList<QuestionBean> doInBackground(String JSONString,String field, String difficulty){
-        ArrayList<QuestionBean> fieldList;
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(JSONString);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (JSONString == null){
+            return null;
         }
-        /** Getting the parsed data as a List construct */
-        fieldList = new QuestionJSONParser().parse(jsonObject, field, difficulty);
-        return fieldList;
+        else {
+            ArrayList<QuestionBean> fieldList;
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(JSONString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            /** Getting the parsed data as a List construct */
+            fieldList = new QuestionJSONParser().parse(jsonObject, field, difficulty);
+            return fieldList;
+        }
     }
 
     public static String getStringFromInputStream(InputStream inputStream){
@@ -239,24 +245,36 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         return versionStr;
     }
 
-    public static String GET(String URLString){
-        InputStream inputStream;
+    public String GET(String URLString){
+        InputStream inputStream = null;
         String result = null;
         try{
             URL url = new URL(URLString);
 //           create HttpClient
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 //            receive response as inputStream
-            inputStream = new BufferedInputStream(urlConnection.getInputStream());
-
-            if(URLString.contains("version")){
-                result = getVersionFromInputStream(inputStream);
-                if (result.codePointAt(0) == 0xfeff)
-                {result = result.substring(1, result.length());}
-            } else {
-                result = getStringFromInputStream(inputStream);
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            }catch (Exception uhe){
+                uhe.printStackTrace();
             }
-        } catch (IOException e) {
+            if (inputStream !=null) {
+                if (URLString.contains("version")) {
+                    result = getVersionFromInputStream(inputStream);
+                    if (result.codePointAt(0) == 0xfeff) {
+                        result = result.substring(1, result.length());
+                    }
+                } else if (URLString.contains("json")){
+                    result = getStringFromInputStream(inputStream);
+                }
+                else{
+                    result = readFromFile();
+                }
+            }
+            else{
+                result = "0";
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
@@ -265,16 +283,14 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
     private boolean isConnected() {
         ConnectivityManager conman = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conman.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()){
-            return true;
-        }
-        else return false;
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String>{
 
         @Override
         protected String doInBackground(String... params) {
+            String result = null;
             if(!(version.equals(GET(params[0]).trim()))) {
                 // DB Update with new Version
                 dbHandler.open();
@@ -282,15 +298,21 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 dbHandler.close();
                 return GET("https://json-956.appspot.com/json.txt");
             }
-            return null;
+            else {
+                try {
+                    result = readFromFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
         }
 
         @Override
         protected void onPostExecute(String s) {
-            newJSONToWrite = s;
-            if (newJSONToWrite != null){
-                writeToFile(newJSONToWrite);
-                JSONString = newJSONToWrite;
+            if (s != null){
+                writeToFile(s);
+                JSONString = s;
             }
         }
     }
@@ -396,11 +418,26 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         else {
             final String[] questionArgs = getArgs(selection, pos);
             QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
-            Intent i = new Intent(MainActivity.this, Questions.class);
-            i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
-            i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
-            i.putExtra("Question", QUESTION);
-            startActivity(i);
+            if(QUESTION == null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Sorry, but the questions couldn't be loaded.");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBackPressed();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+            else {
+                Intent i = new Intent(MainActivity.this, Questions.class);
+                i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
+                i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
+                i.putExtra("Question", QUESTION);
+                startActivity(i);
+            }
         }
     }
 
