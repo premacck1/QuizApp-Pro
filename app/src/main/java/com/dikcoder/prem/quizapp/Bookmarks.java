@@ -189,7 +189,7 @@ public class Bookmarks extends AppCompatActivity {
 
                 // Adding child data
                 List<String> q1 = new ArrayList<String>();
-                q1.add(bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("answer")));
+                q1.add("Answer: " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("answer")));
 
                 listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
                 location++;

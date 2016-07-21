@@ -108,9 +108,7 @@ public class Difficulty extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

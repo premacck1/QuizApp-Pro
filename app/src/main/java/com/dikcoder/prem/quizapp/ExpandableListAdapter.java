@@ -4,6 +4,7 @@ package com.dikcoder.prem.quizapp;
  * Created by Prem $ on 7/2/2016.
  */
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosition);
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -47,12 +47,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.bookmarks_child, null);
+            convertView = infalInflater.inflate(R.layout.list_child, null);
         }
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListChild);
         txtListChild.setTypeface(MainActivity.fontTypefaceLight);
+        txtListChild.setTextColor(Color.WHITE);
         txtListChild.setText(childText);
 
         return convertView;
@@ -86,12 +87,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.bookmarks_header, null);
+            convertView = infalInflater.inflate(R.layout.list_header, null);
         }
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(MainActivity.fontTypefaceSemiLight);
+        lblListHeader.setTextColor(Color.WHITE);
         lblListHeader.setText(headerTitle);
 
         return convertView;

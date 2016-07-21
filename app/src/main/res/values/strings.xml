@@ -140,4 +140,9 @@
     <string name="user_name">Username: </string>
     <string name="sign_in">Sign in</string>
     <string name="account">Account</string>
+    <string name="detailed_results">Detailed Results</string>
+    <string name="your_correct_answers">Your correct answers</string>
+    <string name="your_incorrect_answers">Your incorrect answers</string>
+    <string name="your_skipped_answers">Your skipped answers</string>
+    <string name="close">Close</string>
 </resources>

@@ -9,6 +9,7 @@
     <com.github.mikephil.charting.charts.PieChart
         android:layout_height="385dp"
         android:layout_width="match_parent"
+        android:layout_centerInParent="true"
         android:id="@+id/resultPieChart" />
 
     <!-- view for AdMob Interstitial Ad -->
@@ -37,5 +38,13 @@
         android:layout_height="wrap_content"
         android:text="@string/next_level"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <FrameLayout
+        android:alpha="1"
+        android:id="@+id/detailed_result_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </RelativeLayout>

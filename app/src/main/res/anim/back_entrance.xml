@@ -13,6 +13,7 @@
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
+        android:interpolator="@android:anim/decelerate_interpolator"
         android:duration="500"
         android:startOffset="200" />
 </set>

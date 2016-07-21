@@ -235,7 +235,6 @@ public class Questions extends AppCompatActivity{
             builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    startActivity(new Intent(Questions.this, Results.class));
                     Questions.this.finish();
                 }
             });
@@ -249,7 +248,7 @@ public class Questions extends AppCompatActivity{
         CORRECT_ANSWERS = 0;
         INCORRECT_ANSWERS = 0;
         dbHandler.open();
-        dbHandler.resetAllTables();
+        dbHandler.resetTables();
         dbHandler.close();
     }
 
@@ -416,7 +415,7 @@ public class Questions extends AppCompatActivity{
     public void onCompletion(){
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
         builder.setMessage("You have completed the quiz");
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

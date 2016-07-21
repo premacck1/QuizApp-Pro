@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
 
 //        initializing db handler
-        dbHandler = new DatabaseHolder(getApplicationContext());
+        dbHandler = new DatabaseHolder(this);
         dbHandler.open();
         Cursor versionCursor = dbHandler.getQuestionVersion();
-        versionCursor.moveToNext();
+        versionCursor.moveToFirst();
         if (!versionCursor.isAfterLast()) {
             version = versionCursor.getString(versionCursor.getColumnIndex("version"));
         }

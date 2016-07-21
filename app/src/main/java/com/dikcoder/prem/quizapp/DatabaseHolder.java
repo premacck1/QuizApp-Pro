@@ -47,6 +47,7 @@ public class DatabaseHolder {
     public void close() {
         dbHelper.close();
     }
+
     public long insertData(String field_l, String difficulty_l,
                            String question_l,
                            String option1_l, String option2_l, String option3_l, String option4_l,
@@ -76,15 +77,16 @@ public class DatabaseHolder {
         return db.query(true, tableName, new String[]{DatabaseHolder.field, question, answer}, DatabaseHolder.field + " = '"+ field +"'", null, null, null, null, null);
     }
 
-    public void resetAllTables(){
-        db.execSQL("DROP TABLE IF EXISTS QuizTable");
-        db.execSQL("DROP TABLE IF EXISTS QuizVersion");
+    public void resetTables(){
+//        db.execSQL("DROP TABLE IF EXISTS QuizTable");
+//        db.execSQL("DROP TABLE IF EXISTS QuizVersion");
         db.execSQL("DROP TABLE IF EXISTS correctAttempts");
         db.execSQL("DROP TABLE IF EXISTS incorrectAttempts");
         db.execSQL("DROP TABLE IF EXISTS skippedAttempts");
         try{
-            db.execSQL(Table_Create);
-            db.execSQL(quiz_version);
+//            db.execSQL(Table_Create);
+//            db.execSQL(quiz_version);
+//            db.execSQL(version_insert);
             db.execSQL(correctAttempts);
             db.execSQL(incorrectAttempts);
             db.execSQL(skippedAttempts);
@@ -119,14 +121,22 @@ public class DatabaseHolder {
         return db.insertOrThrow("correctAttempts", null, content);
     }
 
+    public Cursor returnCorrectAnswers() {
+        return db.query("correctAttempts", new String[] {question,answer}, null, null, null, null, null);
+    }
+
     public long insertIncorrectAnswer(String question_l, String givenAnswer_l, String correctAnswer_l) {
         ContentValues content = new ContentValues();
         content.put(question, question_l);
         content.put("givenAnswer", givenAnswer_l);
-        content.put("CorrectAnswer", correctAnswer_l);
+        content.put("correctAnswer", correctAnswer_l);
         Questions.INCORRECT_ANSWERS++;
         Questions.QUESTION_COUNT++;
         return db.insertOrThrow("incorrectAttempts", null, content);
+    }
+
+    public Cursor returnIncorrectAnswers() {
+        return db.query("incorrectAttempts", new String[] {question,"givenAnswer", "correctAnswer"}, null, null, null, null, null);
     }
 
     public long insertSkippedAnswer(String question_l, String answer_l) {
@@ -135,6 +145,10 @@ public class DatabaseHolder {
         content.put(answer, answer_l);
         Questions.QUESTION_COUNT++;
         return db.insertOrThrow("skippedAttempts", null, content);
+    }
+
+    public Cursor returnSkippedAnswers() {
+        return db.query("skippedAttempts", new String[] {question,answer}, null, null, null, null, null);
     }
 
     public long deleteQuestion(int i, String question_l) {

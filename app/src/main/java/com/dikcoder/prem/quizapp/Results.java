@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -32,7 +33,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 
-public class Results extends AppCompatActivity implements OnChartValueSelectedListener {
+public class Results extends AppCompatActivity implements OnChartValueSelectedListener, ResultsInDetail.OnFragmentInteractionListener {
     // Remove the below line after defining your own ad unit ID.
     private static final String TOAST_TEXT = "Test ads are being shown. "
             + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
@@ -175,7 +176,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         Questions.CORRECT_ANSWERS = 0;
         Questions.INCORRECT_ANSWERS = 0;
         dbHandler.open();
-        dbHandler.resetAllTables();
+        dbHandler.resetTables();
         dbHandler.close();
     }
 
@@ -201,11 +202,23 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         Log.i("VAL SELECTED", "Value: " + e.getY()
                 + ", index: " + h.getX()
                 + ", DataSet index: " + h.getDataSetIndex());
+        ResultsInDetail resultsInDetail = new ResultsInDetail();
+        Bundle args = new Bundle();
+        args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());
+        resultsInDetail.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.detailed_result_container, resultsInDetail).commit();
     }
 
     @Override
     public void onNothingSelected() {
         Log.i("PieChart", "nothing selected");
+    }
+
+    @Override
+    protected void onDestroy() {
+        resetFlags();
+        super.onDestroy();
     }
 
     @Override
@@ -292,20 +305,33 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     @Override
     public void onBackPressed() {
         Difficulty.BACK_FROM_RESULTS = 2;
-        if (doubleBackToExitPressedOnce) {
-            resetFlags();
-            super.onBackPressed();
-            return;
+        if(ResultsInDetail.isFragmentActive){
+            onFragmentInteraction();
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Hit back again to goto home", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
+        else {
+            ResultsInDetail.isFragmentActive = false;
+            if (doubleBackToExitPressedOnce) {
+                resetFlags();
+                super.onBackPressed();
+                return;
             }
-        }, 2000);
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Hit back again to goto home", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction() {
+        ResultsInDetail.isFragmentActive = false;
+        ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.result_anim_out));
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().getFragments().get(0)).commit();
     }
 }

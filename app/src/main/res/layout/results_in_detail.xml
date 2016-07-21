@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.8"
+    android:background="#0c9895">
+
+    <ImageButton
+        android:background="#00000000"
+        android:id="@+id/close_detailed_results"
+        android:src="@drawable/ic_close"
+        android:contentDescription="@string/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailedResultHeader"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/textView4"
+        android:layout_gravity="center_horizontal"
+        android:background="#FFFFFF" />
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#00000000"
+        android:childDivider="#96000000"
+        android:id="@+id/detailedResultExpandableListView"
+        android:layout_gravity="center" />
+
+</LinearLayout>
