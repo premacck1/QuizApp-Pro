@@ -70,18 +70,10 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         if (savedInstanceState != null) {
             return;
         }
+
+//        sets the typeface of header and child in ExpandableListAdapter
         fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
         fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
-
-//        initializing db handler
-        dbHandler = new DatabaseHolder(this);
-        dbHandler.open();
-        Cursor versionCursor = dbHandler.getQuestionVersion();
-        versionCursor.moveToFirst();
-        if (!versionCursor.isAfterLast()) {
-            version = versionCursor.getString(versionCursor.getColumnIndex("version"));
-        }
-        dbHandler.close();
 
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
@@ -94,6 +86,16 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
 //        Custom title
         config.setTitle(R.string.rate_us);
         RateThisApp.init(config);
+
+//        initializing db handler
+        dbHandler = new DatabaseHolder(this);
+        dbHandler.open();
+        Cursor versionCursor = dbHandler.getQuestionVersion();
+        versionCursor.moveToFirst();
+        if (!versionCursor.isAfterLast()) {
+            version = versionCursor.getString(versionCursor.getColumnIndex("version"));
+        }
+        dbHandler.close();
 
 //        FIRST GET THE VERSION
         if(isConnected()){
@@ -176,25 +178,6 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
         bufferedReader.close();
         return builder.toString();
-    }
-
-//    Doing parsing of JSON data
-    public ArrayList<QuestionBean> doInBackground(String JSONString,String field, String difficulty){
-        if (JSONString == null){
-            return null;
-        }
-        else {
-            ArrayList<QuestionBean> fieldList;
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(JSONString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            /** Getting the parsed data as a List construct */
-            fieldList = new QuestionJSONParser().parse(jsonObject, field, difficulty);
-            return fieldList;
-        }
     }
 
     public static String getStringFromInputStream(InputStream inputStream){
@@ -352,6 +335,25 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 break;
         }
         return args;
+    }
+
+//        Doing parsing of JSON data
+    public ArrayList<QuestionBean> doInBackground(String JSONString,String field, String difficulty){
+        if (JSONString == null){
+            return null;
+        }
+        else {
+            ArrayList<QuestionBean> fieldList;
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(JSONString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            /** Getting the parsed data as a List construct */
+            fieldList = new QuestionJSONParser().parse(jsonObject, field, difficulty);
+            return fieldList;
+        }
     }
 
     @Override

@@ -178,14 +178,14 @@ public class Bookmarks extends AppCompatActivity {
             dbHandler = new DatabaseHolder(getContext());
             dbHandler.open();
             Cursor bookmarkedQuestions = dbHandler.returnBookmarkedQuestion(getField());
-            bookmarkedQuestions.moveToNext();
+            bookmarkedQuestions.moveToFirst();
 
             int location = 0;
 
 //            POPULATING THE expandableListView
             while (!bookmarkedQuestions.isAfterLast()) {
                 // Adding header data
-                listDataHeader.add(bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
+                listDataHeader.add((location +1 ) + ": " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
 
                 // Adding child data
                 List<String> q1 = new ArrayList<String>();

@@ -112,7 +112,7 @@ public class ResultsInDetail extends Fragment {
             case 0: {
                 setUpListAdapter();
                 detailedResult = dbHandler.returnCorrectAnswers();
-                detailedResult.moveToNext();
+                detailedResult.moveToFirst();
                 location = 0;
 
                 headerText.setText(R.string.your_correct_answers);
@@ -137,7 +137,7 @@ public class ResultsInDetail extends Fragment {
             case 1: {
                 setUpListAdapter();
                 detailedResult = dbHandler.returnIncorrectAnswers();
-                detailedResult.moveToNext();
+                detailedResult.moveToFirst();
                 location = 0;
 
                 headerText.setText(R.string.your_incorrect_answers);
@@ -163,7 +163,7 @@ public class ResultsInDetail extends Fragment {
             case 2: {
                 setUpListAdapter();
                 detailedResult = dbHandler.returnSkippedAnswers();
-                detailedResult.moveToNext();
+                detailedResult.moveToFirst();
                 location = 0;
 
                 headerText.setText(R.string.your_skipped_answers);

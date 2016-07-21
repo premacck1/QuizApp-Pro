@@ -42,6 +42,7 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
+        <!--<item name="android:windowBackground">@drawable/bg_gradient</item>-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>

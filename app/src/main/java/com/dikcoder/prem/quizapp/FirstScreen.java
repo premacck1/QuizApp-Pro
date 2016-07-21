@@ -1,51 +1,35 @@
 package com.dikcoder.prem.quizapp;
 
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 public class FirstScreen extends AppCompatActivity{
 
-    private final int SPLASH_DISPLAY_LENGTH = 1500;
-    TextView tv1, tv2;
-    ImageButton imageButton;
+    CustomTextViewBlack tv1;
+//    ImageButton imageButton;
+    ImageView bg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_screen);
-        tv1 = (TextView) findViewById(R.id.textView2);
-        tv2 = (TextView) findViewById(R.id.textView3);
-        imageButton = (ImageButton) findViewById(R.id.imageButtonForward);
+        tv1 = (CustomTextViewBlack) findViewById(R.id.textView2);
+        tv1.setShadowLayer(10, 10, 10, Color.argb(140, 5, 77, 77));
+//        imageButton = (ImageButton) findViewById(R.id.imageButtonForward);
+        bg = (ImageView) findViewById(R.id.imageView_bg);
 
-        tv1.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/seguibl.ttf"));
-        tv1.setShadowLayer(10, 4, 4, getResources().getColor(R.color.welcome_page_text));
-        tv2.setShadowLayer(10, 4, 4, getResources().getColor(R.color.welcome_page_text));
-
-        tv1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.float_in_from_below);
-        anim.setStartOffset(800);
-        tv2.startAnimation(anim);
-
-/*        new Handler().postDelayed(new Runnable() {
+        int SPLASH_DISPLAY_LENGTH = 10000;
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                imageButton.startAnimation(AnimationUtils.loadAnimation(FirstScreen.this, R.anim.float_in_from_below));
-            }
-        }, SPLASH_DISPLAY_LENGTH);*/
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(FirstScreen.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                // For calling GC
+//                imageButton.startAnimation(AnimationUtils.loadAnimation(FirstScreen.this, R.anim.float_in_from_below));
+                startActivity(new Intent(FirstScreen.this, MainActivity.class));
                 FirstScreen.this.finish();
             }
-        });
+        }, SPLASH_DISPLAY_LENGTH);
     }
 }
