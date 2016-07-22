@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     private ConnectionResult connection_result;
     private boolean is_intent_inprogress;
     private boolean is_signInBtn_clicked;
+    private boolean is_signOutBtn_clicked = false;
     private int request_code;
     ProgressDialog progress_dialog;
     @Override
@@ -64,21 +65,6 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
             buildNewGoogleApiClient();
             setContentView(R.layout.activity_login);
-/*
-
-            if (google_api_client != null && google_api_client.isConnected()) {
-                // signed in. Show the "sign out" button and explanation.
-                changeUI(true);
-            } else {
-                // not signed in. Show the "sign in" button and explanation.
-                changeUI(false);
-            }
-*/
-
-            if (dp != null) {
-                ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
-                changeUI(true);
-            }
 
 //        Customize sign-in button.a red button may be displayed when Google+ scopes are requested
             customizeSignBtn();
@@ -100,6 +86,21 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             });
             AlertDialog alert = builder.create();
             alert.show();
+        }
+    }
+
+    public void prepareUI(){
+        if (google_api_client != null && google_api_client.isConnected()) {
+            // signed in. Show the "sign out" button and explanation.
+            changeUI(true);
+        } else {
+            // not signed in. Show the "sign in" button and explanation.
+            changeUI(false);
+        }
+
+        if (dp != null) {
+            ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
+//                changeUI(true);
         }
     }
 
@@ -134,8 +135,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     */
 
     private void customizeSignBtn(){
-        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
-        findViewById(R.id.disconnect_button).setVisibility(View.GONE);
+//        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+//        findViewById(R.id.disconnect_button).setVisibility(View.GONE);
         signIn_btn = (SignInButton) findViewById(R.id.sign_in_button);
         signIn_btn.setSize(SignInButton.SIZE_STANDARD);
         signIn_btn.setScopes(new Scope[]{Plus.SCOPE_PLUS_LOGIN});
@@ -199,12 +200,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
         if (!result.hasResolution()) {
             google_api_availability.getErrorDialog(this, result.getErrorCode(),request_code).show();
             return;
         }
-
         if (!is_intent_inprogress) {
 
             connection_result = result;
@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 resolveSignInError();
             }
         }
-
+        changeUI(false);
     }
 
     /*
@@ -243,9 +243,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     @Override
     public void onConnected(Bundle arg0) {
-        is_signInBtn_clicked = false;
         // Get user's information and set it into the layout
-        getProfileInfo();
+        if (!is_signOutBtn_clicked) {
+            getProfileInfo();
+            prepareUI();
+        }
     }
 
     @Override
@@ -283,7 +285,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             Log.d("user connected","connected");
             is_signInBtn_clicked = true;
             progress_dialog.show();
-            resolveSignInError();
+            onConnectionFailed(connection_result);
+            is_signOutBtn_clicked = false;
         }
         else
             Toast.makeText(LoginActivity.this, "Make sure the device is connected to internet", Toast.LENGTH_SHORT).show();
@@ -314,9 +317,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         if (google_api_client.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(google_api_client);
             google_api_client.disconnect();
-            google_api_client.connect();
-            changeUI(false);
+//            google_api_client.clearDefaultAccountAndReconnect();
+//            google_api_client.connect();
+            is_signOutBtn_clicked = true;
             dp = null;
+            prepareUI();
         }
         else
             Toast.makeText(LoginActivity.this, "Make sure the device is connected to internet", Toast.LENGTH_SHORT).show();

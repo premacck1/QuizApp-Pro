@@ -8,6 +8,19 @@
     android:layout_gravity="center_horizontal"
     tools:context=".MainActivity">
 
+    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+        android:lines="2"
+        android:lineSpacingExtra="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:id="@+id/intro_textView"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +34,6 @@
         android:layout_alignStart="@+id/intro_textView" />
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/rippleView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="25dp"
@@ -45,24 +57,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/sign_in_button"
             android:gravity="center"
-            android:background="@drawable/checked_button"
             android:text="@string/connect"
             android:textSize="20sp"/>
 
     </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
-        android:lines="2"
-        android:lineSpacingExtra="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-        android:textSize="18dp"
-        android:id="@+id/intro_textView"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

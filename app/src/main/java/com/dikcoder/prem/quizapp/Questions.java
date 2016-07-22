@@ -132,7 +132,6 @@ public class Questions extends AppCompatActivity{
                         dbHandler.close();
 
                         showNextQuestion();
-                        printFlags();
                     }
                     else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
                 }
@@ -153,7 +152,6 @@ public class Questions extends AppCompatActivity{
                             dbHandler.close();
 
                             showNextQuestion();
-                            printFlags();
                         }
                     });
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -186,8 +184,6 @@ public class Questions extends AppCompatActivity{
                             dbHandler.deleteQuestion(1, currentQuestion);
                         else dbHandler.deleteQuestion(0, currentQuestion);
                         dbHandler.close();
-
-                        printFlags();
                     }
                     else{
                         Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
@@ -250,12 +246,6 @@ public class Questions extends AppCompatActivity{
         dbHandler.open();
         dbHandler.resetTables();
         dbHandler.close();
-    }
-
-    public void printFlags(){
-        System.out.println("Question count: "+QUESTION_COUNT);
-        System.out.println("Correct: "+CORRECT_ANSWERS);
-        System.out.println("incorrect: "+INCORRECT_ANSWERS);
     }
 
     @Override

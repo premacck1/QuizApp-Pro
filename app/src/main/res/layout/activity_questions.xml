@@ -38,7 +38,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:layout_above="@+id/fabPrevious"
                 android:layout_alignParentTop="true">
 
@@ -48,7 +48,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/question_textView"
                     android:minHeight="100dp"
-                    android:maxHeight="250dp"
+                    android:maxHeight="180dp"
                     android:textSize="18sp"
                     android:gravity="center"
                     android:padding="10dp"
