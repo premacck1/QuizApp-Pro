@@ -119,4 +119,10 @@
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:alpha="1"
+        android:id="@+id/help_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </ScrollView>

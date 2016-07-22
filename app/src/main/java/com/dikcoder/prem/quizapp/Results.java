@@ -1,6 +1,5 @@
 package com.dikcoder.prem.quizapp;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -207,7 +206,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());
         resultsInDetail.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.detailed_result_container, resultsInDetail).commit();
+        transaction.add(R.id.detailed_result_container, resultsInDetail, "resultsInDetail").commit();
     }
 
     @Override
@@ -244,10 +243,11 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             case R.id.action_settings:
                 return true;
             case R.id.action_help:
-                Dialog d1 = new Dialog(this);
-                d1.setContentView(R.layout.help);
-                d1.setTitle("Help");
-                d1.show();
+                if(Help.isFragmentActive){
+                    Help.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
                 break;
         }
 
@@ -330,8 +330,15 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
 
     @Override
     public void onFragmentInteraction() {
-        ResultsInDetail.isFragmentActive = false;
-        ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.result_anim_out));
-        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().getFragments().get(0)).commit();
+        if (ResultsInDetail.isFragmentActive) {
+            ResultsInDetail.isFragmentActive = false;
+            ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("resultsInDetail")).commit();
+        }
+        if (Help.isFragmentActive){
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+        }
     }
 }

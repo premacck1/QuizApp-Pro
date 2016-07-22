@@ -63,7 +63,7 @@ public class ResultsInDetail extends Fragment {
 
         if (entry_number != -1) {
 
-            rootView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.result_anim_in));
+            rootView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fragment_anim_in));
 
             headerText = (CustomTextViewSemiLight) rootView.findViewById(R.id.detailedResultHeader);
             // get the listview

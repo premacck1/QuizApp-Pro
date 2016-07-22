@@ -54,7 +54,7 @@ public class Questions extends AppCompatActivity{
 
 //        GET THE SELECTED FIELD AND DIFFICULTY.
         Bundle b = getIntent().getExtras();
-        selections = new String[]{b.get(FIELD_ARG).toString(), b.get(DIFFICULTY_ARG).toString()};
+        selections = new String[]{String.valueOf(b.get(FIELD_ARG)), String.valueOf(b.get(DIFFICULTY_ARG))};
 
 //        GET THE QUESTIONS CORRESPONDING TO THE SELECTED FIELD AND DIFFICULTY
         questionList = b.getParcelableArrayList("Question");
@@ -502,10 +502,11 @@ public class Questions extends AppCompatActivity{
                 d.show();
                 break;
             case R.id.action_help:
-                Dialog d1 = new Dialog(this);
-                d1.setContentView(R.layout.help);
-                d1.setTitle("Help");
-                d1.show();
+                if(Help.isFragmentActive){
+                    Help.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
                 break;
         }
 
@@ -514,6 +515,11 @@ public class Questions extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
+        if (Help.isFragmentActive){
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+        }
         switch (Difficulty.BACK_FROM_RESULTS){
 //            CALLED TO CONFIRM EXIT (BACK BUTTON PRESS)
             case 0:

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.kobakei.ratethisapp.RateThisApp;
@@ -388,15 +389,17 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 d.show();
                 break;
             case R.id.action_help:
-                Dialog d1 = new Dialog(this);
-                d1.setContentView(R.layout.help);
-                d1.setTitle("Help");
-                d1.show();
+                if(Help.isFragmentActive){
+                    Help.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+//    onFragmentInteraction of Field fragment
     @Override
     public void onFragmentInteraction(View v, int pos) {
         Difficulty.BACK_FROM_RESULTS = 0;
@@ -412,6 +415,8 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         transaction.commit();
     }
 
+
+//        onFragmentInteraction of Difficulty fragment
     @Override
     public void onFragmentInteraction(int selection, int pos) {
         if (Difficulty.BACK_FROM_RESULTS == 1 || Difficulty.BACK_FROM_RESULTS == 2){
@@ -443,9 +448,18 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
     }
 
+
+
     @Override
     public void onBackPressed() {
+        if (Help.isFragmentActive){
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            return;
+        }
         int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+
         if(backStackCount == 1){
             getSupportFragmentManager().popBackStack();
         }

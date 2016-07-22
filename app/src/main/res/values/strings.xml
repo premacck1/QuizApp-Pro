@@ -88,21 +88,34 @@
     <string name="title_activity_results">Results</string>
 
     <!--HELP PAGE STRINGS-->
-    <string name="help_text">\nChoosing a Difficulty level:
-        \n\n* You can choose a difficulty level ranging from very easy (Rookie) up to very hard (Hitman).
-        \n\n\nDuring the quiz:
-        \n\n* You can change the difficulty by clicking the \'up\' button.
+    <string name="help_header">Help</string>
+
+    <string name="help_choosing_a_difficulty_level">Choosing a Difficulty level</string>
+    <string name="help_choosing_a_difficulty_level_content">
+        * You can choose a difficulty level ranging from very easy (Rookie) up to very hard (Hitman).
+    </string>
+
+    <string name="help_during_the_quiz">During the quiz</string>
+    <string name="help_during_the_quiz_content">
+        * You can change the difficulty by clicking the \'up\' button.
         \n\n* To exit the quiz at any time, press the back button on the action bar.
         \n\n* There is also a skip option in the middle if you want to skip the current question.
-        \n\n\nBookmarks:
-        \n\n* Like a question and want to refer to it later?
+    </string>
+
+    <string name="help_bookmarks">Bookmarks</string>
+    <string name="help_bookmarks_content">
+        * Like a question and want to refer to it later?
         \n\n* Just click on \'add bookmark\' on the top right corner and that\'s it!
         \n\n* You can later view it in the Bookmarks section.
         \n\n* To remove a bookmark, just click on the darkened \'add bookmark\' and it will remove the bookmark!
-        \n\n\nTired of ads?
-        \n\n* You can purchase the ad-free version from the menu.
     </string>
 
+    <string name="help_want_more_features">Want no ads and more features?</string>
+    <string name="help_want_more_features_content">
+        * Ads can be disabled by purchasing the pro version \n(without the \'Free\' suffix.)
+        \n\n* You can purchase the ad-free version from the menu.</string>
+
+<!--RATING-->
     <string name="rate_us">Rate this app?</string>
 
     <string name="level">Level</string>
