@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,9 +9,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dikcoder.prem.quizapp.LoginActivity">
-
-    <include layout="@layout/circle_image_dp"/>
-
     <!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
@@ -21,18 +18,28 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/login_progress"
+        android:layout_centerHorizontal="true"/>
+
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_pic"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:id="@+id/view2">
+            android:id="@+id/view2"
+            android:visibility="visible">
 
             <AutoCompleteTextView
                 android:id="@+id/email"
@@ -54,7 +61,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/view"
             android:layout_below="@+id/view2"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:visibility="visible">
 
             <EditText
                 android:id="@+id/password"
@@ -78,7 +86,8 @@
             android:layout_marginTop="15dp"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:text="@string/sign_in" />
+            android:text="@string/sign_in"
+            android:visibility="visible" />
 
         <!--<com.google.android.gms.common.SignInButton-->
             <!--android:id="@+id/sign_in_button"-->
@@ -99,7 +108,8 @@
             android:layout_below="@+id/sign_in_button"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="25dp" />
+            android:layout_marginTop="25dp"
+            android:visibility="visible" />
 
         <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
             android:id="@+id/emailId"
@@ -111,7 +121,8 @@
             android:layout_below="@+id/username"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="5dp"
+            android:visibility="visible" />
 
         <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
             android:id="@+id/sign_out_button"
@@ -121,7 +132,8 @@
             android:text="@string/sign_out"
             android:background="@drawable/checked_button"
             android:layout_above="@+id/disconnect_button"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:visibility="visible" />
 
         <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
             android:id="@+id/disconnect_button"
@@ -131,7 +143,8 @@
             android:background="@drawable/checked_button"
             android:layout_alignParentBottom="true"
             android:text="@string/disconnect"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:visibility="visible" />
 
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -62,9 +64,20 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
             buildNewGoogleApiClient();
             setContentView(R.layout.activity_login);
+/*
+
+            if (google_api_client != null && google_api_client.isConnected()) {
+                // signed in. Show the "sign out" button and explanation.
+                changeUI(true);
+            } else {
+                // not signed in. Show the "sign in" button and explanation.
+                changeUI(false);
+            }
+*/
 
             if (dp != null) {
                 ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
+                changeUI(true);
             }
 
 //        Customize sign-in button.a red button may be displayed when Google+ scopes are requested
@@ -233,9 +246,6 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         is_signInBtn_clicked = false;
         // Get user's information and set it into the layout
         getProfileInfo();
-        // Update the UI after signin
-        changeUI(true);
-
     }
 
     @Override
@@ -322,7 +332,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             Plus.AccountApi.revokeAccessAndDisconnect(google_api_client)
                     .setResultCallback(new ResultCallback<Status>() {
                         @Override
-                        public void onResult(Status arg0) {
+                        public void onResult(@NonNull Status arg0) {
                             Log.d("MainActivity", "User access revoked!");
                             buildNewGoogleApiClient();
                             google_api_client.connect();
@@ -346,12 +356,12 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
             if (Plus.PeopleApi.getCurrentPerson(google_api_client) != null) {
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(google_api_client);
+                // Update the UI after signin
+                changeUI(true);
                 setPersonalInfo(currentPerson);
-
             } else {
                 Toast.makeText(getApplicationContext(),
                         "No Personal info mention", Toast.LENGTH_LONG).show();
-
             }
 
         } catch (Exception e) {
@@ -397,7 +407,6 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     private void changeUI(boolean signedIn) {
         if (signedIn) {
-            findViewById(R.id.login_form).setVisibility(View.VISIBLE);
             findViewById(R.id.view).setVisibility(View.GONE);
             findViewById(R.id.view2).setVisibility(View.GONE);
             findViewById(R.id.username).setVisibility(View.VISIBLE);
@@ -405,9 +414,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
             findViewById(R.id.disconnect_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.login_form).setVisibility(View.VISIBLE);
         }
         else {
-            findViewById(R.id.login_form).setVisibility(View.VISIBLE);
+            dp = Bitmap.createBitmap(new int[]{Color.argb(0, 255, 255, 255)}, 1, 1, Bitmap.Config.ALPHA_8);
+            ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
             findViewById(R.id.view).setVisibility(View.VISIBLE);
             findViewById(R.id.view2).setVisibility(View.VISIBLE);
             findViewById(R.id.username).setVisibility(View.GONE);
@@ -415,6 +426,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
             findViewById(R.id.disconnect_button).setVisibility(View.GONE);
+            findViewById(R.id.login_form).setVisibility(View.VISIBLE);
         }
     }
 

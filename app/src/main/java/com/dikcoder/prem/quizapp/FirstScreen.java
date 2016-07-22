@@ -22,7 +22,7 @@ public class FirstScreen extends AppCompatActivity{
 //        imageButton = (ImageButton) findViewById(R.id.imageButtonForward);
         bg = (ImageView) findViewById(R.id.imageView_bg);
 
-        int SPLASH_DISPLAY_LENGTH = 10000;
+        int SPLASH_DISPLAY_LENGTH = 1000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
