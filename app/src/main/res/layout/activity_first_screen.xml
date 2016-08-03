@@ -4,7 +4,7 @@
     android:id="@+id/first_screen_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dikcoder.prem.quizapp.FirstScreen"
+    tools:context="com.prembros.programming.quizapp.FirstScreen"
     android:background="@drawable/bg_gradient">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -15,7 +15,7 @@
          android:fitsSystemWindows. -->
 
 
-    <com.dikcoder.prem.quizapp.CustomTextViewBlack
+    <com.prembros.programming.quizapp.CustomTextViewBlack
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -38,7 +38,7 @@
         android:layout_marginTop="50dp" />
 
     <!--
-        <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+        <prembros.programming.quizapp.CustomTextViewSemiLight
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"

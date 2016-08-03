@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "148149429934",
-    "project_id": "ethereal-accord-134623"
+    "project_number": "59138897047",
+    "project_id": "quizapp-8910"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:148149429934:android:b96a215e13b69909",
+        "mobilesdk_app_id": "1:59138897047:android:1b5efce6ca9cd8fc",
         "android_client_info": {
-          "package_name": "com.dikcoder.prem.quizapp"
+          "package_name": "com.prembros.programming.quizapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "148149429934-otg1p36p85f41bp9q10h2a9d1p7aceh2.apps.googleusercontent.com",
+          "client_id": "59138897047-4034t957cgibrksu8q34nfbs1r22lvv3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.dikcoder.prem.quizapp",
+            "package_name": "com.prembros.programming.quizapp",
             "certificate_hash": "DD974A12233B13F1F9F6CE847DEDD62D025354DF"
           }
         },
         {
-          "client_id": "148149429934-8eamnlndrfgiaj1j968rgr8o0hhadd3u.apps.googleusercontent.com",
+          "client_id": "59138897047-c87k8krfco2r8nevqspvdmk946mstl6h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDlM2wdN0UohMqvIPOs7yzPncagfAPicfM"
+          "current_key": "AIzaSyChH1fn48Il7E7KqHzBIg1oCqaDLgxqCqk"
         }
       ],
       "services": {

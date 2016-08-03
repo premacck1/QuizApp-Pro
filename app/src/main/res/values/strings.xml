@@ -158,4 +158,6 @@
     <string name="your_incorrect_answers">Your incorrect answers</string>
     <string name="your_skipped_answers">Your skipped answers</string>
     <string name="close">Close</string>
+    <string name="achievements">Achievements</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

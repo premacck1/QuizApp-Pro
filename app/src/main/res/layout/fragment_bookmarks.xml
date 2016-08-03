@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.dikcoder.prem.quizapp.Bookmarks$PlaceholderFragment">
+    tools:context="com.prembros.programming.quizapp.Bookmarks$PlaceholderFragment">
 
     <ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -20,9 +20,9 @@
         android:id="@+id/bookmarks_expandableListView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        tools:context="com.dikcoder.prem.quizapp.Bookmarks$PlaceholderFragment"/>
+        tools:context="com.prembros.programming.quizapp.Bookmarks$PlaceholderFragment"/>
 
-    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+    <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:id="@+id/section_label"
         android:textSize="20sp"
         android:layout_width="wrap_content"

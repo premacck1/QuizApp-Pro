@@ -10,7 +10,7 @@
     app:mrl_rippleHover="true"
     app:mrl_rippleRoundedCorners="2dp">
 
-    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+    <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:id="@+id/choice_button"
         android:layout_width="match_parent"
         android:layout_height="70dp"

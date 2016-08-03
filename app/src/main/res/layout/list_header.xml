@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-        <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+        <com.prembros.programming.quizapp.CustomTextViewSemiLight
             android:id="@+id/lblListHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.dikcoder.prem.quizapp.Results">
+    tools:context="com.prembros.programming.quizapp.Results">
     <item
         android:id="@+id/action_bookmark"
         android:icon="@drawable/bookmarks_see"

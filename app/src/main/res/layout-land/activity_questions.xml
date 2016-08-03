@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+                <com.prembros.programming.quizapp.CustomTextViewSemiLight
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"

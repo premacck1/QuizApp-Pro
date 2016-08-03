@@ -3,17 +3,17 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.dikcoder.prem.quizapp.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.prembros.programming.quizapp.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_action_help"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="com.dikcoder.prem.quizapp.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="com.prembros.programming.quizapp.SettingsActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_action_help"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="com.dikcoder.prem.quizapp.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="com.prembros.programming.quizapp.SettingsActivity$DataSyncPreferenceFragment"
         android:icon="@drawable/ic_action_help"
         android:title="@string/pref_header_data_sync" />
 

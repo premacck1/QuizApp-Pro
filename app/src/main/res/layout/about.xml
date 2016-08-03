@@ -5,7 +5,7 @@
     android:paddingLeft="20dp"
     android:paddingRight="15dp">
 
-    <com.dikcoder.prem.quizapp.CustomTextViewSemiLight
+    <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. "

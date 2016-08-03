@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <com.dikcoder.prem.quizapp.CustomCheckedTextViewLight
+    <com.prembros.programming.quizapp.CustomCheckedTextViewLight
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/checked_choice_button"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         style="@style/AppTheme.OptionsTextStyle"
