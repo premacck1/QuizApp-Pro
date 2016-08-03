@@ -67,7 +67,7 @@
         <activity
             android:name="com.prembros.programming.quizapp.Results"
             android:label="@string/title_activity_results"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:parentActivityName="com.prembros.programming.quizapp.MainActivity"
             android:screenOrientation="portrait">
             <meta-data

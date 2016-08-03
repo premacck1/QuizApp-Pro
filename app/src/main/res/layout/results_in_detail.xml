@@ -20,7 +20,8 @@
         android:id="@+id/detailedResultHeader"
         android:textSize="30sp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="match_parent"

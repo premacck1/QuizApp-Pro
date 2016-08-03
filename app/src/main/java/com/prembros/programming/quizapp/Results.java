@@ -1,5 +1,6 @@
 package com.prembros.programming.quizapp;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -205,6 +206,8 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         Bundle args = new Bundle();
         args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());
         resultsInDetail.setArguments(args);
+        //noinspection ConstantConditions
+        getSupportActionBar().hide();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.detailed_result_container, resultsInDetail, "resultsInDetail").commit();
     }
@@ -240,18 +243,26 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
                 resetFlags();
                 this.finish();
                 break;
-            case R.id.action_settings:
-                return true;
             case R.id.action_help:
                 if(Help.isFragmentActive){
                     Help.isFragmentActive = false;
                     getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
                 }
+                //noinspection ConstantConditions
+                getSupportActionBar().hide();
                 getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
                 break;
+            case R.id.action_bookmark:
+                startActivity(new Intent(this, Bookmarks.class));
+                break;
+            case R.id.action_about:
+                Dialog d = new Dialog(this);
+                d.setContentView(R.layout.about);
+                d.setTitle("About us");
+                d.show();
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private InterstitialAd newInterstitialAd() {
@@ -333,11 +344,15 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         if (ResultsInDetail.isFragmentActive) {
             ResultsInDetail.isFragmentActive = false;
             ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("resultsInDetail")).commit();
         }
         if (Help.isFragmentActive){
             Help.isFragmentActive = false;
             Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
         }
     }

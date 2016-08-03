@@ -92,8 +92,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(MainActivity.fontTypefaceSemiLight);
         lblListHeader.setTextColor(Color.WHITE);
+        lblListHeader.setTypeface(MainActivity.fontTypefaceSemiLight);
         lblListHeader.setText(headerTitle);
 
         return convertView;

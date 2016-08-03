@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -243,7 +244,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                this.finish();
+                if (Leaderboard_Achievements.isFragmentActive) {
+                    Leaderboard_Achievements.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+                    getAndRemoveActiveFragment();
+                }
+                else this.finish();
                 break;
             case R.id.action_settings:
                 return true;
@@ -318,32 +323,43 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
-                Toast.makeText(this, "start sign process", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Connecting...", Toast.LENGTH_SHORT).show();
                 gPlusSignIn();
                 break;
             case R.id.sign_out_button:
-                Toast.makeText(this, "Sign Out from G+", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Signed Out from G+", Toast.LENGTH_LONG).show();
                 gPlusSignOut();
                 break;
             case R.id.show_leaderboard:
                 if (Leaderboard_Achievements.isFragmentActive) {
-                    Leaderboard_Achievements.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(getSupportFragmentManager().findFragmentById(R.id.la_container)).commit();
-                Leaderboard_Achievements la = Leaderboard_Achievements.newInstance("leaderboard");
-                getSupportFragmentManager().beginTransaction().add(R.id.la_container, la).commit();
+                    getAndRemoveActiveFragment();
+                }
+                //noinspection ConstantConditions
+                getSupportActionBar().hide();
+                getSupportFragmentManager().beginTransaction().add(R.id.la_container,
+                        Leaderboard_Achievements.newInstance("leaderboard"), "leaderboard").commit();
                 break;
-            }
             case R.id.show_achievements:
                 if (Leaderboard_Achievements.isFragmentActive) {
-                    Leaderboard_Achievements.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(getSupportFragmentManager().findFragmentById(R.id.la_container)).commit();
+                    getAndRemoveActiveFragment();
                 }
-                Leaderboard_Achievements la1 = Leaderboard_Achievements.newInstance("achievements");
-                getSupportFragmentManager().beginTransaction().add(R.id.la_container, la1).commit();
+                //noinspection ConstantConditions
+                getSupportActionBar().hide();
+                getSupportFragmentManager().beginTransaction().add(R.id.la_container,
+                        Leaderboard_Achievements.newInstance("achievements"), "achievements").commit();
                 break;
         }
+    }
+
+    public void getAndRemoveActiveFragment(){
+        Leaderboard_Achievements.isFragmentActive = false;
+        if (getSupportFragmentManager().findFragmentByTag("leaderboard") != null
+                && getSupportFragmentManager().findFragmentByTag("achievements") == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().findFragmentByTag("leaderboard")).commit();
+        }
+        else getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().findFragmentByTag("achievements")).commit();
     }
 
     /*
@@ -510,5 +526,16 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             bitmap_img.setImageBitmap(result_img);
             dp = result_img;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Leaderboard_Achievements.isFragmentActive) {
+            Leaderboard_Achievements.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getAndRemoveActiveFragment();
+        }
+        else super.onBackPressed();
     }
 }

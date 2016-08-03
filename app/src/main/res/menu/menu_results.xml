@@ -16,7 +16,12 @@
         android:id="@+id/action_help"
         android:title="Help"
         android:icon="@drawable/ic_action_help"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="80"
+        android:title="About"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_account"
         android:title="@string/account"
