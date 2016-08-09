@@ -346,7 +346,7 @@
           "ans": "2007"
         },
         {
-          "question": "What typre of software is iOS?",
+          "question": "What type of software is iOS?",
           "opt1": "Proprietary",
           "opt2": "Open-source",
           "opt3": "Secret",
@@ -354,7 +354,7 @@
           "ans": "Proprietary"
         },
         {
-          "question": "Worldï¿½s most popular mobile operating system with highest market share?",
+          "question": "Most popular mobile operating system with highest market share in the world?",
           "opt1": "iOS",
           "opt2": "Android",
           "opt3": "Windows Phone",

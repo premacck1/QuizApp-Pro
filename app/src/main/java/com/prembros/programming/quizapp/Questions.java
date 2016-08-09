@@ -1,11 +1,11 @@
 package com.prembros.programming.quizapp;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -46,6 +46,12 @@ public class Questions extends AppCompatActivity{
     private CheckedTextView[] allCheckedTextViews;
 
     public Questions() {
+    }
+
+    @Override
+    protected void onRestart() {
+        resumeBookmarkAction(addBookmark);
+        super.onRestart();
     }
 
     @Override
@@ -355,6 +361,13 @@ public class Questions extends AppCompatActivity{
         }
     }
 
+    public void resumeBookmarkAction(ToggleButton t) {
+        if(isBookmarked()) {
+            t.setChecked(true);
+        }
+        else t.setChecked(false);
+    }
+
     public void bookmarkAction(ToggleButton t) {
         if(t !=null) {
 //            IF THE QUESTION IS BOOKMARKED
@@ -363,7 +376,7 @@ public class Questions extends AppCompatActivity{
                 dbHandler.open();
                 dbHandler.deleteData(question.getText().toString());
                 dbHandler.close();
-                Toast.makeText(Questions.this, "Bookmark removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Questions.this, "Removed from bookmarks", Toast.LENGTH_SHORT).show();
             }
 //            IF THE QUESTION IS NOT BOOKMARKED
             else {
@@ -378,7 +391,7 @@ public class Questions extends AppCompatActivity{
                         answer);
 
                 dbHandler.close();
-                Toast.makeText(Questions.this, "Bookmark added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Questions.this, "Added to bookmarks", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -417,6 +430,7 @@ public class Questions extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 2;
+                resetFlags();
                 onBackPressed();
             }
         });
@@ -451,7 +465,7 @@ public class Questions extends AppCompatActivity{
         builder.setTitle("Leaving already?");
         builder.setMessage("Sure to exit the current quiz?");
         builder.setCancelable(false);
-        builder.setPositiveButton("Yep", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 2;
@@ -459,7 +473,7 @@ public class Questions extends AppCompatActivity{
                 onBackPressed();
             }
         });
-        builder.setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 0;
@@ -486,27 +500,38 @@ public class Questions extends AppCompatActivity{
                 Difficulty.BACK_FROM_RESULTS = 3;
                 onBackPressed();
                 break;
-            case R.id.action_change_difficulty:
-                this.openContextMenu(question);
-                break;
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
             case R.id.action_about:
-                Dialog d = new Dialog(this);
-                d.setContentView(R.layout.about);
-                d.setTitle("About us");
-                d.show();
+                if(About.isFragmentActive){
+                    About.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("about")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new About(), "about").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
             case R.id.action_help:
                 if(Help.isFragmentActive){
                     Help.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("help")).commit();
                 }
                 getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
         }
 
@@ -518,7 +543,18 @@ public class Questions extends AppCompatActivity{
         if (Help.isFragmentActive){
             Help.isFragmentActive = false;
             Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            return;
+        }
+        if (About.isFragmentActive){
+            About.isFragmentActive = false;
+            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+            return;
         }
         switch (Difficulty.BACK_FROM_RESULTS){
 //            CALLED TO CONFIRM EXIT (BACK BUTTON PRESS)

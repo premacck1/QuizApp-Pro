@@ -1,6 +1,5 @@
 package com.prembros.programming.quizapp;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,15 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -27,30 +22,22 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 
 public class Results extends AppCompatActivity implements OnChartValueSelectedListener, ResultsInDetail.OnFragmentInteractionListener {
-    // Remove the below line after defining your own ad unit ID.
-    private static final String TOAST_TEXT = "Test ads are being shown. "
-            + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
 
     private PieChart mChart;
-    private static final int START_LEVEL = 1;
-    private int mLevel;
-    private Button mNextLevelButton;
-    private InterstitialAd mInterstitialAd;
-    private TextView mLevelTextView;
     boolean doubleBackToExitPressedOnce = false;
     private DatabaseHolder dbHandler;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         Difficulty.BACK_FROM_RESULTS = 2;
         dbHandler = new DatabaseHolder(getApplicationContext());
@@ -59,27 +46,6 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         mChart = (PieChart) findViewById(R.id.resultPieChart);
         createPieChart();
         mChart.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
-        // Create the next level button, which tries to show an interstitial when clicked.
-        mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
-        assert mNextLevelButton != null;
-        mNextLevelButton.setEnabled(false);
-        mNextLevelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInterstitial();
-            }
-        });
-
-        // Create the text view to show the level number.
-        mLevelTextView = (TextView) findViewById(R.id.level);
-        mLevel = START_LEVEL;
-
-        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
-        mInterstitialAd = newInterstitialAd();
-        loadInterstitial();
-
-        // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
-        Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
     }
 
     public void createPieChart(){
@@ -108,11 +74,11 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
-        Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
+//        Legend l = mChart.getLegend();
+//        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+//        l.setXEntrySpace(7f);
+//        l.setYEntrySpace(0f);
+//        l.setYOffset(0f);
 
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
@@ -155,7 +121,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
 //         order: correct, incorrect, skipped
         colors.add(Color.argb(255, 156, 204, 101));        //argb(255, 139,195,74);
         colors.add(Color.argb(255, 239, 83, 80));       //argb(255, 0,188,212);
-        colors.add(Color.argb(255, 38, 198, 218));     //argb(255, 244,67,54);
+        colors.add(Color.argb(255, 18, 209, 205));     //argb(255, 244,67,54);
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -206,15 +172,21 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         Bundle args = new Bundle();
         args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());
         resultsInDetail.setArguments(args);
-        //noinspection ConstantConditions
-        getSupportActionBar().hide();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //noinspection ConstantConditions
+                getSupportActionBar().hide();
+                mChart.highlightValues(null);
+            }
+        }, 200);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.detailed_result_container, resultsInDetail, "resultsInDetail").commit();
+        // undo all highlights
     }
 
     @Override
     public void onNothingSelected() {
-        Log.i("PieChart", "nothing selected");
     }
 
     @Override
@@ -239,83 +211,66 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             case R.id.action_account:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
-            case android.R.id.home:
-                resetFlags();
-                this.finish();
-                break;
-            case R.id.action_help:
-                if(Help.isFragmentActive){
-                    Help.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
-                }
-                //noinspection ConstantConditions
-                getSupportActionBar().hide();
-                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
-                break;
+//            case android.R.id.home:
+//                resetFlags();
+//                this.finish();
+//                break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
             case R.id.action_about:
-                Dialog d = new Dialog(this);
-                d.setContentView(R.layout.about);
-                d.setTitle("About us");
-                d.show();
+                if(About.isFragmentActive){
+                    About.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("about")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.detailed_result_container, new About(), "about").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
+                break;
+            case R.id.action_help:
+                if(Help.isFragmentActive){
+                    Help.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.detailed_result_container, new Help(), "help").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
         }
         return true;
     }
 
-    private InterstitialAd newInterstitialAd() {
-        InterstitialAd interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
-        interstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                mNextLevelButton.setEnabled(true);
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                mNextLevelButton.setEnabled(true);
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Proceed to the next level.
-                goToNextLevel();
-            }
-        });
-        return interstitialAd;
-    }
-
-    private void showInterstitial() {
-        // Show the ad if it's ready. Otherwise toast and reload the ad.
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            Toast.makeText(this, "Ad did not load", Toast.LENGTH_SHORT).show();
-            goToNextLevel();
-        }
-    }
-
-    private void loadInterstitial() {
-        // Disable the next level button and load the ad.
-        mNextLevelButton.setEnabled(false);
-        AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent("android_studio:ad_template").build();
-        mInterstitialAd.loadAd(adRequest);
-    }
-
-    private void goToNextLevel() {
-        // Show the next level and reload the ad to prepare for the level after.
-        mLevelTextView.setText(R.string.level + (++mLevel));
-        mInterstitialAd = newInterstitialAd();
-        loadInterstitial();
-    }
-
     @Override
     public void onBackPressed() {
         Difficulty.BACK_FROM_RESULTS = 2;
+        if (Help.isFragmentActive){
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            return;
+        }
+        if (About.isFragmentActive){
+            About.isFragmentActive = false;
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+            return;
+        }
         if(ResultsInDetail.isFragmentActive){
             onFragmentInteraction();
         }

@@ -4,32 +4,27 @@
 
     <item
         android:id="@+id/action_help"
-        android:title="Help"
+        android:title="@string/help"
         android:icon="@drawable/ic_action_help"
-        app:showAsAction="always"/>
-
+        app:showAsAction="ifRoom"/>
+<!--
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="Settings"
         app:showAsAction="never" />
-
+-->
     <item
         android:id="@+id/action_about"
         android:orderInCategory="80"
-        android:title="About"
+        android:title="@string/about"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/action_donate"
-        android:title="Donate"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_TMA"
-        android:title="The Master's Arena"
+        android:title="@string/donate"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_leaderboard"
-        android:title="Leaderboard"
+        android:title="@string/leaderboard"
         app:showAsAction="never" />
 </menu>

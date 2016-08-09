@@ -1,14 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="20dp"
-    android:paddingRight="15dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.8"
+    android:background="@color/colorPrimaryDark">
 
     <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. this is about text. "
-        android:textSize="18dp" />
+        android:gravity="center_horizontal"
+        android:textSize="28sp"
+        android:text="@string/about_header"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="10dp" />
 
-</ScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#FFFFFF" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:text="@string/about_the_app"
+                android:textColor="#FFFFFF"
+                android:alpha="255" />
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="center_horizontal"
+                android:background="#FFF"
+                android:alpha="255" />
+
+            <com.prembros.programming.quizapp.CustomTextViewLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="@string/about_the_app_details"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:alpha="255" />
+
+            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:text="@string/other_apps_in_quizapp_series"
+                android:textColor="#FFFFFF"
+                android:alpha="255" />
+
+            <TextView
+                android:layout_width="255dp"
+                android:layout_height="1dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="center_horizontal"
+                android:background="#FFF"
+                android:alpha="255" />
+
+            <com.prembros.programming.quizapp.CustomTextViewLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="@string/other_apps_in_quizapp_series_details"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:alpha="255" />
+
+<!--
+            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="22sp"
+                android:layout_marginTop="40dp"
+                android:text="@string/special_thanks"
+                android:textColor="#FFFFFF" />
+
+            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="@string/special_thanks_details"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+-->
+
+            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:text="@string/about_the_developers"
+                android:textColor="#FFFFFF"
+                android:alpha="255" />
+
+            <TextView
+                android:layout_width="190dp"
+                android:layout_height="1dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="center_horizontal"
+                android:background="#FFF"
+                android:alpha="255" />
+
+            <com.prembros.programming.quizapp.CustomTextViewLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="@string/about_the_developers_details"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:alpha="255" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

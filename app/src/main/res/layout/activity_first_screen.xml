@@ -25,6 +25,10 @@
         android:textSize="60sp"
         android:textColor="#f1f1f1"
         android:layout_marginTop="70dp"
+        android:shadowColor="@color/black_overlay"
+        android:shadowDx="10"
+        android:shadowDy="10"
+        android:shadowRadius="10"
         android:paddingBottom="10dp" />
 
     <ImageView

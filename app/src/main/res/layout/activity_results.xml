@@ -1,10 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.prembros.programming.quizapp.Results"
-    android:background="#75000000">
+    android:background="@color/colorPrimary">
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_height="385dp"
@@ -12,39 +12,28 @@
         android:layout_centerInParent="true"
         android:id="@+id/resultPieChart" />
 
-    <!-- view for AdMob Interstitial Ad -->
-<!--    <TextView
-        android:id="@+id/app_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/interstitial_ad_sample"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/resultPieChart"
-        android:layout_centerHorizontal="true" />-->
-
-    <TextView
-        android:id="@+id/level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/resultPieChart"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/start_level"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/next_level_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next_level"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
-
     <FrameLayout
         android:alpha="1"
         android:id="@+id/detailed_result_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.prembros.programming.quizapp.CustomTextViewBlack
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:id="@+id/app_name_bottom_right"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="#f1f1f1"
+        android:padding="10dp"
+        android:shadowColor="@color/black_overlay"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="10"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

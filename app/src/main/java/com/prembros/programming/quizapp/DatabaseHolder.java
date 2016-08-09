@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
+/*
  * Created by Prem $ on 7/4/2016.
  */
 public class DatabaseHolder {
@@ -67,6 +67,24 @@ public class DatabaseHolder {
     public long deleteData(String question_l) {
         return db.delete(tableName, "question='"+question_l+"'", null);
     }
+    public long deleteAllQuestions(){
+            return db.delete(tableName, "1", null);
+    }
+    public String getFieldName(int index){
+        switch(index){
+            case 0:
+                return "iOS";
+            case 1:
+                return "Java";
+            case 2:
+                return "HTML";
+            case 3:
+                return "JavaScript";
+            default:
+                return null;
+        }
+    }
+
     public Cursor returnData() {
         return db.query(tableName, new String[] {field,difficulty,question,option1,option2,option3,option4,answer}, null, null, null, null, null);
     }

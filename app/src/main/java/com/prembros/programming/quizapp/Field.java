@@ -20,7 +20,6 @@ import java.util.List;
 
 public class Field extends ListFragment{
 
-    private ArrayAdapter<String> field;
     private ListView listView;
     private TextView introText;
     private OnFragmentInteractionListener mListener;
@@ -91,7 +90,7 @@ public class Field extends ListFragment{
 
         List<String> allFields = new ArrayList<>(Arrays.asList(choices));
 
-        field = new ArrayAdapter<>(
+        ArrayAdapter<String> field = new ArrayAdapter<>(
                 getContext(),
                 R.layout.choice,
                 R.id.choice_button,

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -7,35 +7,56 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.prembros.programming.quizapp.Bookmarks"
-    android:background="#75000000">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-<!--
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-        </android.support.v7.widget.Toolbar>-->
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            app:tabTextAppearance="@style/TabTextAppearance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </android.support.design.widget.AppBarLayout>
+    android:background="@color/colorPrimaryLight">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_below="@+id/appbar"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <TextView
+        android:alpha="0.25"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/appbar"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shadow_down"
+        android:id="@+id/textView" />
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <!--
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                </android.support.v7.widget.Toolbar>-->
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            app:tabTextColor="#FFF"
+            app:tabIndicatorColor="#FFF"
+            android:background="@color/colorPrimary"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.AppBarLayout>
+    <FrameLayout
+        android:alpha="1"
+        android:id="@+id/help_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

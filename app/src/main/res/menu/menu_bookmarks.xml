@@ -3,17 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.prembros.programming.quizapp.Bookmarks">
     <item
+        android:id="@+id/action_help"
+        android:icon="@drawable/ic_action_help"
+        android:title="@string/help"
+        app:showAsAction="ifRoom"/>
+<!--    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
     <item
         android:id="@+id/action_clear_bookmarks"
-        android:title="Clear all"
+        android:title="@string/clear_all"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_help"
-        android:icon="@drawable/ic_action_help"
-        android:title="Help"
-        app:showAsAction="always"/>
+        android:id="@+id/action_donate"
+        android:title="@string/donate"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/about"
+        app:showAsAction="never" />
 </menu>

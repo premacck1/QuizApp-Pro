@@ -1,9 +1,10 @@
 package com.prembros.programming.quizapp;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,37 +20,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.AdapterView;
-import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Bookmarks extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    public static ViewPager mViewPager;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -59,6 +57,9 @@ public class Bookmarks extends AppCompatActivity {
         }
 
         // Set up the ViewPager with the sections adapter.
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -82,18 +83,85 @@ public class Bookmarks extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+            case R.id.action_clear_bookmarks:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete all");
+                builder.setMessage("Sure to clear everything here?\n\nThis will delete ALL bookmarks!");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mViewPager.removeAllViews();
+                        DatabaseHolder db = new DatabaseHolder(Bookmarks.this);
+                        db.open();
+                        db.deleteAllQuestions();
+                        db.close();
+                        Toast.makeText(Bookmarks.this, "All bookmarks deleted!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+                break;
+            case R.id.action_about:
+                if(About.isFragmentActive){
+                    About.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("about")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new About(), "about").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
+                break;
             case R.id.action_help:
-                Dialog d1 = new Dialog(this);
-                d1.setContentView(R.layout.help);
-                d1.setTitle("Help");
-                d1.show();
+                if(Help.isFragmentActive){
+                    Help.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+//    public void removeQuestion(int position) {
+//        mViewPager.removeViewAt(position);
+//    }
+
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onBackPressed() {
+        if (About.isFragmentActive){
+            About.isFragmentActive = false;
+            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+            return;
+        }
+        if (Help.isFragmentActive){
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            return;
+        }
         super.onBackPressed();
     }
 
@@ -106,11 +174,14 @@ public class Bookmarks extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        ExpandableListAdapter listAdapter;
-        ExpandableListView expandableListView;
-        List<String> listDataHeader;
-        HashMap<String, List<String>> listDataChild;
-        DatabaseHolder dbHandler;
+
+        static Context staticContext;
+        static ListView listView;
+        static List<String> listDataHeader;
+        static List<String> listDataChild;
+        View rootView;
+        TextView textView;
+        static int sectionNumber;
 
         public PlaceholderFragment() {
         }
@@ -130,76 +201,115 @@ public class Bookmarks extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+            rootView = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+            staticContext = getContext();
+            sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
 
-            expandableListView = (ExpandableListView) rootView.findViewById(R.id.bookmarks_expandableListView);
-            prepareListData();
-            listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
-            expandableListView.setAdapter(listAdapter);
-            expandableListView.setLayoutAnimation(
-                    new LayoutAnimationController(
-                            AnimationUtils.loadAnimation(getContext(), R.anim.float_in_expandable_listview)
-                            , 0.2F
-                    )
-            );
-            expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    final View v = view;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Confirm delete?");
-                    builder.setMessage("Sure to delete this question?");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Yep", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            v.setVisibility(View.GONE);
-                        }
-                    });
-                    builder.setNegativeButton("Nope", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
-                    return true;
-                }
-            });
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(String.valueOf(sectionNumber));
+
+            listView = (ListView) rootView.findViewById(R.id.bookmarks_listView);
+            listItemPopulate();
             return rootView;
         }
 
-        private void prepareListData() {
-            listDataHeader = new ArrayList<>();
-            listDataChild = new HashMap<>();
-
-            dbHandler = new DatabaseHolder(getContext());
+        public void listItemPopulate() {
+            List<String> listHeader;
+            List<String> listChild;
+            listHeader = new ArrayList<>();
+//            listDataHeader.clear();
+            listChild = new ArrayList<>();
+//            listDataChild.clear();
+            DatabaseHolder dbHandler = new DatabaseHolder(staticContext);
             dbHandler.open();
-            Cursor bookmarkedQuestions = dbHandler.returnBookmarkedQuestion(getField());
+            Cursor bookmarkedQuestions = dbHandler.returnBookmarkedQuestion(getField(getArguments().getInt(ARG_SECTION_NUMBER)));
             bookmarkedQuestions.moveToFirst();
 
-            int location = 0;
+//            int location = 0;
 
-//            POPULATING THE expandableListView
+//            POPULATING THE ListView
             while (!bookmarkedQuestions.isAfterLast()) {
-                // Adding header data
-                listDataHeader.add((location +1 ) + ": " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
-
-                // Adding child data
-                List<String> q1 = new ArrayList<String>();
-                q1.add("Answer: " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("answer")));
-
-                listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
-                location++;
+                // Adding header data (location +1 ) + ": " +
+                listHeader.add(bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
+                listChild.add("Answer: " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("answer")));
+//                location++;
                 bookmarkedQuestions.moveToNext();
             }
             dbHandler.close();
+
+            listDataHeader = listHeader;
+            listDataChild = listChild;
+            ListAdapter listAdapter;
+
+            if (listHeader.size() > 0) {
+                        listAdapter = new BookmarksAdapter(staticContext, listHeader, listChild);
+                listView.setAdapter(listAdapter);
+                listView.setLayoutAnimation(
+                        new LayoutAnimationController(
+                                AnimationUtils.loadAnimation(staticContext, R.anim.float_in_expandable_listview)
+                                , 0.1F
+                        )
+                );
+            }
+            else {
+                String hText = "No Bookmark added.";
+                String cText = "To add a bookmark click the bookmark icon on the top right corner during the quiz.";
+
+                List<String> headerText = new ArrayList<>();
+                List<String> childText = new ArrayList<>();
+                headerText.add(hText);
+                childText.add(cText);
+
+                listAdapter = new BookmarksAdapter(staticContext, headerText, childText);
+
+                listView.setAdapter(listAdapter);
+            }
         }
-        public String getField(){
+
+        public static void listItemInvalidate(){
+            String hText = "No Bookmark added.";
+            String cText = "To add a bookmark click the bookmark icon on the top right corner during the quiz.";
+
+            List<String> headerText = new ArrayList<>();
+            List<String> childText = new ArrayList<>();
+            headerText.add(hText);
+            childText.add(cText);
+
+            ListAdapter listAdapter = new BookmarksAdapter(staticContext, headerText, childText);
+
+            listView.setAdapter(listAdapter);
+        }
+
+//        private void prepareListData() {
+//            listDataHeader = new ArrayList<>();
+//            listDataChild = new HashMap<>();
+//
+//            dbHandler = new DatabaseHolder(getContext());
+//            dbHandler.open();
+//            Cursor bookmarkedQuestions = dbHandler.returnBookmarkedQuestion(getField());
+//            bookmarkedQuestions.moveToFirst();
+//
+//            int location = 0;
+//
+////            POPULATING THE expandableListView
+//            while (!bookmarkedQuestions.isAfterLast()) {
+//                // Adding header data
+//                listDataHeader.add((location +1 ) + ": " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
+//
+//                // Adding child data
+//                List<String> q1 = new ArrayList<>();
+//                q1.add("Answer: " + bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("answer")));
+//
+//                listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
+//                location++;
+//                bookmarkedQuestions.moveToNext();
+//            }
+//            dbHandler.close();
+//        }
+
+        public static String getField(int n) {
             String field = null;
-            switch(getArguments().getInt(ARG_SECTION_NUMBER)){
+            switch (n) {
                 case 1:
                     field = "iOS";
                     break;
@@ -210,7 +320,7 @@ public class Bookmarks extends AppCompatActivity {
                     field = "HTML";
                     break;
                 case 4:
-                    field = "Javascript";
+                    field = "JavaScript";
                     break;
                 default:
                     break;
@@ -253,8 +363,9 @@ public class Bookmarks extends AppCompatActivity {
                     return "HTML";
                 case 3:
                     return "JavaScript";
+                default:
+                    return null;
             }
-            return null;
         }
     }
 }

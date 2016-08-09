@@ -8,7 +8,7 @@
                 android:right="1dp"
                 android:bottom="1dp"
                 android:left="1dp"/>
-            <solid android:color="#020c9895"/>
+            <solid android:color="#02757575"/>
             <corners android:radius="4dp"/>
         </shape>
     </item>
@@ -19,7 +19,7 @@
                 android:right="1dp"
                 android:bottom="1dp"
                 android:left="1dp"/>
-            <solid android:color="#050c9895"/>
+            <solid android:color="#05757575"/>
             <corners android:radius="4dp"/>
         </shape>
     </item>
@@ -30,8 +30,8 @@
                 android:right="1dp"
                 android:bottom="1dp"
                 android:left="1dp"/>
-            <solid android:color="#100c9895"/>
-            <corners android:radius="4dp"/>
+            <solid android:color="#10757575"/>
+            <corners android:radius="3dp"/>
         </shape>
     </item>
     <item>
@@ -41,8 +41,8 @@
                 android:right="1dp"
                 android:bottom="1dp"
                 android:left="1dp"/>
-            <solid android:color="#150c9895"/>
-            <corners android:radius="4dp"/>
+            <solid android:color="#15757575"/>
+            <corners android:radius="3dp"/>
         </shape>
     </item>
     <item>
@@ -52,8 +52,8 @@
                 android:right="0dp"
                 android:bottom="1dp"
                 android:left="0dp"/>
-            <solid android:color="#200c9895"/>
-            <corners android:radius="4dp"/>
+            <solid android:color="#20757575"/>
+            <corners android:radius="2dp"/>
         </shape>
     </item>
     <item>
@@ -63,8 +63,8 @@
                 android:right="0dp"
                 android:bottom="1dp"
                 android:left="0dp"/>
-            <solid android:color="#250c9895"/>
-            <corners android:radius="4dp"/>
+            <solid android:color="#25757575"/>
+            <corners android:radius="2dp"/>
         </shape>
     </item>
     <item>
@@ -74,15 +74,15 @@
                 android:right="0dp"
                 android:bottom="1dp"
                 android:left="0dp"/>
-            <solid android:color="#300c9895"/>
-            <corners android:radius="4dp"/>
+            <solid android:color="#30757575"/>
+            <corners android:radius="2dp"/>
         </shape>
     </item>
     <!-- Background -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorPrimaryLight"/>
-            <corners android:radius="4dp" />
+            <solid android:color="@android:color/white"/>
+            <corners android:radius="2dp" />
         </shape>
     </item>
 </layer-list>

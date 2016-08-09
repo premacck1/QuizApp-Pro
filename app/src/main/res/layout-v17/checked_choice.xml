@@ -6,5 +6,6 @@
         android:layout_height="65dp"
         style="@style/AppTheme.OptionsTextStyle"
         android:gravity="center"
+        android:textAlignment="center"
         android:checked="false"
         android:textSize="15sp" />

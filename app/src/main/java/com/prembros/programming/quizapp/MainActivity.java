@@ -1,10 +1,9 @@
 package com.prembros.programming.quizapp;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -15,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +28,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -114,25 +113,43 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                     new HttpAsyncTask().execute("https://json-956.appspot.com/json-1.txt");
                 }
                 else {
-                    readFromFileAnyways();
+                    JSONString = readFromExternalFile();
                 }
             }
         }
         catch (IOException e){
-            readFromFileAnyways();
+            e.printStackTrace();
+            JSONString = readFromExternalFile();
         }
     }
 
-    public void readFromFileAnyways(){
-        AssetManager assetManager = getResources().getAssets();
-        InputStream inputStream;
-        try{
-            inputStream = assetManager.open("json.txt");
-            JSONString = getStringFromInputStream(inputStream);
+    public String readFromExternalFile(){
+        String ret = null;
+
+        try {
+            InputStream inputStream = openFileInput("GeneratedJSON.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString;
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
         }
-        catch (IOException e){
-            e.printStackTrace();
+        catch (FileNotFoundException e) {
+            Log.e("main activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("main activity", "Can not read file: " + e.toString());
         }
+
+        return ret;
     }
 
     @Override
@@ -148,17 +165,12 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         super.onResumeFragments();
     }
     //    Write to JSON file in Internal Memory
-    public void writeToFile(String data){
+    public void writeToExternalFile(String string){
+        FileOutputStream fos;
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(
-                    new FileWriter(
-                            new File(
-                                    String.valueOf(getAssets().open("json.txt"))
-                            )
-                    )
-            );
-            bufferedWriter.write(data);
-            bufferedWriter.close();
+            fos = openFileOutput("GeneratedJSON.txt", Context.MODE_PRIVATE);
+            fos.write(string.getBytes());
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -280,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                 dbHandler.open();
                 dbHandler.updateVersion(GET(params[0].trim()),"1");
                 dbHandler.close();
-                return GET("https://json-956.appspot.com/json.txt");
+                return GET("https://json-956.appspot.com/json-1.txt");
             }
             else {
                 try {
@@ -295,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         @Override
         protected void onPostExecute(String s) {
             if (s != null){
-                writeToFile(s);
+                writeToExternalFile(s);
                 JSONString = s;
             }
         }
@@ -376,17 +388,22 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             case R.id.action_donate:
                 startActivity(new Intent(this, Results.class));
                 break;
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
             case R.id.action_about:
-                Dialog d = new Dialog(this);
-                d.setContentView(R.layout.about);
-                d.setTitle("About us");
-                d.show();
+                if(About.isFragmentActive){
+                    About.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new About(), "about").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
             case R.id.action_help:
                 if(Help.isFragmentActive){
@@ -394,6 +411,13 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
                     getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
                 }
                 getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -455,7 +479,17 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         if (Help.isFragmentActive){
             Help.isFragmentActive = false;
             Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            return;
+        }
+        if (About.isFragmentActive){
+            About.isFragmentActive = false;
+            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
             return;
         }
         int backStackCount = getSupportFragmentManager().getBackStackEntryCount();

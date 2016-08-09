@@ -1,8 +1,9 @@
 package com.prembros.programming.quizapp;
 
-/**
+/*
  * Created by Prem $ on 7/2/2016.
  */
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return childPosition;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -80,6 +82,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return groupPosition;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
