@@ -2,7 +2,6 @@ package com.prembros.programming.quizapp;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -141,8 +141,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     @SuppressWarnings("ConstantConditions")
     private void changeUI(boolean signedIn) {
         if (signedIn) {
-//            findViewById(R.id.view).setVisibility(View.GONE);
-//            findViewById(R.id.view2).setVisibility(View.GONE);
+            findViewById(R.id.view).setVisibility(View.GONE);
+            findViewById(R.id.view2).setVisibility(View.GONE);
             findViewById(R.id.username).setVisibility(View.VISIBLE);
             findViewById(R.id.emailId).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -154,8 +154,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         else {
             dp = Bitmap.createBitmap(new int[]{Color.argb(0, 255, 255, 255)}, 1, 1, Bitmap.Config.ALPHA_8);
             ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
-//            findViewById(R.id.view).setVisibility(View.VISIBLE);
-//            findViewById(R.id.view2).setVisibility(View.VISIBLE);
+            findViewById(R.id.view).setVisibility(View.VISIBLE);
+            findViewById(R.id.view2).setVisibility(View.VISIBLE);
             findViewById(R.id.username).setVisibility(View.GONE);
             findViewById(R.id.emailId).setVisibility(View.GONE);
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
@@ -245,18 +245,41 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         switch (item.getItemId()){
             case android.R.id.home:
                 if (Leaderboard_Achievements.isFragmentActive) {
-                    Leaderboard_Achievements.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+                    Leaderboard_Achievements.rootView.startAnimation(
+                            AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
                     getAndRemoveActiveFragment();
                 }
                 else this.finish();
                 break;
-            case R.id.action_settings:
-                return true;
+            case R.id.action_about:
+                if(About.isFragmentActive){
+                    About.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("about")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.la_container, new About(), "about").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
+                break;
             case R.id.action_help:
-                Dialog d1 = new Dialog(this);
-                d1.setContentView(R.layout.help);
-                d1.setTitle("Help");
-                d1.show();
+                if(Help.isFragmentActive){
+                    Help.isFragmentActive = false;
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                getSupportFragmentManager().beginTransaction().add(R.id.la_container, new Help(), "help").commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -264,6 +287,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Toast.makeText(LoginActivity.this, "onConnectionFailed()", Toast.LENGTH_SHORT).show();
         if (!result.hasResolution()) {
             google_api_availability.getErrorDialog(this, result.getErrorCode(),request_code).show();
             return;
@@ -315,6 +339,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     @Override
     public void onConnectionSuspended(int arg0) {
+
         google_api_client.connect();
         changeUI(false);
     }
@@ -535,7 +560,24 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             //noinspection ConstantConditions
             getSupportActionBar().show();
             getAndRemoveActiveFragment();
+            return;
         }
-        else super.onBackPressed();
+        if (About.isFragmentActive){
+            About.isFragmentActive = false;
+            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+            return;
+        }
+        if (Help.isFragmentActive){
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            return;
+        }
+        super.onBackPressed();
     }
 }

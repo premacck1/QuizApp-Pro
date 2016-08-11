@@ -40,7 +40,8 @@ import java.util.Date;
 public class Results extends AppCompatActivity implements OnChartValueSelectedListener, ResultsInDetail.OnFragmentInteractionListener {
 
     private PieChart mChart;
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
+    private boolean pieError = false;
     private DatabaseHolder dbHandler;
     RelativeLayout rootView;
     int correctAnswers = Questions.CORRECT_ANSWERS;
@@ -52,6 +53,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     protected void onResume() {
         super.onResume();
         if (correctAnswers < 0 || incorrectAnswers < 0 || skippedAnswers < 0 || questionCount == 0) {
+            pieError = true;
             pieDisplayError(correctAnswers, incorrectAnswers, skippedAnswers, questionCount);
         }
     }
@@ -60,42 +62,43 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
+        if (!pieError) {
+            setContentView(R.layout.activity_results);
 
-        rootView = (RelativeLayout) findViewById(R.id.result_page);
+            rootView = (RelativeLayout) findViewById(R.id.result_page);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String fieldDisplay = Questions.selections[1] + " : " + Questions.selections[0];
-                CustomTextViewSemiLight fieldText = (CustomTextViewSemiLight) rootView.findViewById(R.id.field_text);
-                if (correctAnswers == questionCount) {
-                    String fullScore = "Wow! you're the master of " + fieldDisplay + "!\nNow try another quiz and master that too!";
-                    fieldText.setTextSize(16);
-                    fieldText.setText(fullScore);
-                    fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String fieldDisplay = Questions.selections[1] + " : " + Questions.selections[0];
+                    CustomTextViewSemiLight fieldText = (CustomTextViewSemiLight) rootView.findViewById(R.id.field_text);
+                    if (correctAnswers == questionCount) {
+                        String fullScore = "Wow! you're the master of " + fieldDisplay + "!\nNow try another quiz and master that too!";
+                        fieldText.setTextSize(16);
+                        fieldText.setText(fullScore);
+                        fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
+                    } else {
+                        CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_text);
+                        fieldText.setText(fieldDisplay);
+                        String scoreDisplay = Questions.CORRECT_ANSWERS + "/" + Questions.QUESTION_COUNT;
+                        scoreText.setText(scoreDisplay);
+                        fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                        scoreText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                    }
+
                 }
-                else {
-                    CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_text);
-                    fieldText.setText(fieldDisplay);
-                    String scoreDisplay = Questions.CORRECT_ANSWERS + "/" + Questions.QUESTION_COUNT;
-                    scoreText.setText(scoreDisplay);
-                    fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
-                    scoreText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
-                }
+            }, 2000);
 
-            }
-        }, 1500);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-        Difficulty.BACK_FROM_RESULTS = 2;
-        dbHandler = new DatabaseHolder(getApplicationContext());
+            Difficulty.BACK_FROM_RESULTS = 2;
+            dbHandler = new DatabaseHolder(getApplicationContext());
 
 //        CREATE THE RESULT PIE CHART
-        mChart = (PieChart) findViewById(R.id.resultPieChart);
-        createPieChart();
-        mChart.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
+            mChart = (PieChart) findViewById(R.id.resultPieChart);
+            createPieChart();
+            mChart.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
+        }
     }
 
     public void createPieChart(){
