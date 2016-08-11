@@ -32,7 +32,6 @@ public class Questions extends AppCompatActivity{
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
 
-    private boolean pieError = false;
     private boolean previousPressed = false;
     private boolean doubleBackToSkip = false;
     private String selectedOption, answer;
@@ -438,7 +437,6 @@ public class Questions extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int which) {
                 int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
-                pieError = true;
                 pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
             }
                 startActivity(new Intent(Questions.this, Results.class));
