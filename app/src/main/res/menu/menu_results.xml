@@ -8,6 +8,11 @@
         android:title="@string/bookmarks"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="always"
+        android:title="@string/share" />
+    <item
         android:id="@+id/action_help"
         android:title="@string/help"
         android:icon="@drawable/ic_action_help"

@@ -16,6 +16,6 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:duration="200"
+        android:duration="100"
         android:startOffset="200"/>
 </set>

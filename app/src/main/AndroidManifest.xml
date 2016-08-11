@@ -15,6 +15,9 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <!-- To use account credentials -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!--To share the screenshot-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -52,6 +55,7 @@
         </activity>
         <activity
             android:name="com.prembros.programming.quizapp.Questions"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_questions" />
         <activity
             android:name="com.prembros.programming.quizapp.Bookmarks"

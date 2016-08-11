@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/result_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.prembros.programming.quizapp.Results"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/bg_gradient">
+
+    <com.prembros.programming.quizapp.CustomTextViewBlack
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/quiz_results"
+        android:id="@+id/result_header_text"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:gravity="center_horizontal"
+        android:textSize="40sp"
+        android:textColor="#f1f1f1"
+        android:shadowColor="@color/black_overlay"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="18"
+        android:layout_marginTop="30dp" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_height="385dp"
@@ -12,17 +29,44 @@
         android:layout_centerInParent="true"
         android:id="@+id/resultPieChart" />
 
-    <FrameLayout
-        android:alpha="1"
-        android:id="@+id/detailed_result_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <com.prembros.programming.quizapp.CustomTextViewSemiLight
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/app_name_bottom"
+        android:id="@+id/field_text"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:textColor="#f1f1f1"
+        android:shadowColor="@color/black_overlay"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <com.prembros.programming.quizapp.CustomTextViewSemiLight
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/score_text"
+        android:textSize="20sp"
+        android:textColor="#f1f1f1"
+        android:shadowColor="@color/black_overlay"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="10"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        tools:ignore="RelativeOverlap" />
 
     <com.prembros.programming.quizapp.CustomTextViewBlack
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:id="@+id/app_name_bottom_right"
+        android:id="@+id/app_name_bottom"
         android:layout_gravity="bottom"
         android:gravity="center_horizontal"
         android:textSize="20sp"
@@ -32,8 +76,13 @@
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="10"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+    <FrameLayout
+        android:alpha="1"
+        android:id="@+id/detailed_result_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

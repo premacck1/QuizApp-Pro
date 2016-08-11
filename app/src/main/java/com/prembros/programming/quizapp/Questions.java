@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -26,16 +28,18 @@ public class Questions extends AppCompatActivity{
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
             QUESTION_COUNT = 0;
+    public static String[] selections;
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
 
+    private boolean previousPressed = false;
+    private boolean doubleBackToSkip = false;
     private String selectedOption, answer;
     private Stack<QuestionBean> previousQuestion = new Stack<>();
     private Stack<String> previousAnswer = new Stack<>();
     private DatabaseHolder dbHandler;
     private ArrayList<QuestionBean> questionList;
     private QuestionBean questionBean;
-    private String[] selections;
     private TextView question;
     private ImageButton fabPrevious, fabSkip, fabNext;
     private ToggleButton addBookmark;
@@ -44,6 +48,7 @@ public class Questions extends AppCompatActivity{
     private CheckedTextView option3;
     private CheckedTextView option4;
     private CheckedTextView[] allCheckedTextViews;
+    private ProgressBar questionProgressBar;
 
     public Questions() {
     }
@@ -81,6 +86,9 @@ public class Questions extends AppCompatActivity{
             ab.setDisplayHomeAsUpEnabled(true);
 
             questionBean = questionList.get(QUESTION_COUNT);
+            if (questionProgressBar != null) {
+                questionProgressBar.setMax(questionList.size());
+            }
             populate();
             answer = questionBean.getAnswer();
 
@@ -146,28 +154,23 @@ public class Questions extends AppCompatActivity{
             fabSkip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-                    builder.setMessage("Are you sure to skip this question?");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    if (doubleBackToSkip) {
+                        dbHandler.open();
+                        dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
+                        dbHandler.close();
+                        showNextQuestion();
+                        return;
+                    }
 
-                            dbHandler.open();
-                            dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
-                            dbHandler.close();
+                    doubleBackToSkip = true;
+                    Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
 
-                            showNextQuestion();
-                        }
-                    });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
+                        public void run() {
+                            doubleBackToSkip = false;
                         }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    }, 1500);
                 }
             });
 
@@ -175,6 +178,7 @@ public class Questions extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     if (previousQuestion.size()>0) {
+                        previousPressed = true;
                         questionBean = previousQuestion.pop();
                         populate();
                         answer = questionBean.getAnswer();
@@ -274,18 +278,27 @@ public class Questions extends AppCompatActivity{
     }
 
     public void instantiate(){
+        questionProgressBar = (ProgressBar) findViewById(R.id.question_progressBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            questionProgressBar.setProgressDrawable(getDrawable(R.drawable.progress_bar_states));
+        }
+        addBookmark = (ToggleButton) findViewById(R.id.addBookmark);
         question = (TextView) findViewById(R.id.question_textView);
+        fabPrevious = (ImageButton) findViewById(R.id.fabPrevious);
+        fabSkip = (ImageButton) findViewById(R.id.fabSkip);
+        fabNext = (ImageButton) findViewById(R.id.fabNext);
         option1 = (CheckedTextView) findViewById(R.id.checked_choice_button1);
         option2 = (CheckedTextView) findViewById(R.id.checked_choice_button2);
         option3 = (CheckedTextView) findViewById(R.id.checked_choice_button3);
         option4 = (CheckedTextView) findViewById(R.id.checked_choice_button4);
-        fabPrevious = (ImageButton) findViewById(R.id.fabPrevious);
-        fabNext = (ImageButton) findViewById(R.id.fabNext);
-        fabSkip = (ImageButton) findViewById(R.id.fabSkip);
-        addBookmark = (ToggleButton) findViewById(R.id.addBookmark);
     }
 
     public void populate(){
+        if (previousPressed) {
+            questionProgressBar.setProgress(QUESTION_COUNT);
+            previousPressed = false;
+        }
+        else questionProgressBar.setProgress(QUESTION_COUNT+1);
         question.setText(questionBean.getQuestion().trim());
         option1.setText(questionBean.getOption1().trim());
         option1.setChecked(false);

@@ -1,16 +1,25 @@
 package com.prembros.programming.quizapp;
 
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -23,19 +32,60 @@ import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Results extends AppCompatActivity implements OnChartValueSelectedListener, ResultsInDetail.OnFragmentInteractionListener {
 
     private PieChart mChart;
     boolean doubleBackToExitPressedOnce = false;
     private DatabaseHolder dbHandler;
+    RelativeLayout rootView;
+    int correctAnswers = Questions.CORRECT_ANSWERS;
+    int incorrectAnswers = Questions.INCORRECT_ANSWERS;
+    int questionCount = Questions.QUESTION_COUNT;
+    int skippedAnswers = (questionCount - (correctAnswers + incorrectAnswers));
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (correctAnswers < 0 || incorrectAnswers < 0 || skippedAnswers < 0 || questionCount == 0) {
+            pieDisplayError(correctAnswers, incorrectAnswers, skippedAnswers, questionCount);
+        }
+    }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        rootView = (RelativeLayout) findViewById(R.id.result_page);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String fieldDisplay = Questions.selections[1] + " : " + Questions.selections[0];
+                CustomTextViewSemiLight fieldText = (CustomTextViewSemiLight) rootView.findViewById(R.id.field_text);
+                if (correctAnswers == questionCount) {
+                    String fullScore = "Wow! you're the master of " + fieldDisplay + "!\nNow try another quiz and master that too!";
+                    fieldText.setTextSize(16);
+                    fieldText.setText(fullScore);
+                    fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
+                }
+                else {
+                    CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_text);
+                    fieldText.setText(fieldDisplay);
+                    String scoreDisplay = Questions.CORRECT_ANSWERS + "/" + Questions.QUESTION_COUNT;
+                    scoreText.setText(scoreDisplay);
+                    fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                    scoreText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                }
+
+            }
+        }, 1500);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -50,7 +100,9 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
 
     public void createPieChart(){
 //        sets the description of the chart in the bottom right corner:
-        mChart.setDescription("Total questions: " + Questions.QUESTION_COUNT);
+        mChart.setDescription("");
+//        mChart.setDescription("Total questions: " + Questions.QUESTION_COUNT);
+//        mChart.setDescriptionColor(Color.WHITE);
 
         mChart.setExtraOffsets(2, 2, 2, 2);
         mChart.setDragDecelerationFrictionCoef(0.98f);
@@ -102,26 +154,67 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     private void setData() {
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        int SKIPPED_ANSWERS = (Questions.QUESTION_COUNT - (Questions.CORRECT_ANSWERS + Questions.INCORRECT_ANSWERS));
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of the chart.
-        if (Questions.CORRECT_ANSWERS != 0)
-            entries.add(new PieEntry(Questions.CORRECT_ANSWERS, "Correct"));
-        if (Questions.INCORRECT_ANSWERS != 0)
-            entries.add(new PieEntry(Questions.INCORRECT_ANSWERS, "Incorrect"));
-        if (SKIPPED_ANSWERS != 0)
-            entries.add(new PieEntry(SKIPPED_ANSWERS, "Skipped"));
+        if (correctAnswers > 0) {
+            if (correctAnswers == questionCount){
+                entries.add(new PieEntry(correctAnswers, "All correct!"));
+            }
+            else entries.add(new PieEntry(Questions.CORRECT_ANSWERS, "Correct"));
+        }
+        if (incorrectAnswers > 0) {
+            if (incorrectAnswers == questionCount){
+                entries.add(new PieEntry(incorrectAnswers, "All incorrect!"));
+            }
+            else entries.add(new PieEntry(Questions.INCORRECT_ANSWERS, "Incorrect"));
+        }
+        if (skippedAnswers > 0) {
+            if (skippedAnswers == questionCount){
+                entries.add(new PieEntry(skippedAnswers, "All skipped!"));
+            }
+            else entries.add(new PieEntry(skippedAnswers, "Skipped"));
+        }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Test Results");
+        PieDataSet dataSet = new PieDataSet(entries, "QuizResult");
         dataSet.setSliceSpace(20f);
         dataSet.setSelectionShift(15f);
 
 //         add colors
         ArrayList<Integer> colors = new ArrayList<>();
 //         order: correct, incorrect, skipped
-        colors.add(Color.argb(255, 156, 204, 101));        //argb(255, 139,195,74);
-        colors.add(Color.argb(255, 239, 83, 80));       //argb(255, 0,188,212);
-        colors.add(Color.argb(255, 18, 209, 205));     //argb(255, 244,67,54);
+
+        if (correctAnswers != 0 && incorrectAnswers != 0 && skippedAnswers != 0){
+            colors.add(Color.argb(255, 156, 204, 101));         //for correct answers
+            colors.add(Color.argb(255, 239, 83, 80));           //for incorrect answers
+            colors.add(Color.argb(255, 7, 107, 112));           //for skipped answers
+        }
+        else if (correctAnswers == 0){
+            if (incorrectAnswers == 0){
+                colors.add(Color.argb(255, 7, 107, 112));           //for skipped answers
+            }
+            else {
+                colors.add(Color.argb(255, 239, 83, 80));           //for incorrect answers
+                colors.add(Color.argb(255, 7, 107, 112));           //for skipped answers
+            }
+        }
+        else if (incorrectAnswers == 0){
+            if (skippedAnswers == 0){
+                colors.add(Color.argb(255, 156, 204, 101));         //for correct answers
+            }
+            else {
+                colors.add(Color.argb(255, 156, 204, 101));         //for correct answers
+                colors.add(Color.argb(255, 7, 107, 112));           //for skipped answers
+            }
+        }
+        else if (skippedAnswers == 0){
+            if (correctAnswers == 0){
+                colors.add(Color.argb(255, 239, 83, 80));           //for incorrect answers
+            }
+            else {
+                colors.add(Color.argb(255, 156, 204, 101));         //for correct answers
+                colors.add(Color.argb(255, 239, 83, 80));           //for incorrect answers
+            }
+        }
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -135,6 +228,28 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         mChart.highlightValues(null);
 
         mChart.invalidate();
+    }
+
+    public void pieDisplayError(int correctAnswers, int incorrectAnswers, int skippedAnswers, int questionCount){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("ERROR!");
+        builder.setMessage("Sorry but the results couldn't be loaded. Please take the quiz again." +
+                "\nIf problem persists, contact us with these details:\n" +
+                "\nTotal Questions = " + questionCount +
+                "\nCorrect answers = " + correctAnswers +
+                "\nIncorrect answers = " + incorrectAnswers +
+                "\nSkipped answers = " + skippedAnswers +
+                "\n\nYou can contact us via email given in about section."
+        );
+        builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Results.this.finish();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void resetFlags() {
@@ -170,8 +285,30 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
                 + ", DataSet index: " + h.getDataSetIndex());
         ResultsInDetail resultsInDetail = new ResultsInDetail();
         Bundle args = new Bundle();
-        args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());
-        resultsInDetail.setArguments(args);
+        if (correctAnswers == 0) {                                                ////INCORRECT AND SKIPPED
+            if (incorrectAnswers == 0){
+                args.putInt(ResultsInDetail.ARG_ENTRY, ((int) h.getX() + 2));       //skipped clicked
+                resultsInDetail.setArguments(args);
+            }
+            else {
+                args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX() + 1);         //Skipped or incorrect clicked
+                resultsInDetail.setArguments(args);
+            }
+        }
+        else if (incorrectAnswers == 0){                                          ////CORRECT AND SKIPPED
+            if (h.getX() != 1) {
+                args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());             //correct clicked
+                resultsInDetail.setArguments(args);
+            }
+            else {
+                args.putInt(ResultsInDetail.ARG_ENTRY, ((int) h.getX() + 1));       //skipped clicked
+                resultsInDetail.setArguments(args);
+            }
+        }
+        else{
+            args.putInt(ResultsInDetail.ARG_ENTRY, (int) h.getX());             ////ALL THREE AVAILABLE
+            resultsInDetail.setArguments(args);
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -180,6 +317,11 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
                 mChart.highlightValues(null);
             }
         }, 200);
+
+        if(ResultsInDetail.isFragmentActive){
+            ResultsInDetail.isFragmentActive = false;
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("resultsInDetail")).commit();
+        }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.detailed_result_container, resultsInDetail, "resultsInDetail").commit();
         // undo all highlights
@@ -211,10 +353,10 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             case R.id.action_account:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
-//            case android.R.id.home:
-//                resetFlags();
-//                this.finish();
-//                break;
+            case R.id.action_share:
+                Bitmap bm = getScreenshot(rootView);
+                shareImage(store(bm, "QuizResult.jpg"));
+                break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
@@ -252,6 +394,61 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
         return true;
     }
 
+//    CAPTURE THE rootView
+    public static Bitmap getScreenshot(View view){
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        bitmap.getDensity();
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+//        view.setDrawingCacheEnabled(true);
+//        view.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+//    STORE THE BITMAP INTO SD CARD
+    public static File store(Bitmap bitmapImage, String filename){
+        String dateString = (android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date())).toString();
+        dateString = dateString.replace(":","_");
+
+        final String dirPath = Environment.getExternalStorageDirectory(). getAbsolutePath() + "/.QuizSnaps";
+        File screenshotFile = new File(dirPath);
+
+        if (!screenshotFile.exists())
+            //noinspection ResultOfMethodCallIgnored
+            screenshotFile.mkdirs();
+        File file = new File(dirPath, dateString + "_" + filename);
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+//    SHARE THE IMAGE OF CURRENT ACTIVITY
+    private void shareImage(File file){
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_TEXT,
+                "QuizApp comes with great quizzes," +
+                        " and I just took a " + Questions.selections[1] + " " + Questions.selections[0] + " quiz on it." +
+                        "\nGet the app here: https://goo.gl/f8QABD \n");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        try{
+            startActivity(Intent.createChooser(intent, "Share your QuizResult"));
+        } catch (ActivityNotFoundException e){
+            Toast.makeText(Results.this, "No app available!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         Difficulty.BACK_FROM_RESULTS = 2;
@@ -283,7 +480,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Hit back again to goto home", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Don't forget to share your QuizResult!\nIf you have, hit back again to goto home", Toast.LENGTH_LONG).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override

@@ -83,7 +83,7 @@ public class BookmarksAdapter extends BaseAdapter {
                 if (doubleBackToDelete) {
                     view.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.fragment_anim_out));
                     PlaceholderFragment.listView.startAnimation(
-                            AnimationUtils.loadAnimation(_context, R.anim.fade_out_listview));
+                            AnimationUtils.loadAnimation(_context, R.anim.fade_out));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -103,7 +103,7 @@ public class BookmarksAdapter extends BaseAdapter {
                             Bookmarks.PlaceholderFragment.listItemInvalidate();
                             }
                             PlaceholderFragment.listView.startAnimation(
-                                    AnimationUtils.loadAnimation(_context, R.anim.fade_in_listview));
+                                    AnimationUtils.loadAnimation(_context, R.anim.fade_in));
 //                            PlaceholderFragment.listView.setVisibility(View.VISIBLE);
                         }
                     }, 300);
