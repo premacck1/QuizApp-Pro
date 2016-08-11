@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@+id/appbar"
+        android:layout_below="@+id/tabs"
         android:paddingLeft="5dp"
         android:paddingRight="5dp" />
 
@@ -22,26 +22,16 @@
         android:alpha="0.25"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_below="@+id/appbar"
+        android:layout_below="@+id/tabs"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/shadow_down"
         android:id="@+id/textView" />
 
-    <android.support.design.widget.AppBarLayout
+<!--    <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <!--
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    app:popupTheme="@style/AppTheme.PopupOverlay">
-
-                </android.support.v7.widget.Toolbar>-->
+        android:theme="@style/AppTheme.AppBarOverlay">-->
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
@@ -52,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </android.support.design.widget.AppBarLayout>
+    <!--</android.support.design.widget.AppBarLayout>-->
     <FrameLayout
         android:alpha="1"
         android:id="@+id/help_container"
