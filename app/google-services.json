@@ -1,33 +1,27 @@
 {
   "project_info": {
-    "project_number": "59138897047",
-    "project_id": "quizapp-8910"
+    "project_number": "782815696834",
+    "firebase_url": "https://admob-app-id-9261405880.firebaseio.com",
+    "project_id": "admob-app-id-9261405880",
+    "storage_bucket": "admob-app-id-9261405880.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:59138897047:android:1b5efce6ca9cd8fc",
+        "mobilesdk_app_id": "1:782815696834:android:1b5efce6ca9cd8fc",
         "android_client_info": {
           "package_name": "com.prembros.programming.quizapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "59138897047-4034t957cgibrksu8q34nfbs1r22lvv3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.prembros.programming.quizapp",
-            "certificate_hash": "DD974A12233B13F1F9F6CE847DEDD62D025354DF"
-          }
-        },
-        {
-          "client_id": "59138897047-c87k8krfco2r8nevqspvdmk946mstl6h.apps.googleusercontent.com",
+          "client_id": "782815696834-egnm6680milqajoafcme94q0cl0c4mpf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyChH1fn48Il7E7KqHzBIg1oCqaDLgxqCqk"
+          "current_key": "AIzaSyCrrQH-oWOUaUk3T6W5zTpW3GnGRXxc_RA"
         }
       ],
       "services": {
@@ -39,7 +33,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

@@ -211,8 +211,10 @@
     <string name="visit_us_at">Visit us at:</string>
     <string name="login_intro">Connect with Google Play and keep track of your performance, high scores and achievements.
         \n\nSee how your friends are doing and compete with them.
-        \n\nTo get started, press the button below:</string>
-    <string name="quiz">Quiz</string>
+        \n\nTo get started, press the button below:
+    </string>
     <string name="connect_to_google_play_games">Connect to Google Play Games</string>
+    <string name="quiz">Quiz</string>
+    <string name="int_add_full">ca-app-pub-3940256099942544/6300978111</string><!--ca-app-pub-0057541165660355/5470334687-->
 
 </resources>

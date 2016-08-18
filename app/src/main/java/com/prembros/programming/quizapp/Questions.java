@@ -19,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -48,6 +52,7 @@ public class Questions extends LoginActivity {
     private CheckedTextView option4;
     private CheckedTextView[] allCheckedTextViews;
     private ProgressBar questionProgressBar;
+    private InterstitialAd mInterstitialAd;
 
     public Questions() {
     }
@@ -94,6 +99,13 @@ public class Questions extends LoginActivity {
             answer = questionBean.getAnswer();
 
             allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
+
+            //Set up ads
+            mInterstitialAd = new InterstitialAd(this);
+            // set the ad unit ID
+            mInterstitialAd.setAdUnitId(getString(R.string.int_add_full));
+
+            requestNewInterstitial();
 
 //        ON CLICK LISTENERS FOR THE 4 OPTIONS (CheckedTextViews)
             option1.setOnClickListener(new View.OnClickListener() {
@@ -232,6 +244,13 @@ public class Questions extends LoginActivity {
                 public boolean onLongClick(View v) {
                     Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
                     return true;
+                }
+            });
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    requestNewInterstitial();
                 }
             });
         }
@@ -436,7 +455,13 @@ public class Questions extends LoginActivity {
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
+
+                // Display Ad
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+                    int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
                 pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
             }
@@ -608,5 +633,19 @@ public class Questions extends LoginActivity {
                 this.finish();
                 break;
         }
+    }
+
+
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
     }
 }

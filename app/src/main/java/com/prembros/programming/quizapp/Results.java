@@ -472,6 +472,9 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
             onFragmentInteraction();
         }
         else {
+            //Place Ads
+
+            ResultsInDetail.isFragmentActive = false;
             if (doubleBackToExitPressedOnce) {
                 resetFlags();
                 super.onBackPressed();
