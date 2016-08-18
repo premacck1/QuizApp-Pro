@@ -2,38 +2,33 @@
     <string name="app_name">QuizApp</string>
     <string name="app_fields">iOS | Java | HTML | JavaScript</string>
 
-    <string name="app_id">554494554659</string>
-    <string name="achievement_initiator">CgkIo-TN05EQEAIQEw</string>
-    <string name="achievement_nice_try">CgkIo-TN05EQEAIQFA</string>
-    <string name="achievement_bummer_king">CgkIo-TN05EQEAIQFQ</string>
-    <string name="achievement_strike">CgkIo-TN05EQEAIQFg</string>
-    <string name="achievement_quiz_prince">CgkIo-TN05EQEAIQFw</string>
-    <string name="achievement_quiz_king">CgkIo-TN05EQEAIQGA</string>
-    <string name="achievement_quiz_lord">CgkIo-TN05EQEAIQGQ</string>
-    <string name="achievement_quiz_jedi">CgkIo-TN05EQEAIQGg</string>
-    <string name="achievement_quiz_maniac">CgkIo-TN05EQEAIQGw</string>
-    <string name="achievement_streak_of_10">CgkIo-TN05EQEAIQHA</string>
-    <string name="achievement_streak_of_25">CgkIo-TN05EQEAIQHQ</string>
-    <string name="achievement_streak_of_50">CgkIo-TN05EQEAIQHg</string>
-    <string name="achievement_streak_of_75">CgkIo-TN05EQEAIQHw</string>
-    <string name="achievement_streak_of_100">CgkIo-TN05EQEAIQIA</string>
-    <string name="leaderboard_ios_rookie">CgkIo-TN05EQEAIQAA</string>
-    <string name="leaderboard_ios_apprentice">CgkIo-TN05EQEAIQAQ</string>
-    <string name="leaderboard_ios_pro">CgkIo-TN05EQEAIQAg</string>
-    <string name="leaderboard_ios_hitman">CgkIo-TN05EQEAIQAw</string>
-    <string name="leaderboard_java_rookie">CgkIo-TN05EQEAIQBA</string>
-    <string name="leaderboard_java_apprentice">CgkIo-TN05EQEAIQBQ</string>
-    <string name="leaderboard_java_pro">CgkIo-TN05EQEAIQBg</string>
-    <string name="leaderboard_java_hitman">CgkIo-TN05EQEAIQBw</string>
-    <string name="leaderboard_html_rookie">CgkIo-TN05EQEAIQCA</string>
-    <string name="leaderboard_html_apprentice">CgkIo-TN05EQEAIQCQ</string>
-    <string name="leaderboard_html_pro">CgkIo-TN05EQEAIQCg</string>
-    <string name="leaderboard_html_hitman">CgkIo-TN05EQEAIQCw</string>
-    <string name="leaderboard_javascript_rookie">CgkIo-TN05EQEAIQDA</string>
-    <string name="leaderboard_javascript_apprentice">CgkIo-TN05EQEAIQDQ</string>
-    <string name="leaderboard_javascript_pro">CgkIo-TN05EQEAIQDg</string>
-    <string name="leaderboard_javascript_hitman">CgkIo-TN05EQEAIQDw</string>
+    <string name="app_id">59138897047</string>
+    <string name="package_name">com.prembros.programming.quizapp</string>
+    <string name="achievement_beginners_luck">CgkIl-nPp9wBEAIQAg</string>
+    <string name="achievement_streak_of_5">CgkIl-nPp9wBEAIQAw</string>
+    <string name="achievement_streak_of_15">CgkIl-nPp9wBEAIQBA</string>
+    <string name="achievement_streak_of_30">CgkIl-nPp9wBEAIQBQ</string>
+    <string name="achievement_bummer_star">CgkIl-nPp9wBEAIQBg</string>
+    <string name="achievement_bummer_king">CgkIl-nPp9wBEAIQBw</string>
+    <string name="achievement_emperor_of_bummerville">CgkIl-nPp9wBEAIQCA</string>
+    <string name="leaderboard_rookie__ios">CgkIl-nPp9wBEAIQCw</string>
+    <string name="leaderboard_rookie__java">CgkIl-nPp9wBEAIQDA</string>
+    <string name="leaderboard_rookie__html">CgkIl-nPp9wBEAIQDQ</string>
+    <string name="leaderboard_rookie__javascript">CgkIl-nPp9wBEAIQDg</string>
+    <string name="leaderboard_apprentice__ios">CgkIl-nPp9wBEAIQDw</string>
+    <string name="leaderboard_apprentice__java">CgkIl-nPp9wBEAIQEA</string>
+    <string name="leaderboard_apprentice__html">CgkIl-nPp9wBEAIQEQ</string>
+    <string name="leaderboard_apprentice__javascript">CgkIl-nPp9wBEAIQEg</string>
+    <string name="leaderboard_pro__ios">CgkIl-nPp9wBEAIQFA</string>
+    <string name="leaderboard_pro__java">CgkIl-nPp9wBEAIQFQ</string>
+    <string name="leaderboard_pro__html">CgkIl-nPp9wBEAIQFg</string>
+    <string name="leaderboard_pro__javascript">CgkIl-nPp9wBEAIQFw</string>
+    <string name="leaderboard_hitman__ios">CgkIl-nPp9wBEAIQGA</string>
+    <string name="leaderboard_hitman__java">CgkIl-nPp9wBEAIQGQ</string>
+    <string name="leaderboard_hitman__html">CgkIl-nPp9wBEAIQGg</string>
+    <string name="leaderboard_hitman__javascript">CgkIl-nPp9wBEAIQGw</string>
 
+    <string name="colon"> : </string>
     <!--FIELDS-->
     <string name="field_ios">iOS</string>
     <string name="field_java">Java</string>
@@ -134,7 +129,6 @@
     <string name="other_apps_in_quizapp_series">Other apps in QuizApp series:</string>
     <string name="other_apps_in_quizapp_series_details">
         QuizApp-Aptitude(Coming soon)
-        \nQuizApp-GATE(Coming soon)
         \nQuizApp-Science(Coming soon)</string>
     <string name="special_thanks">Special Thanks</string>
     <string name="special_thanks_details">My Parents for the support</string>
@@ -170,21 +164,12 @@
 <!--RATING-->
     <string name="rate_us">Rate this app?</string>
 
-    <string name="level">Level</string>
-
-    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
-    <string name="start_level">Level 1</string>
-    <string name="next_level">Next Level</string>
-    <!-- -
-        This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
-        For more information, see https://support.google.com/admob/answer/3052638
-    <!- -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="skip_the_current_question">Skip the current question</string>
     <string name="previous_question">Previous question</string>
     <string name="next_question">Next Question</string>
     <string name="add_or_remove_bookmark">Add or remove bookmark</string>
     <string name="title_activity_login">Connect</string>
+    <string name="results">Results</string>
     <string name="quiz_results">QuizResult</string>
 
     <!-- Strings related to login -->
@@ -211,7 +196,7 @@
     <string name="your_skipped_answers">Your skipped answers</string>
     <string name="close">Close</string>
     <string name="achievements">Achievements</string>
-    <string name="leaderboard">Leaderboard</string>
+    <string name="leaderboard">Leaderboards</string>
     <string name="delete_this_question">Delete this question</string>
 
     <!--MENU LABELS-->
@@ -224,5 +209,10 @@
     <string name="email">itsprembros@gmail.com</string>
     <string name="prembros">PremBros</string>
     <string name="visit_us_at">Visit us at:</string>
+    <string name="login_intro">Connect with Google Play and keep track of your performance, high scores and achievements.
+        \n\nSee how your friends are doing and compete with them.
+        \n\nTo get started, press the button below:</string>
+    <string name="quiz">Quiz</string>
+    <string name="connect_to_google_play_games">Connect to Google Play Games</string>
 
 </resources>

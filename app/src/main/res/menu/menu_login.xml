@@ -7,24 +7,13 @@
         android:title="@string/help"
         android:icon="@drawable/ic_action_help"
         app:showAsAction="ifRoom"/>
-<!--
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Settings"
-        app:showAsAction="never" />
--->
-    <item
-        android:id="@+id/action_about"
-        android:orderInCategory="80"
-        android:title="@string/about"
-        app:showAsAction="never" />
     <item
         android:id="@+id/action_donate"
         android:title="@string/donate"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_leaderboard"
-        android:title="@string/leaderboard"
+        android:id="@+id/action_about"
+        android:orderInCategory="80"
+        android:title="@string/about"
         app:showAsAction="never" />
 </menu>

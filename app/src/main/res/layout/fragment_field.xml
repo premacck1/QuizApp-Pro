@@ -4,9 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="25dp"
+    android:padding="16dp"
     android:layout_gravity="center_horizontal"
     tools:context=".MainActivity">
+
+    <ToggleButton
+        android:textOff=""
+        android:textOn=""
+        android:id="@+id/addBookmark"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/add_or_remove_bookmark"
+        android:visibility="gone"/>
 
     <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:lines="2"
@@ -16,9 +25,10 @@
         android:gravity="center"
         android:textSize="18sp"
         android:id="@+id/intro_textView"
-        android:layout_marginTop="5dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="50dp" />
 
     <ListView
         android:layout_width="match_parent"
@@ -27,22 +37,25 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
         android:listSelector="#00ffffff"
+        android:scrollbars="none"
         android:layout_gravity="center"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:layout_alignLeft="@+id/intro_textView"
-        android:layout_alignStart="@+id/intro_textView" />
+        android:layout_alignStart="@+id/intro_textView"
+        android:layout_above="@+id/view"
+        android:layout_below="@+id/intro_textView" />
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="25dp"
         android:layout_alignParentBottom="true"
         android:foregroundGravity="center"
         app:mrl_rippleColor="#ffffff"
         app:mrl_rippleOverlay="true"
         app:mrl_rippleHover="true"
         app:mrl_rippleDelayClick="true"
-        app:mrl_rippleRoundedCorners="2dp">
+        app:mrl_rippleRoundedCorners="2dp"
+        android:id="@+id/view">
 
         <!--<com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
@@ -51,16 +64,15 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"/>-->
 
-        <com.prembros.programming.quizapp.CustomTextViewSemiLight
+        <ImageView
             android:id="@+id/sign_in"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
+            android:src="@drawable/game_controller"
             android:background="@drawable/sign_in_button"
-            android:gravity="center"
-            android:text="@string/connect"
-            android:textSize="20sp"/>
-
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/connect_to_google_play_games" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
 </RelativeLayout>

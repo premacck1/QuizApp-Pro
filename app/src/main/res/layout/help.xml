@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:alpha="0.8"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDarkTranslucent">
 
     <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:layout_width="match_parent"

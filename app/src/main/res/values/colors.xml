@@ -2,9 +2,12 @@
 <resources>
     <color name="colorPrimaryLight">#12d1cd</color>
     <color name="colorPrimary">#0c9895</color>
+    <color name="colorPrimaryTranslucent">#990c9895</color>
     <color name="colorPrimaryDark">#076b70</color>
+    <color name="colorPrimaryDarkTranslucent">#cc076b70</color>
     <color name="colorAccent">#FF0000</color>
     <color name="colorLink">#42a5f5</color>
+    <color name="colorText">#616161</color>
 
     <!--COLORS USED IN RESULT PIE CHART (EXPLICITLY DEFINED THERE BECAUSE USING THESE REFERENCES WASN'T WORKING-->
 <!--

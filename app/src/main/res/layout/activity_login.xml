@@ -7,6 +7,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.prembros.programming.quizapp.LoginActivity">
+
     <!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
@@ -16,110 +17,37 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <com.prembros.programming.quizapp.CustomTextViewLight
+        android:id="@+id/login_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/login_intro"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="invisible" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_below="@+id/login_progress"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
+        android:layout_marginTop="20dp" />
 
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_pic"
+        android:layout_below="@+id/login_intro"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:visibility="invisible">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/view"
-            android:layout_centerHorizontal="true"
-            android:visibility="invisible">
-
-            <AutoCompleteTextView
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:layout_above="@+id/view"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/view2"
-            android:layout_below="@+id/view"
-            android:visibility="invisible">
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:layout_below="@+id/view2"
-            android:text="@string/sign_in"
-            android:visibility="invisible" />
-
-        <com.prembros.programming.quizapp.CustomTextViewSemiLight
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:layout_below="@+id/sign_in_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="25dp"
-            android:visibility="invisible" />
-
-        <com.prembros.programming.quizapp.CustomTextViewSemiLight
-            android:id="@+id/emailId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:layout_below="@+id/username"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"
-            android:visibility="invisible" />
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/rippleView"
+            android:id="@+id/sign_in_rippleView"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:foregroundGravity="center"
@@ -128,41 +56,83 @@
             app:mrl_rippleHover="true"
             app:mrl_rippleDelayClick="true"
             app:mrl_rippleRoundedCorners="2dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:visibility="invisible">
 
             <com.prembros.programming.quizapp.CustomTextViewSemiLight
-                android:id="@+id/sign_out_button"
+                android:id="@+id/sign_in_button"
+                android:background="@drawable/sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="@string/sign_out"
-                android:layout_above="@+id/disconnect_button"
-                android:background="@drawable/sign_in_button"
-                android:visibility="invisible" />
+                android:text="@string/sign_in"
+                android:textSize="20sp"/>
+
         </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.prembros.programming.quizapp.CustomTextViewSemiLight
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="25sp"
+            android:shadowColor="@color/black_overlay"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="10"
+            android:layout_above="@+id/userID"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
+
+        <com.prembros.programming.quizapp.CustomTextViewLight
+            android:id="@+id/userID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:shadowColor="@color/black_overlay"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="8"
+            android:layout_above="@+id/userLevel"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
+
+        <com.prembros.programming.quizapp.CustomTextViewLight
+            android:id="@+id/userLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="15sp"
+            android:shadowColor="@color/black_overlay"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="8"
+            android:layout_above="@+id/achievements_rippleView"
+            android:layout_marginBottom="30dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
 
         <!-- show achievements -->
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/achievements_rippleView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/leaderboard_rippleView"
+            android:layout_marginBottom="20dp"
             android:foregroundGravity="center"
-            app:mrl_rippleColor="#ffffff"
+            app:mrl_rippleColor="@android:color/white"
             app:mrl_rippleOverlay="true"
             app:mrl_rippleHover="true"
             app:mrl_rippleDelayClick="true"
             app:mrl_rippleRoundedCorners="2dp"
-            tools:ignore="RelativeOverlap"
-            android:layout_above="@+id/rippleView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:visibility="invisible">
 
             <com.prembros.programming.quizapp.CustomTextViewSemiLight
                 android:id="@+id/show_achievements"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="@string/achievements"
                 android:gravity="center"
@@ -174,23 +144,22 @@
 
         <!-- show leaderboards -->
         <com.balysv.materialripple.MaterialRippleLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            app:mrl_rippleColor="#ffffff"
+            android:layout_above="@+id/rippleView"
+            android:layout_marginBottom="20dp"
+            app:mrl_rippleColor="@android:color/white"
             app:mrl_rippleOverlay="true"
             app:mrl_rippleHover="true"
             app:mrl_rippleDelayClick="true"
             app:mrl_rippleRoundedCorners="2dp"
-            android:layout_above="@+id/rippleView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:id="@+id/leaderboard_rippleView"
             android:visibility="invisible">
 
             <com.prembros.programming.quizapp.CustomTextViewSemiLight
                 android:id="@+id/show_leaderboard"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="@string/leaderboard"
                 android:gravity="center"
@@ -200,11 +169,34 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/rippleView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:foregroundGravity="center"
+            app:mrl_rippleColor="@android:color/white"
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleDelayClick="true"
+            app:mrl_rippleRoundedCorners="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+
+            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+                android:id="@+id/sign_out_button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="@string/disconnect"
+                android:background="@drawable/sign_in_button"
+                android:visibility="invisible" />
+        </com.balysv.materialripple.MaterialRippleLayout>
+
     </RelativeLayout>
 
     <FrameLayout
         android:alpha="1"
-        android:id="@+id/la_container"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -2,17 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.8"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimaryTranslucent">
 
     <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/la_header"
+        android:text="@string/leaderboard"
         android:textSize="30sp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
         android:textColor="#ffffff" />
 
     <TextView
@@ -21,11 +20,22 @@
         android:layout_gravity="center_horizontal"
         android:background="#FFFFFF" />
 
-    <ListView
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:divider="#00000000"
-        android:id="@+id/la_ListView"
-        android:layout_gravity="center" />
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="2"
+            android:verticalSpacing="15dp"
+            android:listSelector="#0000"
+            android:id="@+id/la_ListView"
+            android:scrollbars="none"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </LinearLayout>

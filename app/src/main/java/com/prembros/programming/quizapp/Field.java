@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -69,7 +70,7 @@ public class Field extends ListFragment{
             }, 200);
         }
 
-        CustomTextViewSemiLight sign_in = (CustomTextViewSemiLight) rootView.findViewById(R.id.sign_in);
+        ImageView sign_in = (ImageView) rootView.findViewById(R.id.sign_in);
         if (sign_in != null)
             sign_in.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -13,7 +13,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +36,8 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Results extends AppCompatActivity implements OnChartValueSelectedListener, ResultsInDetail.OnFragmentInteractionListener {
+public class Results extends LoginActivity implements OnChartValueSelectedListener,
+        ResultsInDetail.OnFragmentInteractionListener {
 
     private PieChart mChart;
     private boolean doubleBackToExitPressedOnce = false;
@@ -61,7 +61,8 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
+        if (progress_dialog!=null) progress_dialog.dismiss();
         if (!pieError) {
             setContentView(R.layout.activity_results);
 
@@ -70,7 +71,10 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    String fieldDisplay = Questions.selections[1] + " : " + Questions.selections[0];
+                    String fieldDisplay = "nothing";
+                    if (Questions.selections != null) {
+                        fieldDisplay = Questions.selections[1] + " : " + Questions.selections[0];
+                    }
                     CustomTextViewSemiLight fieldText = (CustomTextViewSemiLight) rootView.findViewById(R.id.field_text);
                     if (correctAnswers == questionCount) {
                         String fullScore = "Wow! you're the master of " + fieldDisplay + "!\nNow try another quiz and master that too!";
@@ -90,6 +94,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             }, 2000);
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setTitle(R.string.results);
 
             Difficulty.BACK_FROM_RESULTS = 2;
             dbHandler = new DatabaseHolder(getApplicationContext());
@@ -326,7 +331,7 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("resultsInDetail")).commit();
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.detailed_result_container, resultsInDetail, "resultsInDetail").commit();
+        transaction.add(R.id.fragment_container, resultsInDetail, "resultsInDetail").commit();
         // undo all highlights
     }
 
@@ -363,35 +368,23 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
+            case R.id.action_donate:
+                startActivity(new Intent(this, Results.class));
+                break;
+            case R.id.action_leaderboard:
+                getAndRemoveActiveFragment(LEADERBOARD_TEXT);
+                loadFragment(LEADERBOARD_TEXT);
+                break;
+            case R.id.action_achievements:
+                loadFragment(ACHIEVEMENTS_TEXT);
+                break;
             case R.id.action_about:
-                if(About.isFragmentActive){
-                    About.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction().remove(
-                            getSupportFragmentManager().findFragmentByTag("about")).commit();
-                }
-                getSupportFragmentManager().beginTransaction().add(R.id.detailed_result_container, new About(), "about").commit();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //noinspection ConstantConditions
-                        getSupportActionBar().hide();
-                    }
-                }, 400);
+                getAndRemoveActiveFragment(ABOUT_TEXT);
+                loadFragment(ABOUT_TEXT);
                 break;
             case R.id.action_help:
-                if(Help.isFragmentActive){
-                    Help.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction().remove(
-                            getSupportFragmentManager().findFragmentByTag("help")).commit();
-                }
-                getSupportFragmentManager().beginTransaction().add(R.id.detailed_result_container, new Help(), "help").commit();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //noinspection ConstantConditions
-                        getSupportActionBar().hide();
-                    }
-                }, 400);
+                getAndRemoveActiveFragment(HELP_TEXT);
+                loadFragment(HELP_TEXT);
                 break;
         }
         return true;
@@ -456,26 +449,29 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
     public void onBackPressed() {
         Difficulty.BACK_FROM_RESULTS = 2;
         if (Help.isFragmentActive){
-            Help.isFragmentActive = false;
-            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
-            //noinspection ConstantConditions
-            getSupportActionBar().show();
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            getAndRemoveActiveFragment(HELP_TEXT);
             return;
         }
         if (About.isFragmentActive){
-            About.isFragmentActive = false;
+            getAndRemoveActiveFragment(ABOUT_TEXT);
+            return;
+        }
+        if (Leaderboard.isFragmentActive){
+            getAndRemoveActiveFragment(LEADERBOARD_TEXT);
+            return;
+        }
+        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+
+        if(backStackCount >= 1){
             //noinspection ConstantConditions
             getSupportActionBar().show();
-            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+            getSupportFragmentManager().popBackStackImmediate();
             return;
         }
         if(ResultsInDetail.isFragmentActive){
             onFragmentInteraction();
         }
         else {
-            ResultsInDetail.isFragmentActive = false;
             if (doubleBackToExitPressedOnce) {
                 resetFlags();
                 super.onBackPressed();
@@ -496,19 +492,10 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
 
     @Override
     public void onFragmentInteraction() {
-        if (ResultsInDetail.isFragmentActive) {
-            ResultsInDetail.isFragmentActive = false;
-            ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
-            //noinspection ConstantConditions
-            getSupportActionBar().show();
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("resultsInDetail")).commit();
-        }
-        if (Help.isFragmentActive){
-            Help.isFragmentActive = false;
-            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
-            //noinspection ConstantConditions
-            getSupportActionBar().show();
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
-        }
+        ResultsInDetail.isFragmentActive = false;
+        ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
+        //noinspection ConstantConditions
+        getSupportActionBar().show();
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("resultsInDetail")).commit();
     }
 }

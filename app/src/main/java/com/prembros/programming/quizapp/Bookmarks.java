@@ -54,6 +54,7 @@ public class Bookmarks extends AppCompatActivity {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setTitle(R.string.bookmarks);
         }
 
         // Set up the ViewPager with the sections adapter.
@@ -113,7 +114,7 @@ public class Bookmarks extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().remove(
                             getSupportFragmentManager().findFragmentByTag("about")).commit();
                 }
-                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new About(), "about").commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new About(), "about").commit();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -128,7 +129,7 @@ public class Bookmarks extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().remove(
                             getSupportFragmentManager().findFragmentByTag("help")).commit();
                 }
-                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Help(), "help").commit();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -164,7 +165,6 @@ public class Bookmarks extends AppCompatActivity {
         }
         super.onBackPressed();
     }
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -246,7 +246,7 @@ public class Bookmarks extends AppCompatActivity {
                 listView.setAdapter(listAdapter);
                 listView.setLayoutAnimation(
                         new LayoutAnimationController(
-                                AnimationUtils.loadAnimation(staticContext, R.anim.float_in_expandable_listview)
+                                AnimationUtils.loadAnimation(staticContext, R.anim.float_in_from_below)
                                 , 0.1F
                         )
                 );

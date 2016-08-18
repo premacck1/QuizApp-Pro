@@ -13,12 +13,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.kobakei.ratethisapp.RateThisApp;
@@ -37,8 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements Field.OnFragmentInteractionListener,
-        Difficulty.OnFragmentInteractionListener {
+public class MainActivity extends LoginActivity
+        implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener {
 
     private String JSONString = null;
     boolean doubleBackToExitPressedOnce = false;
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         RateThisApp.stopRateDialog(this);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         if (savedInstanceState != null) {
             return;
         }
+        if (progress_dialog!=null) progress_dialog.dismiss();
+        if (isConnected() && !explicitlySignedOut)
+            gPlusSignIn();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setTitle(R.string.app_name);
 
 //        sets the typeface of header and child in ExpandableListAdapter
         fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
@@ -388,39 +393,26 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
             case R.id.action_donate:
                 startActivity(new Intent(this, Results.class));
                 break;
+            case R.id.action_leaderboard:
+                getAndRemoveActiveFragment(LEADERBOARD_TEXT);
+                loadFragment(LEADERBOARD_TEXT);
+                break;
+            case R.id.action_achievements:
+                loadFragment(ACHIEVEMENTS_TEXT);
+                break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
             case R.id.action_about:
-                if(About.isFragmentActive){
-                    About.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
-                }
-                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new About(), "about").commit();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //noinspection ConstantConditions
-                        getSupportActionBar().hide();
-                    }
-                }, 400);
+                getAndRemoveActiveFragment(ABOUT_TEXT);
+                loadFragment(ABOUT_TEXT);
                 break;
             case R.id.action_help:
-                if(Help.isFragmentActive){
-                    Help.isFragmentActive = false;
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
-                }
-                getSupportFragmentManager().beginTransaction().add(R.id.help_container, new Help(), "help").commit();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //noinspection ConstantConditions
-                        getSupportActionBar().hide();
-                    }
-                }, 400);
+                getAndRemoveActiveFragment(HELP_TEXT);
+                loadFragment(HELP_TEXT);
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 //    onFragmentInteraction of Field fragment
@@ -472,30 +464,26 @@ public class MainActivity extends AppCompatActivity implements Field.OnFragmentI
         }
     }
 
-
-
     @Override
     public void onBackPressed() {
         if (Help.isFragmentActive){
-            Help.isFragmentActive = false;
-            Help.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
-            //noinspection ConstantConditions
-            getSupportActionBar().show();
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("help")).commit();
+            getAndRemoveActiveFragment(HELP_TEXT);
             return;
         }
         if (About.isFragmentActive){
-            About.isFragmentActive = false;
-            About.rootView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fragment_anim_out));
-            //noinspection ConstantConditions
-            getSupportActionBar().show();
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("about")).commit();
+            getAndRemoveActiveFragment(ABOUT_TEXT);
+            return;
+        }
+        if (Leaderboard.isFragmentActive){
+            getAndRemoveActiveFragment(LEADERBOARD_TEXT);
             return;
         }
         int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
 
-        if(backStackCount == 1){
-            getSupportFragmentManager().popBackStack();
+        if(backStackCount >= 1){
+            //noinspection ConstantConditions
+            getSupportActionBar().show();
+            getSupportFragmentManager().popBackStackImmediate();
         }
         else {
             if (doubleBackToExitPressedOnce) {
