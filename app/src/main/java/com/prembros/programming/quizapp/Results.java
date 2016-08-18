@@ -475,6 +475,8 @@ public class Results extends AppCompatActivity implements OnChartValueSelectedLi
             onFragmentInteraction();
         }
         else {
+            //Place Ads
+
             ResultsInDetail.isFragmentActive = false;
             if (doubleBackToExitPressedOnce) {
                 resetFlags();
