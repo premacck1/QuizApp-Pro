@@ -102,6 +102,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
 //        CREATE THE RESULT PIE CHART
             mChart = (PieChart) findViewById(R.id.resultPieChart);
             createPieChart();
+            mChart.setMinimumHeight(mChart.getWidth());
             mChart.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
         }
     }

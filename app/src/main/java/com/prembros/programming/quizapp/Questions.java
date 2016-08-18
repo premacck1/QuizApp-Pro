@@ -106,6 +106,12 @@ public class Questions extends LoginActivity {
             mInterstitialAd.setAdUnitId(getString(R.string.int_add_full));
 
             requestNewInterstitial();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showInterstitial();
+                }
+            }, 10000);
 
 //        ON CLICK LISTENERS FOR THE 4 OPTIONS (CheckedTextViews)
             option1.setOnClickListener(new View.OnClickListener() {
@@ -457,16 +463,15 @@ public class Questions extends LoginActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 // Display Ad
+                showInterstitial();
 
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                }
-                    int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
+                int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
-                pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
-            }
-                startActivity(new Intent(Questions.this, Results.class));
-                Questions.this.finish();
+                    pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
+                }else {
+                    startActivity(new Intent(Questions.this, Results.class));
+                    Questions.this.finish();
+                }
             }
         });
         builder.setNegativeButton("Take another quiz", new DialogInterface.OnClickListener() {
@@ -479,6 +484,9 @@ public class Questions extends LoginActivity {
         });
         AlertDialog alert = builder.create();
         alert.show();
+
+//        SHOW ADS
+        showInterstitial();
     }
 
     public void pieDisplayError(int correctAnswers, int incorrectAnswers, int skippedAnswers, int questionCount){
@@ -634,7 +642,6 @@ public class Questions extends LoginActivity {
                 break;
         }
     }
-
 
     private void showInterstitial() {
         if (mInterstitialAd.isLoaded()) {

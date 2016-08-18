@@ -12,16 +12,17 @@
         android:layout_height="wrap_content"
         android:text="@string/quiz_results"
         android:id="@+id/result_header_text"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:padding="5dp"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:textSize="40sp"
         android:textColor="#f1f1f1"
         android:shadowColor="@color/black_overlay"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="18"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/resultPieChart"/>
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_height="385dp"

@@ -25,12 +25,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bookmarks extends AppCompatActivity {
 
     public static ViewPager mViewPager;
+    private InterstitialAd mInterstitialAd;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -66,6 +71,26 @@ public class Bookmarks extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        //Set up ads
+        mInterstitialAd = new InterstitialAd(this);
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.int_add_full));
+
+        requestNewInterstitial();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showInterstitial();
+            }
+        }, 5000);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
     }
 
     @Override
@@ -165,6 +190,20 @@ public class Bookmarks extends AppCompatActivity {
         }
         super.onBackPressed();
     }
+
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
