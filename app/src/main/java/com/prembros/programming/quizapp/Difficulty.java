@@ -20,7 +20,6 @@ import java.util.List;
 
 public class Difficulty extends Fragment {
 
-    private ListView listView;
     private TextView difficultyText;
     static String ARG_POSITION = "PositionArgs";
     static int fieldPosition;
@@ -72,7 +71,7 @@ public class Difficulty extends Fragment {
                 R.id.choice_button,
                 allFields);
 
-        listView = (ListView) rootView.findViewById(R.id.listView1);
+        ListView listView = (ListView) rootView.findViewById(R.id.listView1);
         difficultyText = (TextView) rootView.findViewById(R.id.difficulty_textView);
         listView.setAdapter(difficulty);
         listView.setLayoutAnimation(

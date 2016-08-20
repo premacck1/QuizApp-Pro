@@ -76,20 +76,25 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                         fieldDisplay = Questions.selections[1] + " : " + Questions.selections[0];
                     }
                     CustomTextViewSemiLight fieldText = (CustomTextViewSemiLight) rootView.findViewById(R.id.field_text);
+                    CustomTextViewLight scorePoints = (CustomTextViewLight) rootView.findViewById(R.id.score_points);
+                    String scorePointText = "Score: " + Questions.SCORE;
                     if (correctAnswers == questionCount) {
                         String fullScore = "Wow! you're the master of " + fieldDisplay + "!\nNow try another quiz and master that too!";
                         fieldText.setTextSize(16);
                         fieldText.setText(fullScore);
+                        scorePoints.setText(scorePointText);
                         fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
+                        scorePoints.setAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
                     } else {
-                        CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_text);
+                        CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_marks);
                         fieldText.setText(fieldDisplay);
                         String scoreDisplay = Questions.CORRECT_ANSWERS + "/" + Questions.QUESTION_COUNT;
                         scoreText.setText(scoreDisplay);
+                        scorePoints.setText(scorePointText);
                         fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
                         scoreText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                        scorePoints.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
                     }
-
                 }
             }, 2000);
 
@@ -370,7 +375,6 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
             case R.id.action_donate:
-                startActivity(new Intent(this, Results.class));
                 break;
             case R.id.action_leaderboard:
                 getAndRemoveActiveFragment(LEADERBOARD_TEXT);
@@ -407,7 +411,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         String dateString = (android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date())).toString();
         dateString = dateString.replace(":","_");
 
-        final String dirPath = Environment.getExternalStorageDirectory(). getAbsolutePath() + "/.QuizSnaps";
+        final String dirPath = Environment.getExternalStorageDirectory(). getAbsolutePath() + "/QuizApp";
         File screenshotFile = new File(dirPath);
 
         if (!screenshotFile.exists())
@@ -417,7 +421,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (Exception e) {
@@ -431,7 +435,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         Uri uri = Uri.fromFile(file);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/*");
+        intent.setType("image/jpeg");
 
         intent.putExtra(Intent.EXTRA_SUBJECT, "");
         intent.putExtra(Intent.EXTRA_TEXT,

@@ -46,28 +46,14 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin">
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/sign_in_rippleView"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:foregroundGravity="center"
-            app:mrl_rippleColor="#ffffff"
-            app:mrl_rippleOverlay="true"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleDelayClick="true"
-            app:mrl_rippleRoundedCorners="2dp"
-            android:visibility="invisible">
-
-            <com.prembros.programming.quizapp.CustomTextViewSemiLight
+            <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"
-                android:background="@drawable/sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="@string/sign_in"
-                android:textSize="20sp"/>
-
-        </com.balysv.materialripple.MaterialRippleLayout>
+                android:textSize="20sp"
+                android:visibility="invisible" />
 
         <com.prembros.programming.quizapp.CustomTextViewSemiLight
             android:id="@+id/username"

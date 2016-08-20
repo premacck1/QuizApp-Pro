@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.ToggleButton;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -30,7 +32,7 @@ public class Questions extends LoginActivity {
 
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
-            QUESTION_COUNT = 0;
+            QUESTION_COUNT = 0, SCORE = 0;
     public static String[] selections;
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
@@ -45,6 +47,7 @@ public class Questions extends LoginActivity {
     private QuestionBean questionBean;
     private TextView question;
     private ImageButton fabPrevious, fabSkip, fabNext;
+    private CustomTextViewLight timer;
     private ToggleButton addBookmark;
     private CheckedTextView option1;
     private CheckedTextView option2;
@@ -53,6 +56,7 @@ public class Questions extends LoginActivity {
     private CheckedTextView[] allCheckedTextViews;
     private ProgressBar questionProgressBar;
     private InterstitialAd mInterstitialAd;
+    private CountDownTimer countDownTimer;
 
     public Questions() {
     }
@@ -82,6 +86,14 @@ public class Questions extends LoginActivity {
 
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
             instantiate();
+
+            timer.setAnimation(AnimationUtils.loadAnimation(this, R.anim.back_entrance));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    countDownTimer.start();
+                }
+            }, 1000);
 
 //        SET UP ACTION BAR
             android.support.v7.app.ActionBar ab = this.getSupportActionBar();
@@ -313,6 +325,25 @@ public class Questions extends LoginActivity {
         fabPrevious = (ImageButton) findViewById(R.id.fabPrevious);
         fabSkip = (ImageButton) findViewById(R.id.fabSkip);
         fabNext = (ImageButton) findViewById(R.id.fabNext);
+        timer = (CustomTextViewLight) findViewById(R.id.timer);
+        countDownTimer = new CountDownTimer(300000, 100){
+
+            String text;
+
+            @Override
+            public void onTick(long l) {
+                text = "Score: " + String.valueOf(l);
+                timer.setText(text);
+            }
+
+            @Override
+            public void onFinish() {
+                timer.setText(R.string.times_up);
+                for (int i = 0; i<4; i++) {
+                    timer.setAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
+                }
+            }
+        };
         option1 = (CheckedTextView) findViewById(R.id.checked_choice_button1);
         option2 = (CheckedTextView) findViewById(R.id.checked_choice_button2);
         option3 = (CheckedTextView) findViewById(R.id.checked_choice_button3);
@@ -455,20 +486,30 @@ public class Questions extends LoginActivity {
 //    ALERTS
 
     public void onCompletion(){
+        final int score = Integer.parseInt(timer.getText().toString().replace("Score: ", ""));
+        countDownTimer.cancel();
+
+        // Display Ad
+        showInterstitial();
+
+        /*
+        submit score to leaderboard
+        * */
+        if (google_api_client != null && google_api_client.isConnected())
+            Games.Leaderboards.submitScore(google_api_client, getLeaderboardID(selections[0], selections[1]), score);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-        builder.setMessage("You have completed the quiz");
+        builder.setMessage("You have completed the quiz!" +
+                "\nScore: " + score);
         builder.setCancelable(false);
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                // Display Ad
-                showInterstitial();
-
                 int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
                     pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
                 }else {
+                    SCORE = score;
                     startActivity(new Intent(Questions.this, Results.class));
                     Questions.this.finish();
                 }
@@ -576,7 +617,6 @@ public class Questions extends LoginActivity {
                 onBackPressed();
                 break;
             case R.id.action_donate:
-                startActivity(new Intent(this, Results.class));
                 break;
             case R.id.action_leaderboard:
                 getAndRemoveActiveFragment(LEADERBOARD_TEXT);

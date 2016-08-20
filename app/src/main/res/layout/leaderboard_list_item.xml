@@ -15,7 +15,12 @@
             android:id="@+id/leaderboard_list_item_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
             android:background="@drawable/bookmark_card_theme"
             tools:ignore="UselessParent">
 
@@ -24,11 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:textSize="14sp"
+                android:textSize="15sp"
+                android:layout_centerInParent="true"
                 android:textColor="#616161"
-                android:gravity="start" />
+                android:gravity="center" />
 
-            <com.prembros.programming.quizapp.CustomTextViewLight
+<!--            <com.prembros.programming.quizapp.CustomTextViewLight
                 android:id="@+id/leaderboard_child_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +42,7 @@
                 android:textSize="12sp"
                 android:textColor="#616161"
                 android:gravity="end"
-                android:layout_below="@+id/leaderboard_header_textView"/>
+                android:layout_below="@+id/leaderboard_header_textView"/>-->
 
         </RelativeLayout>
     </com.balysv.materialripple.MaterialRippleLayout>

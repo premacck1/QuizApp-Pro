@@ -29,9 +29,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             ACHIEVEMENTS_TEXT = "achievements";
     GoogleApiClient google_api_client;
     GoogleApiAvailability google_api_availability;
-    View signIn_btn;
+    SignInButton signIn_btn;
     public boolean explicitlySignedOut = false;
     private static final int SIGN_IN_CODE = 0;
 //    private static final int PROFILE_PIC_SIZE = 120;
@@ -83,11 +85,10 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 builder.setMessage("Sorry, but we couldn't find Google Play Services on your devices, make sure you have the latest one from play store and try again.");
                 builder.setCancelable(false);
-                builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                    startActivity(new Intent(Questions.this, Results.class));
-                        LoginActivity.this.finish();
+                        dialog.cancel();
                     }
                 });
                 AlertDialog alert = builder.create();
@@ -155,9 +156,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         if (signedIn) {
             progress_dialog.dismiss();
             if (findViewById(R.id.login_intro)!=null) {
-                findViewById(R.id.sign_in_button).setVisibility(View.GONE);
                 findViewById(R.id.login_intro).setVisibility(View.INVISIBLE);
-                findViewById(R.id.sign_in_rippleView).setVisibility(View.GONE);
+                findViewById(R.id.sign_in_button).setVisibility(View.GONE);
                 findViewById(R.id.userID).setVisibility(View.VISIBLE);
                 findViewById(R.id.username).setVisibility(View.VISIBLE);
                 findViewById(R.id.userLevel).setVisibility(View.VISIBLE);
@@ -181,7 +181,6 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 findViewById(R.id.achievements_rippleView).setVisibility(View.GONE);
                 findViewById(R.id.login_intro).setVisibility(View.VISIBLE);
                 findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-                findViewById(R.id.sign_in_rippleView).setVisibility(View.VISIBLE);
             }
         }
     }
@@ -210,9 +209,10 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     private void customizeSignBtn(){
 //        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
 //        findViewById(R.id.disconnect_button).setVisibility(View.GONE);
-        signIn_btn = findViewById(R.id.sign_in_button);
-//        signIn_btn.setSize(SignInButton.SIZE_STANDARD);
-//        signIn_btn.setScopes(new Scope[]{Plus.SCOPE_PLUS_LOGIN});
+        signIn_btn = (SignInButton) findViewById(R.id.sign_in_button);
+        signIn_btn.setSize(SignInButton.SIZE_STANDARD);
+        //noinspection deprecation
+        signIn_btn.setScopes(new Scope[]{Games.SCOPE_GAMES});
     }
 
     /*
@@ -235,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     protected void onStart() {
         super.onStart();
-        if (isConnected()) {
+        if (isConnected() && google_api_client!=null) {
             google_api_client.connect();
         }
     }
@@ -320,7 +320,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
             is_intent_inprogress = false;
 
-            if (!google_api_client.isConnecting()) {
+            if (!google_api_client.isConnecting() && google_api_client != null) {
                 google_api_client.connect();
             }
         }
@@ -339,7 +339,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     @Override
     public void onConnectionSuspended(int arg0) {
-        google_api_client.connect();
+        if (google_api_client != null)
+            google_api_client.connect();
         changeUI(false);
     }
 
@@ -412,10 +413,13 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 fragmentManager.beginTransaction().add(R.id.fragment_container, new Help(), HELP_TEXT).commit();
                 break;
             case ACHIEVEMENTS_TEXT:
-                google_api_client.connect();
-                if (google_api_client.isConnected())
-                    startActivityForResult(Games.Achievements.getAchievementsIntent(google_api_client), 16);
-                else Toast.makeText(this, "ERROR! Not Connected!", Toast.LENGTH_SHORT).show();
+                if (google_api_client != null) {
+                    google_api_client.connect();
+                    if (google_api_client.isConnected()) {
+                        startActivityForResult(Games.Achievements.getAchievementsIntent(google_api_client), 16);
+                    } else Toast.makeText(this, "ERROR! Not Connected!", Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(this, "No Google API client found!\n" +
+                        "Is Google Play Games missing?", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -467,15 +471,18 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
       Sign-in into the Google + account
      */
     public void gPlusSignIn() {
-        google_api_client.connect();
-        if (google_api_client.isConnecting()) {
-            is_signInBtn_clicked = true;
+        if (google_api_client != null) {
+            google_api_client.connect();
+            if (google_api_client.isConnecting()) {
+                is_signInBtn_clicked = true;
 //            progress_dialog.show();
-            resolveSignInError();
-            is_signOutBtn_clicked = false;
-        }
-        else
-            Toast.makeText(LoginActivity.this, "Make sure the device is connected to internet", Toast.LENGTH_SHORT).show();
+                resolveSignInError();
+                is_signOutBtn_clicked = false;
+            } else
+                Toast.makeText(this, "Make sure the device is connected to internet", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this, "No Google API client found!\n" +
+                    "Is Google Play Games missing?", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -490,7 +497,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                     Log.d("resolve error", "sign in error resolved");
                 } catch (SendIntentException e) {
                     is_intent_inprogress = false;
-                    google_api_client.connect();
+                    if (google_api_client != null)
+                        google_api_client.connect();
                 }
             }
         }
@@ -652,82 +660,155 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         super.onBackPressed();
     }
 
+    public String getLeaderboardID(String field, String difficulty){
+        String leaderboardID = null;
+        switch (field){
+            case "iOS":
+                switch (difficulty){
+                    case "Rookie":
+                        leaderboardID = "CgkIl-nPp9wBEAIQCw";
+                        break;
+                    case "Apprentice":
+                        leaderboardID = "CgkIl-nPp9wBEAIQDw";
+                        break;
+                    case "Pro":
+                        leaderboardID = "CgkIl-nPp9wBEAIQFA";
+                        break;
+                    case "Hitman":
+                        leaderboardID = "CgkIl-nPp9wBEAIQGA";
+                        break;
+                }
+                break;
+            case "Java":
+                switch (difficulty){
+                    case "Rookie":
+                        leaderboardID = "CgkIl-nPp9wBEAIQDA";
+                        break;
+                    case "Apprentice":
+                        leaderboardID = "CgkIl-nPp9wBEAIQEA";
+                        break;
+                    case "Pro":
+                        leaderboardID = "CgkIl-nPp9wBEAIQFQ";
+                        break;
+                    case "Hitman":
+                        leaderboardID = "CgkIl-nPp9wBEAIQGQ";
+                        break;
+                }
+                break;
+            case "HTML":
+                switch (difficulty){
+                    case "Rookie":
+                        leaderboardID = "CgkIl-nPp9wBEAIQDQ";
+                        break;
+                    case "Apprentice":
+                        leaderboardID = "CgkIl-nPp9wBEAIQEQ";
+                        break;
+                    case "Pro":
+                        leaderboardID = "CgkIl-nPp9wBEAIQFg";
+                        break;
+                    case "Hitman":
+                        leaderboardID = "CgkIl-nPp9wBEAIQGg";
+                        break;
+                }
+                break;
+            case "JavaScript":
+                switch (difficulty){
+                    case "Rookie":
+                        leaderboardID = "CgkIl-nPp9wBEAIQDg";
+                        break;
+                    case "Apprentice":
+                        leaderboardID = "CgkIl-nPp9wBEAIQEg";
+                        break;
+                    case "Pro":
+                        leaderboardID = "CgkIl-nPp9wBEAIQFw";
+                        break;
+                    case "Hitman":
+                        leaderboardID = "CgkIl-nPp9wBEAIQGw";
+                        break;
+                }
+                break;
+        }
+        return leaderboardID;
+    }
+
     @Override
     public void onFragmentInteraction(int resultCode) {
-        if (google_api_client.isConnected()) {
-            switch (resultCode) {
-                case 0:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQCw"), 0);
-                    break;
-                case 1:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQDw"), 1);
-                    break;
-                case 2:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQFA"), 2);
-                    break;
-                case 3:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQGA"), 3);
-                    break;
-                case 4:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQDA"), 4);
-                    break;
-                case 5:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQEA"), 5);
-                    break;
-                case 6:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQFQ"), 6);
-                    break;
-                case 7:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQGQ"), 7);
-                    break;
-                case 8:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQDQ"), 8);
-                    break;
-                case 9:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQEQ"), 9);
-                    break;
-                case 10:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQFg"), 10);
-                    break;
-                case 11:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQGg"), 11);
-                    break;
-                case 12:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQDg"), 12);
-                    break;
-                case 13:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQEg"), 13);
-                    break;
-                case 14:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQFw"), 14);
-                    break;
-                case 15:
-                    startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                            "CgkIl-nPp9wBEAIQGw"), 15);
-                    break;
-                default:
-                    Toast.makeText(LoginActivity.this, "Cannot find leaderboard", Toast.LENGTH_SHORT).show();
-                    break;
+        if (google_api_client != null) {
+            if (google_api_client.isConnected()) {
+                switch (resultCode) {
+                    case 0:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQCw"), 0);
+                        break;
+                    case 1:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQDw"), 1);
+                        break;
+                    case 2:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQFA"), 2);
+                        break;
+                    case 3:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQGA"), 3);
+                        break;
+                    case 4:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQDA"), 4);
+                        break;
+                    case 5:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQEA"), 5);
+                        break;
+                    case 6:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQFQ"), 6);
+                        break;
+                    case 7:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQGQ"), 7);
+                        break;
+                    case 8:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQDQ"), 8);
+                        break;
+                    case 9:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQEQ"), 9);
+                        break;
+                    case 10:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQFg"), 10);
+                        break;
+                    case 11:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQGg"), 11);
+                        break;
+                    case 12:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQDg"), 12);
+                        break;
+                    case 13:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQEg"), 13);
+                        break;
+                    case 14:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQFw"), 14);
+                        break;
+                    case 15:
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
+                                "CgkIl-nPp9wBEAIQGw"), 15);
+                        break;
+                    default:
+                        Toast.makeText(LoginActivity.this, "Cannot find leaderboard", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            } else {
+                Toast.makeText(this, "Cannot load leaderboard. Please try again or restart app.", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
-            google_api_client.connect();
-            Toast.makeText(this, "Cannot load leaderboard. Please try again or restart app.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Cannot load leaderboard. No Google API found.", Toast.LENGTH_SHORT).show();
         }
     }
 }

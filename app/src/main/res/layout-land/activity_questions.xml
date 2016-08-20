@@ -15,17 +15,7 @@
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:layout_alignParentTop="true"/>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentBottom="true">
-
-    <RelativeLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        tools:context=".MainActivity">
-
-        <ToggleButton
+    <ToggleButton
         android:textOff=""
         android:textOn=""
         android:hapticFeedbackEnabled="true"
@@ -37,6 +27,28 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <com.prembros.programming.quizapp.CustomTextViewLight
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/question_progressBar"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        tools:ignore="RelativeOverlap" />
+
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        tools:context=".MainActivity">
 
         <LinearLayout
             android:orientation="vertical"

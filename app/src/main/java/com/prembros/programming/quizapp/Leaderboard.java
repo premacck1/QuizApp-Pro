@@ -79,20 +79,20 @@ public class Leaderboard extends Fragment {
                 "Rookie", "Apprentice", "Pro", "Hitman",
                 "Rookie", "Apprentice", "Pro", "Hitman",
                 "Rookie", "Apprentice", "Pro", "Hitman"};
-        Integer[] score = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 9, 8, 7, 6, 5};
+//        Integer[] score = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 9, 8, 7, 6, 5};
 
         List<String> headerText = new ArrayList<>();
         List<String> childText = new ArrayList<>();
-        List<Integer> scoreText = new ArrayList<>();
+//        List<Integer> scoreText = new ArrayList<>();
         Collections.addAll(headerText, fields);
         Collections.addAll(childText, difficulty);
-        Collections.addAll(scoreText, score);
+//        Collections.addAll(scoreText, score);
 
-        ListAdapter listAdapter = new LeaderboardAdapter(getContext(), headerText, childText, scoreText);
+        ListAdapter listAdapter = new LeaderboardAdapter(getContext(), headerText, childText);
 
         la_listView.setAdapter(listAdapter);
         la_listView.setLayoutAnimation(new LayoutAnimationController(
-                AnimationUtils.loadAnimation(getContext(), R.anim.float_in_from_below), 0.1f));
+                AnimationUtils.loadAnimation(getContext(), R.anim.fade_in), 0.1f));
     }
 
     public interface OnFragmentInteractionListener {

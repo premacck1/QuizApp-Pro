@@ -39,17 +39,16 @@
         android:listSelector="#00ffffff"
         android:scrollbars="none"
         android:layout_gravity="center"
+        android:layout_below="@+id/intro_textView"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_centerInParent="true"
-        android:layout_alignLeft="@+id/intro_textView"
-        android:layout_alignStart="@+id/intro_textView"
-        android:layout_above="@+id/view"
-        android:layout_below="@+id/intro_textView" />
+        android:layout_above="@+id/view" />
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:foregroundGravity="center"
         app:mrl_rippleColor="#ffffff"
         app:mrl_rippleOverlay="true"
         app:mrl_rippleHover="true"
@@ -70,8 +69,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/game_controller"
             android:background="@drawable/sign_in_button"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:contentDescription="@string/connect_to_google_play_games" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
