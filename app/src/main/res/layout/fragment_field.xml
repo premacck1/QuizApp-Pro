@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:id="@android:id/list"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
+        android:dividerHeight="20dp"
         android:listSelector="#00ffffff"
         android:scrollbars="none"
         android:layout_gravity="center"
