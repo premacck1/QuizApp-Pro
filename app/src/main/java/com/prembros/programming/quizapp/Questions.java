@@ -55,7 +55,10 @@ public class Questions extends LoginActivity {
     private CheckedTextView option4;
     private CheckedTextView[] allCheckedTextViews;
     private ProgressBar questionProgressBar;
-    private InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAd3;
+    private InterstitialAd mInterstitialAd1;
+    private InterstitialAd mInterstitialAd2;
+
     private CountDownTimer countDownTimer;
 
     public Questions() {
@@ -113,15 +116,25 @@ public class Questions extends LoginActivity {
             allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
             //Set up ads
-            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd1 = new InterstitialAd(this);
             // set the ad unit ID
-            mInterstitialAd.setAdUnitId(getString(R.string.int_add_full));
+            mInterstitialAd1.setAdUnitId(getString(R.string.int_add_full));
+
+            //Set up ads
+            mInterstitialAd2 = new InterstitialAd(this);
+            // set the ad unit ID
+            mInterstitialAd2.setAdUnitId(getString(R.string.int_add_full1));
+
+            //Set up ads
+            mInterstitialAd3 = new InterstitialAd(this);
+            // set the ad unit ID
+            mInterstitialAd3.setAdUnitId(getString(R.string.int_add_full2));
 
             requestNewInterstitial();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showInterstitial();
+                    showInterstitial1();
                 }
             }, 10000);
 
@@ -265,12 +278,12 @@ public class Questions extends LoginActivity {
                 }
             });
 
-            mInterstitialAd.setAdListener(new AdListener() {
+           /* mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdClosed() {
                     requestNewInterstitial();
                 }
-            });
+            });*/
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
@@ -490,7 +503,7 @@ public class Questions extends LoginActivity {
         countDownTimer.cancel();
 
         // Display Ad
-        showInterstitial();
+        showInterstitial2();
 
         /*
         submit score to leaderboard
@@ -527,7 +540,7 @@ public class Questions extends LoginActivity {
         alert.show();
 
 //        SHOW ADS
-        showInterstitial();
+        showInterstitial3();
     }
 
     public void pieDisplayError(int correctAnswers, int incorrectAnswers, int skippedAnswers, int questionCount){
@@ -683,16 +696,30 @@ public class Questions extends LoginActivity {
         }
     }
 
-    private void showInterstitial() {
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+    private void showInterstitial1() {
+        if (mInterstitialAd1.isLoaded()) {
+            mInterstitialAd1.show();
+        }
+    }
+
+    private void showInterstitial2() {
+        if (mInterstitialAd2.isLoaded()) {
+            mInterstitialAd2.show();
+        }
+    }
+
+    private void showInterstitial3() {
+        if (mInterstitialAd3.isLoaded()) {
+            mInterstitialAd3.show();
         }
     }
 
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("3C04D0CB42D5F340321BF8DA8BCB6868").build();
 
         // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd1.loadAd(adRequest);
+        mInterstitialAd2.loadAd(adRequest);
+        mInterstitialAd3.loadAd(adRequest);
     }
 }
