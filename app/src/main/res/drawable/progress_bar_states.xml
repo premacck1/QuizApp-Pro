@@ -14,7 +14,7 @@
                     android:useLevel="true"
                     android:startColor="@color/colorPrimary"
                     android:centerColor="@color/colorPrimary"
-                    android:endColor="@color/colorPrimaryDark" />
+                    android:endColor="@color/colorPrimaryDarker" />
             </shape>
         </clip>
     </item>

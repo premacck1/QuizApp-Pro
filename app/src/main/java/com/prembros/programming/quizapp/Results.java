@@ -369,7 +369,8 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                 break;
             case R.id.action_share:
                 Bitmap bm = getScreenshot(rootView);
-                shareImage(store(bm, "QuizResult.jpg"));
+                File imageFile = store(bm, "QuizResult.jpeg");
+                shareImage(imageFile);
                 break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
@@ -397,26 +398,26 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
 
 //    CAPTURE THE rootView
     public static Bitmap getScreenshot(View view){
-        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        bitmap.getDensity();
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
+        view.setDrawingCacheEnabled(true);
         view.draw(canvas);
-//        view.setDrawingCacheEnabled(true);
-//        view.setDrawingCacheEnabled(false);
+        view.setDrawingCacheEnabled(false);
         return bitmap;
     }
 
 //    STORE THE BITMAP INTO SD CARD
-    public static File store(Bitmap bitmapImage, String filename){
+    public File store(Bitmap bitmapImage, String filename){
         String dateString = (android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date())).toString();
         dateString = dateString.replace(":","_");
 
         final String dirPath = Environment.getExternalStorageDirectory(). getAbsolutePath() + "/QuizApp";
         File screenshotFile = new File(dirPath);
 
-        if (!screenshotFile.exists())
+        if (!screenshotFile.exists()) {
             //noinspection ResultOfMethodCallIgnored
             screenshotFile.mkdirs();
+        }
         File file = new File(dirPath, dateString + "_" + filename);
 
         try {
@@ -435,9 +436,9 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         Uri uri = Uri.fromFile(file);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
+        intent.setType("image/*");
 
-        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Have you tried QuizApp?");
         intent.putExtra(Intent.EXTRA_TEXT,
                 "QuizApp comes with great quizzes," +
                         " and I just took a " + Questions.selections[1] + " " + Questions.selections[0] + " quiz on it." +
