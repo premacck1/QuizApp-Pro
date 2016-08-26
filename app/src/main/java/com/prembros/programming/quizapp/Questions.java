@@ -32,7 +32,8 @@ public class Questions extends LoginActivity {
 
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
-            QUESTION_COUNT = 0, SCORE = 0;
+            QUESTION_COUNT = 0;
+    public static long SCORE = 0;
     public static String[] selections;
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
@@ -60,6 +61,8 @@ public class Questions extends LoginActivity {
     private InterstitialAd mInterstitialAd2;
 
     private CountDownTimer countDownTimer;
+    private int timeTaken = 1;
+    private int totalTime;
 
     public Questions() {
     }
@@ -90,13 +93,53 @@ public class Questions extends LoginActivity {
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
             instantiate();
 
-            timer.setAnimation(AnimationUtils.loadAnimation(this, R.anim.back_entrance));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     countDownTimer.start();
                 }
             }, 1000);
+
+            questionBean = questionList.get(QUESTION_COUNT);
+            if (questionProgressBar != null) {
+                questionProgressBar.setMax(questionList.size());
+            }
+
+//            Setting the total time according to difficulty. Higher the difficulty, less the total time.
+            switch (selections[1]){
+                case "Rookie":
+                    totalTime = questionList.size() * 30000;
+                    break;
+                case "Apprentice":
+                    totalTime = questionList.size() * 20000;
+                    break;
+                case "Pro":
+                    totalTime = questionList.size() * 10000;
+                    break;
+                case "Hitman":
+                    totalTime = questionList.size() * 5000;
+                    break;
+                default:
+                    totalTime = questionList.size() * 20000;
+                    break;
+            }
+            if (timeProgressBar != null) {
+                timeProgressBar.setMax(totalTime);
+            }
+
+            countDownTimer = new CountDownTimer(totalTime, 100){
+
+                @Override
+                public void onTick(long timeElapsed) {
+                    timeTaken = ((int) (totalTime - timeElapsed));
+                    timeProgressBar.setProgress(timeTaken);
+                }
+
+                @Override
+                public void onFinish() {
+                    onCompletion(false);
+                }
+            };
 
 //        SET UP ACTION BAR
             android.support.v7.app.ActionBar ab = this.getSupportActionBar();
@@ -106,10 +149,6 @@ public class Questions extends LoginActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(R.string.quiz);
 
-            questionBean = questionList.get(QUESTION_COUNT);
-            if (questionProgressBar != null) {
-                questionProgressBar.setMax(questionList.size());
-            }
             populate();
             answer = questionBean.getAnswer();
 
@@ -206,12 +245,14 @@ public class Questions extends LoginActivity {
                         return;
                     }
 
+                    fabSkip.setAlpha(1.0F);
                     doubleBackToSkip = true;
                     Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            fabSkip.setAlpha(0.5F);
                             doubleBackToSkip = false;
                         }
                     }, 1500);
@@ -330,33 +371,12 @@ public class Questions extends LoginActivity {
 
     public void instantiate(){
         questionProgressBar = (ProgressBar) findViewById(R.id.question_progressBar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            questionProgressBar.setProgressDrawable(getDrawable(R.drawable.progress_bar_states));
-        }
+        timeProgressBar = (ProgressBar) findViewById(R.id.time_progressBar);
         addBookmark = (ToggleButton) findViewById(R.id.addBookmark);
         question = (TextView) findViewById(R.id.question_textView);
         fabPrevious = (ImageButton) findViewById(R.id.fabPrevious);
         fabSkip = (ImageButton) findViewById(R.id.fabSkip);
         fabNext = (ImageButton) findViewById(R.id.fabNext);
-        timer = (CustomTextViewLight) findViewById(R.id.timer);
-        countDownTimer = new CountDownTimer(300000, 100){
-
-            String text;
-
-            @Override
-            public void onTick(long l) {
-                text = "Score: " + String.valueOf(l);
-                timer.setText(text);
-            }
-
-            @Override
-            public void onFinish() {
-                timer.setText(R.string.times_up);
-                for (int i = 0; i<4; i++) {
-                    timer.setAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
-                }
-            }
-        };
         option1 = (CheckedTextView) findViewById(R.id.checked_choice_button1);
         option2 = (CheckedTextView) findViewById(R.id.checked_choice_button2);
         option3 = (CheckedTextView) findViewById(R.id.checked_choice_button3);
@@ -492,27 +512,32 @@ public class Questions extends LoginActivity {
             answer = questionBean.getAnswer();
         }
         else{
-            onCompletion();
+            onCompletion(true);
         }
     }
 
 //    ALERTS
 
-    public void onCompletion(){
-        final int score = Integer.parseInt(timer.getText().toString().replace("Score: ", ""));
+    public void onCompletion(boolean reallyCompleted){
+//        PremPrateek Formula to calculate the score!
+        final long score = (totalTime * QUESTION_COUNT * ((20 * CORRECT_ANSWERS) - (5 * INCORRECT_ANSWERS))) / timeTaken;
         countDownTimer.cancel();
 
         // Display Ad
         showInterstitial2();
 
+        /*TODO:Only before the final publish
         /*
         submit score to leaderboard
-        * */
-        if (google_api_client != null && google_api_client.isConnected())
-            Games.Leaderboards.submitScore(google_api_client, getLeaderboardID(selections[0], selections[1]), score);
+        */
+//        if (google_api_client != null && google_api_client.isConnected() && score > 0)
+//            Games.Leaderboards.submitScore(google_api_client, getLeaderboardID(selections[0], selections[1]), score);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-        builder.setMessage("You have completed the quiz!" +
+        if (reallyCompleted) {
+            builder.setMessage("You have completed the quiz!" +
+                    "\nScore: " + score);
+        } else builder.setMessage("Sorry, but the timeTaken's up!" +
                 "\nScore: " + score);
         builder.setCancelable(false);
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
@@ -715,7 +740,7 @@ public class Questions extends LoginActivity {
     }
 
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("3C04D0CB42D5F340321BF8DA8BCB6868").build();
+        AdRequest adRequest = new AdRequest.Builder().build();
 
         // Load ads into Interstitial Ads
         mInterstitialAd1.loadAd(adRequest);

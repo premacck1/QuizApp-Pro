@@ -666,10 +666,10 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             case "iOS":
                 switch (difficulty){
                     case "Rookie":
-                        leaderboardID = "CgkIl-nPp9wBEAIQCw";
+                        leaderboardID = "CgkIl-nPp9wBEAIQHA";
                         break;
                     case "Apprentice":
-                        leaderboardID = "CgkIl-nPp9wBEAIQDw";
+                        leaderboardID = "CgkIl-nPp9wBEAIQHw";
                         break;
                     case "Pro":
                         leaderboardID = "CgkIl-nPp9wBEAIQFA";
@@ -682,7 +682,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             case "Java":
                 switch (difficulty){
                     case "Rookie":
-                        leaderboardID = "CgkIl-nPp9wBEAIQDA";
+                        leaderboardID = "CgkIl-nPp9wBEAIQHQ";
                         break;
                     case "Apprentice":
                         leaderboardID = "CgkIl-nPp9wBEAIQEA";
@@ -698,10 +698,10 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             case "HTML":
                 switch (difficulty){
                     case "Rookie":
-                        leaderboardID = "CgkIl-nPp9wBEAIQDQ";
+                        leaderboardID = "CgkIl-nPp9wBEAIQHg";
                         break;
                     case "Apprentice":
-                        leaderboardID = "CgkIl-nPp9wBEAIQEQ";
+                        leaderboardID = "CgkIl-nPp9wBEAIQIA";
                         break;
                     case "Pro":
                         leaderboardID = "CgkIl-nPp9wBEAIQFg";
@@ -738,11 +738,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 switch (resultCode) {
                     case 0:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                                "CgkIl-nPp9wBEAIQCw"), 0);
+                                "CgkIl-nPp9wBEAIQHA"), 0);
                         break;
                     case 1:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                                "CgkIl-nPp9wBEAIQDw"), 1);
+                                "CgkIl-nPp9wBEAIQHw"), 1);
                         break;
                     case 2:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
@@ -754,7 +754,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                         break;
                     case 4:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                                "CgkIl-nPp9wBEAIQDA"), 4);
+                                "CgkIl-nPp9wBEAIQHQ"), 4);
                         break;
                     case 5:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
@@ -770,11 +770,11 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                         break;
                     case 8:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                                "CgkIl-nPp9wBEAIQDQ"), 8);
+                                "CgkIl-nPp9wBEAIQHg"), 8);
                         break;
                     case 9:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,
-                                "CgkIl-nPp9wBEAIQEQ"), 9);
+                                "CgkIl-nPp9wBEAIQIA"), 9);
                         break;
                     case 10:
                         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(google_api_client,

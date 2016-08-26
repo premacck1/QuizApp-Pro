@@ -441,39 +441,19 @@ public class MainActivity extends LoginActivity
         else {
             final String[] questionArgs = getArgs(selection, pos);
             QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
-            if(QUESTION == null){
+            if (QUESTION != null) {
+                Intent i = new Intent(MainActivity.this, Questions.class);
+                i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
+                i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
+                i.putExtra("Question", QUESTION);
+                startActivity(i);
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("Sorry, but the questions couldn't be loaded.");
                 builder.setCancelable(false);
                 builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        onBackPressed();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-            else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("Now you'll begin " + questionArgs[1] + " " + questionArgs[0] + " quiz" +
-                        "\nYou'll get approx 5 minutes to solve the quiz." +
-                        "\nGood luck!");
-                        builder.setCancelable(false);
-                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(MainActivity.this, Questions.class);
-                        i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
-                        i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
-                        i.putExtra("Question", QUESTION);
-                        startActivity(i);
-                    }
-                });
-                builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
                         onBackPressed();
                     }
                 });
