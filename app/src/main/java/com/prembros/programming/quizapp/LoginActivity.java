@@ -390,6 +390,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                         getSupportActionBar().hide();
                     }
                 }, 400);
+
                 fragmentManager.beginTransaction().add(R.id.fragment_container, new About(), ABOUT_TEXT).commit();
                 break;
             case LEADERBOARD_TEXT:
@@ -446,7 +447,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                     Help.rootView.startAnimation(AnimationUtils.loadAnimation(
                             getApplicationContext(), R.anim.fragment_anim_out));
 
-                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("help")).commit();
+                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag(HELP_TEXT)).commit();
                 }
                 break;
             case LEADERBOARD_TEXT:
@@ -555,10 +556,9 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     private void getProfileInfo() {
 
         try {
-            if (Games.Players.getCurrentPlayer(google_api_client) != null) {
-                Player currentPlayer = Games.Players.getCurrentPlayer(google_api_client);
-//                Person  = Plus.PeopleApi.getCurrentPerson(google_api_client);
+            Player currentPlayer = Games.Players.getCurrentPlayer(google_api_client);
                 // Update the UI after signin
+            if (currentPlayer != null) {
                 changeUI(true);
                 setPersonalInfo(currentPlayer);
             } else {

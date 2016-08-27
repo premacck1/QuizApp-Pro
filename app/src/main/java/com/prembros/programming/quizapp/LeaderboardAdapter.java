@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -46,28 +45,26 @@ public class LeaderboardAdapter extends BaseAdapter {
 
     @SuppressLint("InflateParams")
     public View getView(final int position, View convertView, ViewGroup parent) {
-        TextView leaderboard_header;
-//        TextView leaderboard_child;
+        CustomTextViewLight leaderboard_header;
+        CustomTextViewLight leaderboard_child;
 
-        String headerText = leaderboardHeader.get(position) + ", " + leaderboardChild.get(position);
-//        String childText = "Your high score: " + leaderboardScore.get(position);
+        String headerText = leaderboardHeader.get(position);
+        String childText = leaderboardChild.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.leaderboard_list_item, null);
         }
 
-        leaderboard_header = (TextView) convertView.findViewById(R.id.leaderboard_header_textView);
+        leaderboard_header = (CustomTextViewLight) convertView.findViewById(R.id.leaderboard_header_textView);
         if (leaderboard_header != null) {
-            leaderboard_header.setTypeface(MainActivity.fontTypefaceSemiLight);
             leaderboard_header.setText(headerText);
         }
 
-//        leaderboard_child = (TextView) convertView.findViewById(R.id.leaderboard_child_textView);
-//        if (leaderboard_child != null) {
-//            leaderboard_child.setTypeface(MainActivity.fontTypefaceLight);
-//            leaderboard_child.setText(childText);
-//        }
+        leaderboard_child = (CustomTextViewLight) convertView.findViewById(R.id.leaderboard_child_textView);
+        if (leaderboard_child != null) {
+            leaderboard_child.setText(childText);
+        }
         return convertView;
     }
 }

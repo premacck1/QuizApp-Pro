@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
@@ -79,20 +78,18 @@ public class Leaderboard extends Fragment {
                 "Rookie", "Apprentice", "Pro", "Hitman",
                 "Rookie", "Apprentice", "Pro", "Hitman",
                 "Rookie", "Apprentice", "Pro", "Hitman"};
-//        Integer[] score = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 9, 8, 7, 6, 5};
 
         List<String> headerText = new ArrayList<>();
         List<String> childText = new ArrayList<>();
-//        List<Integer> scoreText = new ArrayList<>();
+
         Collections.addAll(headerText, fields);
         Collections.addAll(childText, difficulty);
-//        Collections.addAll(scoreText, score);
 
         ListAdapter listAdapter = new LeaderboardAdapter(getContext(), headerText, childText);
 
         la_listView.setAdapter(listAdapter);
-        la_listView.setLayoutAnimation(new LayoutAnimationController(
-                AnimationUtils.loadAnimation(getContext(), R.anim.fade_in), 0.1f));
+//        la_listView.setLayoutAnimation(new LayoutAnimationController(
+//                AnimationUtils.loadAnimation(getContext(), R.anim.fragment_anim_in), 0.3f));
     }
 
     public interface OnFragmentInteractionListener {

@@ -112,7 +112,7 @@
                     android:contentDescription="@string/previous_question" />
 
                 <ImageButton
-                    android:alpha="0.5"
+                    android:alpha="0.4"
                     android:id="@+id/fabSkip"
                     android:layout_width="60dp"
                     android:layout_height="60dp"

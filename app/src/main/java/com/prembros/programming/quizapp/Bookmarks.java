@@ -266,7 +266,7 @@ public class Bookmarks extends AppCompatActivity {
 
 //            int location = 0;
 
-//            POPULATING THE ListView
+//            POPULATING THE listView
             while (!bookmarkedQuestions.isAfterLast()) {
                 // Adding header data (location +1 ) + ": " +
                 listHeader.add(bookmarkedQuestions.getString(bookmarkedQuestions.getColumnIndex("question")));
@@ -285,8 +285,8 @@ public class Bookmarks extends AppCompatActivity {
                 listView.setAdapter(listAdapter);
                 listView.setLayoutAnimation(
                         new LayoutAnimationController(
-                                AnimationUtils.loadAnimation(staticContext, R.anim.float_in_from_below)
-                                , 0.1F
+                                AnimationUtils.loadAnimation(staticContext, R.anim.fragment_anim_in)
+                                , 0.25F
                         )
                 );
             }

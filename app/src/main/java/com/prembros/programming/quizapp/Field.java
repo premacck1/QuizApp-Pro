@@ -31,25 +31,27 @@ public class Field extends ListFragment{
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_field, container, false);
         listView = (ListView) rootView.findViewById(android.R.id.list);
+        listView.setVisibility(View.INVISIBLE);
         introText = (TextView) rootView.findViewById(R.id.intro_textView);
 
-        // CHECK IF THE FRAGMENT IS STARTING FOR THE FIRST TIME
+        // IF THE FRAGMENT IS STARTING FOR THE FIRST TIME
         if (savedInstanceState == null && !mAlreadyLoaded) {
             mAlreadyLoaded = true;
             listItemPopulate();
-            listView.setLayoutAnimation(
-                    new LayoutAnimationController(
-                            AnimationUtils.loadAnimation(getContext(), R.anim.float_in_from_below),
-                            0.1F
-                    )
-            );
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    listView.setLayoutAnimation(
+                            new LayoutAnimationController(
+                                    AnimationUtils.loadAnimation(getContext(), R.anim.fragment_anim_in),
+                                    0.3F
+                            )
+                    );
+                    listView.setVisibility(View.VISIBLE);
                     introText.setText(R.string.intro);
-                    introText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.float_in_from_above));
+                    introText.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
                 }
-            }, 300);
+            }, 250);
         }
 
         //IF THE FRAGMENT HAS ALREADY STARTED BEFORE AND USER IS JUST RETURNING BACK TO THE PAGE
@@ -57,15 +59,16 @@ public class Field extends ListFragment{
             listItemPopulate();
             listView.setLayoutAnimation(
                     new LayoutAnimationController(
-                            AnimationUtils.loadAnimation(getContext(), R.anim.front_entrance),
+                            AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left),
                             0.1F
                     )
             );
+            listView.setVisibility(View.VISIBLE);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     introText.setText(R.string.intro);
-                    introText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.back_entrance));
+                    introText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right));
                 }
             }, 200);
         }

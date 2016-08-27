@@ -3,16 +3,18 @@
 
     <translate
         android:fromXDelta="0"
-        android:toXDelta="0"
-        android:fromYDelta="100"
+        android:toXDelta="-50%p"
+        android:fromYDelta="0"
         android:toYDelta="0"
+        android:duration="@android:integer/config_mediumAnimTime"
         android:interpolator="@android:anim/decelerate_interpolator"
-        android:duration="600"/>
+        android:startOffset="200" />
 
     <alpha
-        android:fromAlpha="0"
-        android:toAlpha="1"
+        android:fromAlpha="1"
+        android:toAlpha="0"
+        android:duration="@android:integer/config_mediumAnimTime"
         android:interpolator="@android:anim/decelerate_interpolator"
-        android:duration="800"/>
+        android:startOffset="200" />
 
 </set>

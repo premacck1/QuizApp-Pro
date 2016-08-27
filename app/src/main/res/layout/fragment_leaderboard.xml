@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryTranslucent">
+    android:layout_height="match_parent">
 
     <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:layout_width="match_parent"
@@ -10,8 +9,11 @@
         android:id="@+id/la_header"
         android:text="@string/leaderboard"
         android:textSize="30sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
         android:textColor="#ffffff" />
 
     <TextView
@@ -24,12 +26,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp">
+        android:paddingRight="5dp"
+        android:background="@color/colorPrimaryTranslucent">
 
         <GridView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numColumns="2"
+            android:horizontalSpacing="15dp"
             android:verticalSpacing="15dp"
             android:listSelector="#0000"
             android:id="@+id/la_ListView"
