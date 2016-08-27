@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -21,10 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -49,14 +46,14 @@ public class Questions extends AppCompatActivity {
     private QuestionBean questionBean;
     private TextView question;
     private ImageButton fabPrevious, fabSkip, fabNext;
-    private CustomTextViewLight timer;
+//    private CustomTextViewLight timer;
     private ToggleButton addBookmark;
     private CheckedTextView option1;
     private CheckedTextView option2;
     private CheckedTextView option3;
     private CheckedTextView option4;
     private CheckedTextView[] allCheckedTextViews;
-    private ProgressBar questionProgressBar;
+    private ProgressBar questionProgressBar, timeProgressBar;
     private InterstitialAd mInterstitialAd3;
     private InterstitialAd mInterstitialAd1;
     private InterstitialAd mInterstitialAd2;
