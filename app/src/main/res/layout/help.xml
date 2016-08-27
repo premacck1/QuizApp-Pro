@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDarkTranslucent">
+    android:background="@color/colorPrimary">
 
     <com.prembros.programming.quizapp.CustomTextViewSemiLight
         android:layout_width="match_parent"
@@ -11,8 +11,8 @@
         android:gravity="center_horizontal"
         android:textSize="28sp"
         android:text="@string/help_header"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textColor="#FFFFFF" />
 
     <TextView

@@ -66,6 +66,15 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         if (!pieError) {
             setContentView(R.layout.activity_results);
 
+        /*TODO:Remove comments to submit score Only before the final publish,
+         TODO:because the leaderboards cannot be reset once published and the scores in beta testing don't matter!
+        /*
+        submit score to leaderboard
+        */
+//        if (google_api_client != null && google_api_client.isConnected() && Questions.SCORE > 0)
+//            Games.Leaderboards.submitScore(google_api_client,
+//                    getLeaderboardID(Questions.selections[0], Questions.selections[1]), Questions.SCORE);
+
             rootView = (RelativeLayout) findViewById(R.id.result_page);
 
             new Handler().postDelayed(new Runnable() {
@@ -84,16 +93,16 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                         fieldText.setText(fullScore);
                         scorePoints.setText(scorePointText);
                         fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
-                        scorePoints.setAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                        scorePoints.setAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
                     } else {
                         CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_marks);
                         fieldText.setText(fieldDisplay);
                         String scoreDisplay = Questions.CORRECT_ANSWERS + "/" + Questions.QUESTION_COUNT;
                         scoreText.setText(scoreDisplay);
                         scorePoints.setText(scorePointText);
-                        fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
-                        scoreText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
-                        scorePoints.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fade_in));
+                        fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
+                        scoreText.startAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
+                        scorePoints.startAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
                     }
                 }
             }, 2000);
@@ -106,9 +115,16 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
 
 //        CREATE THE RESULT PIE CHART
             mChart = (PieChart) findViewById(R.id.resultPieChart);
+            mChart.setVisibility(View.INVISIBLE);
             createPieChart();
             mChart.setMinimumHeight(mChart.getWidth());
-            mChart.startAnimation(AnimationUtils.loadAnimation(this, R.anim.float_in_from_above));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mChart.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.fragment_anim_in));
+                    mChart.setVisibility(View.VISIBLE);
+                }
+            }, 400);
         }
     }
 
@@ -396,11 +412,28 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         return true;
     }
 
-//    CAPTURE THE rootView
+//    public static Bitmap takeScreenShot(Activity activity)
+//    {
+//        View view = activity.getWindow().getDecorView();
+//        view.setDrawingCacheEnabled(true);
+//        view.buildDrawingCache();
+//        Bitmap b1 = view.getDrawingCache();
+//        Rect frame = new Rect();
+//        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+//        int statusBarHeight = frame.top;
+//        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+//        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
+//
+//        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height  - statusBarHeight);
+//        view.destroyDrawingCache();
+//        return b;
+//    }
+
+//    CAPTURE THE View
     public static Bitmap getScreenshot(View view){
+        view.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        view.setDrawingCacheEnabled(true);
         view.draw(canvas);
         view.setDrawingCacheEnabled(false);
         return bitmap;

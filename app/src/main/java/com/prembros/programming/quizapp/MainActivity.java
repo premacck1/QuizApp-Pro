@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -41,7 +40,6 @@ public class MainActivity extends LoginActivity
     private String JSONString = null;
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
-    public static Typeface fontTypefaceSemiLight, fontTypefaceLight;
     private String version;
     private DatabaseHolder dbHandler;
 
@@ -75,10 +73,6 @@ public class MainActivity extends LoginActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle(R.string.app_name);
-
-//        sets the typeface of header and child in ExpandableListAdapter
-        fontTypefaceSemiLight = Typeface.createFromAsset(getAssets(), "fonts/seguisl.ttf");
-        fontTypefaceLight = Typeface.createFromAsset(getAssets(), "fonts/seguil.ttf");
 
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());

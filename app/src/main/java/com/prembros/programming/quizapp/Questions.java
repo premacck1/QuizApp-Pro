@@ -4,11 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,15 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Questions extends LoginActivity {
+public class Questions extends AppCompatActivity {
 
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
@@ -48,14 +46,14 @@ public class Questions extends LoginActivity {
     private QuestionBean questionBean;
     private TextView question;
     private ImageButton fabPrevious, fabSkip, fabNext;
-    private CustomTextViewLight timer;
+//    private CustomTextViewLight timer;
     private ToggleButton addBookmark;
     private CheckedTextView option1;
     private CheckedTextView option2;
     private CheckedTextView option3;
     private CheckedTextView option4;
     private CheckedTextView[] allCheckedTextViews;
-    private ProgressBar questionProgressBar;
+    private ProgressBar questionProgressBar, timeProgressBar;
     private InterstitialAd mInterstitialAd3;
     private InterstitialAd mInterstitialAd1;
     private InterstitialAd mInterstitialAd2;
@@ -77,7 +75,6 @@ public class Questions extends LoginActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
 
-        if (progress_dialog!=null) progress_dialog.dismiss();
 //        GET THE SELECTED FIELD AND DIFFICULTY.
         Bundle b = getIntent().getExtras();
         selections = new String[]{String.valueOf(b.get(FIELD_ARG)), String.valueOf(b.get(DIFFICULTY_ARG))};
@@ -242,20 +239,21 @@ public class Questions extends LoginActivity {
                         dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
                         dbHandler.close();
                         showNextQuestion();
+                        fabSkip.setAlpha(0.4F);
                         return;
                     }
 
                     fabSkip.setAlpha(1.0F);
                     doubleBackToSkip = true;
-                    Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            fabSkip.setAlpha(0.5F);
+                            fabSkip.setAlpha(0.4F);
                             doubleBackToSkip = false;
                         }
-                    }, 1500);
+                    }, 2000);
                 }
             });
 
@@ -519,25 +517,19 @@ public class Questions extends LoginActivity {
 //    ALERTS
 
     public void onCompletion(boolean reallyCompleted){
-//        PremPrateek Formula to calculate the score!
-        final long score = (totalTime * QUESTION_COUNT * ((20 * CORRECT_ANSWERS) - (5 * INCORRECT_ANSWERS))) / timeTaken;
-        countDownTimer.cancel();
-
         // Display Ad
         showInterstitial2();
 
-        /*TODO:Only before the final publish
-        /*
-        submit score to leaderboard
-        */
-//        if (google_api_client != null && google_api_client.isConnected() && score > 0)
-//            Games.Leaderboards.submitScore(google_api_client, getLeaderboardID(selections[0], selections[1]), score);
+//        PremPrateek Formula to calculate the score!
+        long score = (totalTime * QUESTION_COUNT * ((20 * CORRECT_ANSWERS) - (5 * INCORRECT_ANSWERS))) / timeTaken;
+        SCORE = score;
+        countDownTimer.cancel();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
         if (reallyCompleted) {
             builder.setMessage("You have completed the quiz!" +
                     "\nScore: " + score);
-        } else builder.setMessage("Sorry, but the timeTaken's up!" +
+        } else builder.setMessage("Sorry, but the time's up!" +
                 "\nScore: " + score);
         builder.setCancelable(false);
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
@@ -547,7 +539,6 @@ public class Questions extends LoginActivity {
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
                     pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
                 }else {
-                    SCORE = score;
                     startActivity(new Intent(Questions.this, Results.class));
                     Questions.this.finish();
                 }
@@ -594,7 +585,7 @@ public class Questions extends LoginActivity {
 
     public void changeDifficulty(){
         AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-        builder.setTitle("Too hard?");
+        builder.setTitle("More or less");
         builder.setMessage("Go back and change difficulty?");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes please", new DialogInterface.OnClickListener() {
@@ -656,20 +647,40 @@ public class Questions extends LoginActivity {
                 break;
             case R.id.action_donate:
                 break;
-            case R.id.action_leaderboard:
-                getAndRemoveActiveFragment(LEADERBOARD_TEXT);
-                loadFragment(LEADERBOARD_TEXT);
-                break;
-            case R.id.action_achievements:
-                loadFragment(ACHIEVEMENTS_TEXT);
-                break;
             case R.id.action_about:
-                getAndRemoveActiveFragment(ABOUT_TEXT);
-                loadFragment(ABOUT_TEXT);
+                if (About.isFragmentActive) {
+                    About.isFragmentActive = false;
+                    About.rootView.startAnimation(AnimationUtils.loadAnimation(
+                            getApplicationContext(), R.anim.fragment_anim_out));
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("about")).commit();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new About(), "about").commit();
                 break;
             case R.id.action_help:
-                getAndRemoveActiveFragment(HELP_TEXT);
-                loadFragment(HELP_TEXT);
+                if (Help.isFragmentActive) {
+                    Help.isFragmentActive = false;
+                    Help.rootView.startAnimation(AnimationUtils.loadAnimation(
+                            getApplicationContext(), R.anim.fragment_anim_out));
+
+                    getSupportFragmentManager().beginTransaction().remove(
+                            getSupportFragmentManager().findFragmentByTag("help")).commit();
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 400);
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Help(), "help").commit();
                 break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
@@ -681,15 +692,20 @@ public class Questions extends LoginActivity {
     @Override
     public void onBackPressed() {
         if (Help.isFragmentActive){
-            getAndRemoveActiveFragment(HELP_TEXT);
+            Help.isFragmentActive = false;
+            Help.rootView.startAnimation(AnimationUtils.loadAnimation(
+                    getApplicationContext(), R.anim.fragment_anim_out));
+
+            getSupportFragmentManager().beginTransaction().remove(
+                    getSupportFragmentManager().findFragmentByTag("help")).commit();
             return;
         }
         if (About.isFragmentActive){
-            getAndRemoveActiveFragment(ABOUT_TEXT);
-            return;
-        }
-        if (Leaderboard.isFragmentActive){
-            getAndRemoveActiveFragment(LEADERBOARD_TEXT);
+            About.isFragmentActive = false;
+            About.rootView.startAnimation(AnimationUtils.loadAnimation(
+                    getApplicationContext(), R.anim.fragment_anim_out));
+            getSupportFragmentManager().beginTransaction().remove(
+                    getSupportFragmentManager().findFragmentByTag("about")).commit();
             return;
         }
         int backStackCount = getSupportFragmentManager().getBackStackEntryCount();

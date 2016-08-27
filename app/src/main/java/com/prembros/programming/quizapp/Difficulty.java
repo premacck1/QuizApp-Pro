@@ -76,7 +76,7 @@ public class Difficulty extends Fragment {
         listView.setAdapter(difficulty);
         listView.setLayoutAnimation(
                 new LayoutAnimationController(
-                        AnimationUtils.loadAnimation(getContext(), R.anim.back_entrance),
+                        AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right),
                         0.1F
                 )
         );
@@ -84,7 +84,7 @@ public class Difficulty extends Fragment {
             @Override
             public void run() {
                 difficultyText.setText(R.string.intro_difficulty);
-                difficultyText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.front_entrance));
+                difficultyText.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
             }
         }, 200);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

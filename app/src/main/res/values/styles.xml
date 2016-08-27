@@ -9,6 +9,45 @@
         <!--<item name="android:windowFullscreen">true</item>-->
     </style>
 
+    <style name="FirstScreenTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/MainActivityTransition</item>
+    </style>
+
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/MainActivityTransition</item>
+    </style>
+
+    <style name="MainActivityTransition">
+        <item name="android:windowEnterAnimation">@anim/fragment_anim_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="QuestionsTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/ResultsTransition</item>
+    </style>
+
+    <style name="ResultsTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/ResultsTransition</item>
+    </style>
+
+    <style name="ResultsTransition">
+        <item name="android:windowEnterAnimation">@anim/fragment_anim_in</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
+    <style name="BookmarksTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/LoginActivityTransition</item>
+    </style>
+
+    <style name="LoginActivityTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/LoginActivityTransition</item>
+    </style>
+
+    <style name="LoginActivityTransition">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_left</item>
+    </style>
+
     <style name="AppTheme.OptionsTextStyle">
         <item name="android:padding">10dp</item>
         <item name="android:textSize">15sp</item>

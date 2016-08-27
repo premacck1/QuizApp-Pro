@@ -11,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ExpandableListView;
-import android.widget.ImageButton;
+import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -24,10 +22,10 @@ import java.util.List;
 public class ResultsInDetail extends Fragment {
 
     public static String ARG_ENTRY = "entry number";
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
+    ResultsInDetailAdapter listAdapter;
+    ListView listView;
     List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    List<String> listDataChild;
     DatabaseHolder dbHandler;
     private int entry_number;
     private OnFragmentInteractionListener mListener;
@@ -58,7 +56,7 @@ public class ResultsInDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.results_in_detail, container, false);
+        rootView = inflater.inflate(R.layout.fragment_results_in_detail, container, false);
         isFragmentActive = true;
 
         if (entry_number != -1) {
@@ -67,18 +65,10 @@ public class ResultsInDetail extends Fragment {
 
             headerText = (CustomTextViewSemiLight) rootView.findViewById(R.id.detailedResultHeader);
             // get the listview
-            expListView = (ExpandableListView) rootView.findViewById(R.id.detailedResultExpandableListView);
+            listView = (ListView) rootView.findViewById(R.id.detailedResultListView);
 
             // preparing list data
             prepareListData();
-
-            ImageButton fragmentCloseButton = (ImageButton) rootView.findViewById(R.id.close_detailed_results);
-            fragmentCloseButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onFragmentInteraction();
-                }
-            });
         }
         else{
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -101,7 +91,7 @@ public class ResultsInDetail extends Fragment {
              */
     private void prepareListData() {
         listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
+        listDataChild = new ArrayList<>();
         Cursor detailedResult;
         int location;
 
@@ -123,10 +113,8 @@ public class ResultsInDetail extends Fragment {
                     listDataHeader.add((location + 1) + ": " + detailedResult.getString(detailedResult.getColumnIndex("question")));
 
                     // Adding child data
-                    List<String> q1 = new ArrayList<>();
-                    q1.add("Answer: " + detailedResult.getString(detailedResult.getColumnIndex("answer")));
+                    listDataChild.add("Answer: " + detailedResult.getString(detailedResult.getColumnIndex("answer")));
 
-                    listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
                     location++;
                     detailedResult.moveToNext();
                 }
@@ -142,17 +130,15 @@ public class ResultsInDetail extends Fragment {
 
                 headerText.setText(R.string.your_incorrect_answers);
 
-//            POPULATING THE expandableListView with the incorrect answers
+//            POPULATING THE listView with the incorrect answers
                 while (!detailedResult.isAfterLast()) {
                     // Adding header data
                     listDataHeader.add((location + 1) + ": " + detailedResult.getString(detailedResult.getColumnIndex("question")));
 
                     // Adding child data
-                    List<String> q1 = new ArrayList<>();
-                    q1.add("Given Answer: " + detailedResult.getString(detailedResult.getColumnIndex("givenAnswer")));
-                    q1.add("Correct Answer: " + detailedResult.getString(detailedResult.getColumnIndex("correctAnswer")));
+                    listDataChild.add("Your Answer: " + detailedResult.getString(detailedResult.getColumnIndex("givenAnswer")) +
+                            "\nCorrect Answer: " + detailedResult.getString(detailedResult.getColumnIndex("correctAnswer")));
 
-                    listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
                     location++;
                     detailedResult.moveToNext();
                 }
@@ -174,10 +160,8 @@ public class ResultsInDetail extends Fragment {
                     listDataHeader.add((location + 1) + ": " + detailedResult.getString(detailedResult.getColumnIndex("question")));
 
                     // Adding child data
-                    List<String> q1 = new ArrayList<>();
-                    q1.add("Answer: " + detailedResult.getString(detailedResult.getColumnIndex("answer")));
+                    listDataChild.add("Answer: " + detailedResult.getString(detailedResult.getColumnIndex("answer")));
 
-                    listDataChild.put(listDataHeader.get(location), q1); // Header, Child data
                     location++;
                     detailedResult.moveToNext();
                 }
@@ -202,8 +186,8 @@ public class ResultsInDetail extends Fragment {
 
     public void setUpListAdapter(){
         // setting list adapter
-        listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
-        expListView.setAdapter(listAdapter);
+        listAdapter = new ResultsInDetailAdapter(getContext(), listDataHeader, listDataChild);
+        listView.setAdapter(listAdapter);
     }
 
     public interface OnFragmentInteractionListener {

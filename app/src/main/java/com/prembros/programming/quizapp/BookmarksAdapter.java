@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prembros.programming.quizapp.Bookmarks.PlaceholderFragment;
@@ -51,23 +50,21 @@ public class BookmarksAdapter extends BaseAdapter {
 
     @SuppressLint("InflateParams")
     public View getView(final int position, View convertView, ViewGroup parent) {
-        TextView bookmarked_question;
-        TextView bookmarked_answer;
+        CustomTextViewSemiLight bookmarked_question;
+        CustomTextViewLight bookmarked_answer;
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.bookmark_list_item, null);
         }
 
-        bookmarked_question = (TextView) convertView.findViewById(R.id.bookmark_header_textView);
+        bookmarked_question = (CustomTextViewSemiLight) convertView.findViewById(R.id.bookmark_header_textView);
         if (bookmarked_question != null) {
-            bookmarked_question.setTypeface(MainActivity.fontTypefaceSemiLight);
             bookmarked_question.setText(bookmarkHeader.get(position));
         }
 
-        bookmarked_answer = (TextView) convertView.findViewById(R.id.bookmark_child_textView);
+        bookmarked_answer = (CustomTextViewLight) convertView.findViewById(R.id.bookmark_child_textView);
         if (bookmarked_answer != null) {
-            bookmarked_answer.setTypeface(MainActivity.fontTypefaceLight);
             bookmarked_answer.setText(bookmarkChild.get(position));
         }
 
@@ -83,7 +80,7 @@ public class BookmarksAdapter extends BaseAdapter {
                 if (doubleBackToDelete) {
                     view.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.fragment_anim_out));
                     PlaceholderFragment.listView.startAnimation(
-                            AnimationUtils.loadAnimation(_context, R.anim.fade_out));
+                            AnimationUtils.loadAnimation(_context, android.R.anim.fade_out));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -103,10 +100,11 @@ public class BookmarksAdapter extends BaseAdapter {
                             Bookmarks.PlaceholderFragment.listItemInvalidate();
                             }
                             PlaceholderFragment.listView.startAnimation(
-                                    AnimationUtils.loadAnimation(_context, R.anim.fade_in));
+                                    AnimationUtils.loadAnimation(_context, android.R.anim.fade_in));
 //                            PlaceholderFragment.listView.setVisibility(View.VISIBLE);
                         }
                     }, 300);
+                    doubleBackToDelete = false;
                     return;
                 }
 
