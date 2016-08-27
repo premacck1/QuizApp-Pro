@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.widget.ToggleButton;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -47,15 +49,18 @@ public class Questions extends AppCompatActivity {
     private QuestionBean questionBean;
     private TextView question;
     private ImageButton fabPrevious, fabSkip, fabNext;
-//    private CustomTextViewLight timer;
+    private CustomTextViewLight timer;
     private ToggleButton addBookmark;
     private CheckedTextView option1;
     private CheckedTextView option2;
     private CheckedTextView option3;
     private CheckedTextView option4;
     private CheckedTextView[] allCheckedTextViews;
-    private ProgressBar questionProgressBar, timeProgressBar;
-    private InterstitialAd mInterstitialAd;
+    private ProgressBar questionProgressBar;
+    private InterstitialAd mInterstitialAd3;
+    private InterstitialAd mInterstitialAd1;
+    private InterstitialAd mInterstitialAd2;
+
     private CountDownTimer countDownTimer;
     private int timeTaken = 1;
     private int totalTime;
@@ -150,15 +155,25 @@ public class Questions extends AppCompatActivity {
             allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
             //Set up ads
-            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd1 = new InterstitialAd(this);
             // set the ad unit ID
-            mInterstitialAd.setAdUnitId(getString(R.string.int_add_full));
+            mInterstitialAd1.setAdUnitId(getString(R.string.int_add_full));
+
+            //Set up ads
+            mInterstitialAd2 = new InterstitialAd(this);
+            // set the ad unit ID
+            mInterstitialAd2.setAdUnitId(getString(R.string.int_add_full1));
+
+            //Set up ads
+            mInterstitialAd3 = new InterstitialAd(this);
+            // set the ad unit ID
+            mInterstitialAd3.setAdUnitId(getString(R.string.int_add_full2));
 
             requestNewInterstitial();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showInterstitial();
+                    showInterstitial1();
                 }
             }, 10000);
 
@@ -305,12 +320,12 @@ public class Questions extends AppCompatActivity {
                 }
             });
 
-            mInterstitialAd.setAdListener(new AdListener() {
+           /* mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdClosed() {
                     requestNewInterstitial();
                 }
-            });
+            });*/
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
@@ -506,7 +521,7 @@ public class Questions extends AppCompatActivity {
 
     public void onCompletion(boolean reallyCompleted){
         // Display Ad
-        showInterstitial();
+        showInterstitial2();
 
 //        PremPrateek Formula to calculate the score!
         long score = (totalTime * QUESTION_COUNT * ((20 * CORRECT_ANSWERS) - (5 * INCORRECT_ANSWERS))) / timeTaken;
@@ -544,7 +559,7 @@ public class Questions extends AppCompatActivity {
         alert.show();
 
 //        SHOW ADS
-        showInterstitial();
+        showInterstitial3();
     }
 
     public void pieDisplayError(int correctAnswers, int incorrectAnswers, int skippedAnswers, int questionCount){
@@ -725,9 +740,21 @@ public class Questions extends AppCompatActivity {
         }
     }
 
-    private void showInterstitial() {
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+    private void showInterstitial1() {
+        if (mInterstitialAd1.isLoaded()) {
+            mInterstitialAd1.show();
+        }
+    }
+
+    private void showInterstitial2() {
+        if (mInterstitialAd2.isLoaded()) {
+            mInterstitialAd2.show();
+        }
+    }
+
+    private void showInterstitial3() {
+        if (mInterstitialAd3.isLoaded()) {
+            mInterstitialAd3.show();
         }
     }
 
@@ -735,6 +762,8 @@ public class Questions extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
 
         // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd1.loadAd(adRequest);
+        mInterstitialAd2.loadAd(adRequest);
+        mInterstitialAd3.loadAd(adRequest);
     }
 }
