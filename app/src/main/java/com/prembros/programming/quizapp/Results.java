@@ -473,9 +473,8 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
 
         intent.putExtra(Intent.EXTRA_SUBJECT, "Have you tried QuizApp?");
         intent.putExtra(Intent.EXTRA_TEXT,
-                "QuizApp comes with great quizzes," +
-                        " and I just took a " + Questions.selections[1] + " " + Questions.selections[0] + " quiz on it." +
-                        "\nGet the app here: https://goo.gl/f8QABD \n");
+                "I just took a " + Questions.selections[1] + " " + Questions.selections[0] + " quiz on QuizApp - Programming." + "QuizApp comes with great programming quizzes," +
+                "\nGet the app here: https://goo.gl/f8QABD \n");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try{
             startActivity(Intent.createChooser(intent, "Share your QuizResult"));
@@ -521,7 +520,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Don't forget to share your QuizResult!\nIf you have, hit back again to goto home", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Don't forget to share your QuizResult!\nIf you have, hit back again to goto home", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
