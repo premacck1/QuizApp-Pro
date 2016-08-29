@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
@@ -26,7 +28,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Questions extends AppCompatActivity {
+public class Questions extends AppCompatActivity implements OnClickListener, OnLongClickListener {
 
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
@@ -174,148 +176,8 @@ public class Questions extends AppCompatActivity {
                 }
             }, 10000);
 
-//        ON CLICK LISTENERS FOR THE 4 OPTIONS (CheckedTextViews)
-            option1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickAction(option1);
-                }
-            });
-
-            option2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickAction(option2);
-                }
-            });
-
-            option3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickAction(option3);
-                }
-            });
-
-            option4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickAction(option4);
-                }
-            });
-
-//        ON CLICK LISTENERS FOR NAVIGATION BUTTONS
-            addBookmark.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bookmarkAction(addBookmark);
-                }
-            });
-
-            fabNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (selectedOption != null){
-
-                        dbHandler.open();
-                        if (selectedOption.equalsIgnoreCase(answer)){
-                            dbHandler.insertCorrectAnswer(question.getText().toString(), selectedOption);
-                        }
-                        else {
-                            dbHandler.insertIncorrectAnswer(question.getText().toString(), selectedOption, answer);
-                        }
-                        dbHandler.close();
-
-                        showNextQuestion();
-                    }
-                    else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            fabSkip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (doubleBackToSkip) {
-                        dbHandler.open();
-                        dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
-                        dbHandler.close();
-                        showNextQuestion();
-                        fabSkip.setAlpha(0.4F);
-                        return;
-                    }
-
-                    fabSkip.setAlpha(1.0F);
-                    doubleBackToSkip = true;
-//                    Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            fabSkip.setAlpha(0.4F);
-                            doubleBackToSkip = false;
-                        }
-                    }, 2000);
-                }
-            });
-
-            fabPrevious.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (previousQuestion.size()>0) {
-                        previousPressed = true;
-                        questionBean = previousQuestion.pop();
-                        populate();
-                        answer = questionBean.getAnswer();
-                        selectedOption = previousAnswer.pop();
-                        getSelectedAnswer(selectedOption);
-                        String currentQuestion = question.getText().toString();
-
-                        dbHandler.open();
-                        int isQuestionPresentInAnswersTable = dbHandler.isQuestionPresentInAnswersTable(currentQuestion);
-                        if (isQuestionPresentInAnswersTable < 0)
-                            dbHandler.deleteQuestion(-1, currentQuestion);
-                        else if (isQuestionPresentInAnswersTable > 0)
-                            dbHandler.deleteQuestion(1, currentQuestion);
-                        else dbHandler.deleteQuestion(0, currentQuestion);
-                        dbHandler.close();
-                    }
-                    else{
-                        Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-//        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
-            addBookmark.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(Questions.this, "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-
-            fabNext.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(Questions.this, "Next question", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-
-            fabSkip.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(Questions.this, "Skip this question", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-
-            fabPrevious.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
+//        SET ON CLICK AND ON LONG CLICK LISTENERS
+            setClickListeners();
 
            /* mInterstitialAd.setAdListener(new AdListener() {
                 @Override
@@ -336,6 +198,125 @@ public class Questions extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
+        }
+    }
+
+    public void setClickListeners(){
+        option1.setOnClickListener(this);
+        option2.setOnClickListener(this);
+        option3.setOnClickListener(this);
+        option4.setOnClickListener(this);
+        addBookmark.setOnClickListener(this);
+        fabNext.setOnClickListener(this);
+        fabPrevious.setOnClickListener(this);
+        fabSkip.setOnClickListener(this);
+        addBookmark.setOnLongClickListener(this);
+        fabNext.setOnLongClickListener(this);
+        fabPrevious.setOnLongClickListener(this);
+        fabSkip.setOnLongClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.checked_choice_button1:
+                clickAction(option1);
+                break;
+            case R.id.checked_choice_button2:
+                clickAction(option2);
+                break;
+            case R.id.checked_choice_button3:
+                clickAction(option3);
+                break;
+            case R.id.checked_choice_button4:
+                clickAction(option4);
+                break;
+            case R.id.addBookmark:
+                bookmarkAction(addBookmark);
+                break;
+            case R.id.fabNext:
+                if (selectedOption != null){
+                    dbHandler.open();
+                    if (selectedOption.equalsIgnoreCase(answer)){
+                        dbHandler.insertCorrectAnswer(question.getText().toString(), selectedOption);
+                    }
+                    else {
+                        dbHandler.insertIncorrectAnswer(question.getText().toString(), selectedOption, answer);
+                    }
+                    dbHandler.close();
+
+                    showNextQuestion();
+                }
+                else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fabSkip:
+                if (doubleBackToSkip) {
+                    dbHandler.open();
+                    dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
+                    dbHandler.close();
+                    showNextQuestion();
+                    fabSkip.setAlpha(0.4F);
+                    return;
+                }
+
+                fabSkip.setAlpha(1.0F);
+                doubleBackToSkip = true;
+//                    Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        fabSkip.setAlpha(0.4F);
+                        doubleBackToSkip = false;
+                    }
+                }, 2000);
+                break;
+            case R.id.fabPrevious:
+                if (previousQuestion.size()>0) {
+                    previousPressed = true;
+                    questionBean = previousQuestion.pop();
+                    populate();
+                    answer = questionBean.getAnswer();
+                    selectedOption = previousAnswer.pop();
+                    getSelectedAnswer(selectedOption);
+                    String currentQuestion = question.getText().toString();
+
+                    dbHandler.open();
+                    int isQuestionPresentInAnswersTable = dbHandler.isQuestionPresentInAnswersTable(currentQuestion);
+                    if (isQuestionPresentInAnswersTable < 0)
+                        dbHandler.deleteQuestion(-1, currentQuestion);
+                    else if (isQuestionPresentInAnswersTable > 0)
+                        dbHandler.deleteQuestion(1, currentQuestion);
+                    else dbHandler.deleteQuestion(0, currentQuestion);
+                    dbHandler.close();
+                }
+                else{
+                    Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+//        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
+    @Override
+    public boolean onLongClick(View view) {
+        switch (view.getId()){
+            case R.id.addBookmark:
+                Toast.makeText(Questions.this, "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.fabNext:
+                Toast.makeText(Questions.this, "Next question", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.fabPrevious:
+                Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.fabSkip:
+                Toast.makeText(Questions.this, "Skip this question", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
         }
     }
 
