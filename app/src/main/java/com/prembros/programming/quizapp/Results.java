@@ -102,7 +102,24 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                         scorePoints.setText(scorePointText);
                         fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
                         scorePoints.setAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
-                    } else {
+                    }
+                    else if (skippedAnswers == questionCount){
+                        String skip = "I think I should be SkipApp instead of QuizApp!";
+                        fieldText.setTextSize(16);
+                        fieldText.setText(skip);
+                        scorePoints.setText(scorePointText);
+                        fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
+                        scorePoints.setAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
+                    }
+                    else if (incorrectAnswers == questionCount){
+                        String ohMyGod = "Can anyone be more bummed than you?";
+                        fieldText.setTextSize(16);
+                        fieldText.setText(ohMyGod);
+                        scorePoints.setText(scorePointText);
+                        fieldText.startAnimation(AnimationUtils.loadAnimation(Results.this, R.anim.zoom_in));
+                        scorePoints.setAnimation(AnimationUtils.loadAnimation(Results.this, android.R.anim.fade_in));
+                    }
+                    else {
                         CustomTextViewSemiLight scoreText = (CustomTextViewSemiLight) rootView.findViewById(R.id.score_marks);
                         fieldText.setText(fieldDisplay);
                         String scoreDisplay = Questions.CORRECT_ANSWERS + "/" + Questions.QUESTION_COUNT;
