@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
+import com.kobakei.ratethisapp.RateThisApp;
 
 import java.io.InputStream;
 
@@ -269,6 +271,9 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                     getAndRemoveActiveFragment("whatever");
                 else this.finish();
                 break;
+            case R.id.action_rate_this_app:
+                RateThisApp.showRateDialog(this);
+                break;
             case R.id.action_about:
                 getAndRemoveActiveFragment(ABOUT_TEXT);
                 loadFragment(ABOUT_TEXT);
@@ -277,7 +282,29 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 getAndRemoveActiveFragment(HELP_TEXT);
                 loadFragment(HELP_TEXT);
                 break;
-            case R.id.action_donate:
+            case R.id.action_get_pro:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle(R.string.get_pro);
+                alert.setMessage(R.string.get_pro_content);
+                alert.setPositiveButton("Get Pro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(LoginActivity.this, R.string.get_pro_redirect, Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Prem+Bros")));
+                            }
+                        }, 2000);
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
                 break;
         }
         return super.onOptionsItemSelected(item);

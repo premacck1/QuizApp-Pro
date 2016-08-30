@@ -2,6 +2,7 @@ package com.prembros.programming.quizapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
+
+import java.util.ArrayList;
 
 import static android.graphics.Color.rgb;
 
@@ -21,9 +24,19 @@ public class FirstIntro extends AppIntro2 {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//         add colors
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(rgb(77,182,172));
+        colors.add(rgb(92,107,192));
+        colors.add(rgb(7, 107, 112));
+        colors.add(rgb(12, 152, 149));
+        setAnimationColors(colors);
+
+        setFadeAnimation();
+
 //        Add slides
         addSlide(AppIntroFragment.newInstance("Hey There!", "Welcome to QuizApp,\nYou're about to start\nQuizApp - Programming",
-                R.drawable.welcome_bg, rgb(77,182,172)));
+                R.drawable.app_icon_big, rgb(255,255,255), Color.BLACK, Color.DKGRAY));
 
         addSlide(AppIntroFragment.newInstance("QuizApp", "QuizApp isn't just about the name." +
                 "\n\nIt is Integrated with Google so that you can keep track of your high scores and compete with your friends",
@@ -66,7 +79,6 @@ public class FirstIntro extends AppIntro2 {
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
-        super.onDonePressed(currentFragment);
         loadMainActivity();
     }
 

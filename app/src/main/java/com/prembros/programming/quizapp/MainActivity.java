@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -149,7 +150,6 @@ public class MainActivity extends LoginActivity
         } catch (IOException e) {
             Log.e("main activity", "Can not read file: " + e.toString());
         }
-
         return ret;
     }
 
@@ -386,8 +386,29 @@ public class MainActivity extends LoginActivity
             case R.id.action_account:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
-            case R.id.action_donate:
-//                startActivity(new Intent(this, Results.class));
+            case R.id.action_get_pro:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle(R.string.get_pro);
+                alert.setMessage(R.string.get_pro_content);
+                alert.setPositiveButton("Get Pro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, R.string.get_pro_redirect, Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Prem+Bros")));
+                            }
+                        }, 2000);
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
                 break;
             case R.id.action_leaderboard:
                 getAndRemoveActiveFragment(LEADERBOARD_TEXT);
@@ -398,6 +419,9 @@ public class MainActivity extends LoginActivity
                 break;
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
+                break;
+            case R.id.action_rate_this_app:
+                RateThisApp.showRateDialog(this);
                 break;
             case R.id.action_about:
                 getAndRemoveActiveFragment(ABOUT_TEXT);

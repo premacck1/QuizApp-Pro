@@ -1,6 +1,7 @@
 package com.prembros.programming.quizapp;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.kobakei.ratethisapp.RateThisApp;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -71,9 +74,14 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         /*
         submit score to leaderboard
         */
-//        if (google_api_client != null && google_api_client.isConnected() && Questions.SCORE > 0)
-//            Games.Leaderboards.submitScore(google_api_client,
-//                    getLeaderboardID(Questions.selections[0], Questions.selections[1]), Questions.SCORE);
+
+//            if (isStoreVersion(getApplicationContext())) {
+//                if (google_api_client != null && google_api_client.isConnected() && Questions.SCORE > 0)
+//                    Games.Leaderboards.submitScore(google_api_client,
+//                            getLeaderboardID(Questions.selections[0], Questions.selections[1]), Questions.SCORE);
+//                else Toast.makeText(Results.this, "Can't upload score", Toast.LENGTH_SHORT).show();
+//            } else Toast.makeText(Results.this,
+//                    "Download this app from Play Store to Participate in Leaderboards", Toast.LENGTH_LONG).show();
 
             rootView = (RelativeLayout) findViewById(R.id.result_page);
 
@@ -126,6 +134,11 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                 }
             }, 400);
         }
+    }
+
+    public static boolean isStoreVersion(Context context) {
+        String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+        return !TextUtils.isEmpty(installer);
     }
 
     public void createPieChart(){
@@ -391,7 +404,29 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
             case R.id.action_bookmark:
                 startActivity(new Intent(this, Bookmarks.class));
                 break;
-            case R.id.action_donate:
+            case R.id.action_get_pro:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle(R.string.get_pro);
+                alert.setMessage(R.string.get_pro_content);
+                alert.setPositiveButton("Get Pro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(Results.this, R.string.get_pro_redirect, Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Prem+Bros")));
+                            }
+                        }, 2000);
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
                 break;
             case R.id.action_leaderboard:
                 getAndRemoveActiveFragment(LEADERBOARD_TEXT);
@@ -399,6 +434,9 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                 break;
             case R.id.action_achievements:
                 loadFragment(ACHIEVEMENTS_TEXT);
+                break;
+            case R.id.action_rate_this_app:
+                RateThisApp.showRateDialog(this);
                 break;
             case R.id.action_about:
                 getAndRemoveActiveFragment(ABOUT_TEXT);

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -255,18 +256,18 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                     dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
                     dbHandler.close();
                     showNextQuestion();
-                    fabSkip.setAlpha(0.4F);
+                    fabSkip.setAlpha(0.5F);
                     return;
                 }
 
                 fabSkip.setAlpha(1.0F);
                 doubleBackToSkip = true;
-//                    Toast.makeText(Questions.this, "Hit again if you want to skip this question", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Questions.this, "Hit again to skip this question", Toast.LENGTH_SHORT).show();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        fabSkip.setAlpha(0.4F);
+                        fabSkip.setAlpha(0.5F);
                         doubleBackToSkip = false;
                     }
                 }, 2000);
@@ -574,6 +575,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 1;
                 resetFlags();
+                countDownTimer.cancel();
                 onBackPressed();
             }
         });
@@ -596,6 +598,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 2;
                 resetFlags();
+                countDownTimer.cancel();
                 onBackPressed();
             }
         });
@@ -619,14 +622,33 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.action_account:
-                startActivity(new Intent(this, LoginActivity.class));
-                break;
             case android.R.id.home:
                 Difficulty.BACK_FROM_RESULTS = 3;
                 onBackPressed();
                 break;
-            case R.id.action_donate:
+            case R.id.action_get_pro:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle(R.string.get_pro);
+                alert.setMessage(R.string.get_pro_content);
+                alert.setPositiveButton("Get Pro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(Questions.this, R.string.get_pro_redirect, Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Prem+Bros")));
+                            }
+                        }, 2000);
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
                 break;
             case R.id.action_about:
                 if (About.isFragmentActive) {
@@ -662,9 +684,6 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                     }
                 }, 400);
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Help(), "help").commit();
-                break;
-            case R.id.action_bookmark:
-                startActivity(new Intent(this, Bookmarks.class));
                 break;
         }
         return true;
@@ -716,6 +735,12 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                 this.finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
     }
 
     private void showInterstitial1() {

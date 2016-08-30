@@ -2,31 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_bookmark"
-        android:icon="@drawable/bookmarks_see"
-        android:title="@string/bookmarks"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_help"
         android:title="@string/help"
         android:icon="@drawable/ic_action_help"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_account"
-        android:title="@string/account"
-        android:icon="@drawable/common_plus_signin_btn_icon_dark_normal"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_donate"
-        android:title="@string/donate"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_leaderboard"
-        android:title="@string/leaderboard"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_achievements"
-        android:title="@string/achievements"
+        android:id="@+id/action_get_pro"
+        android:title="@string/get_pro"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_about"

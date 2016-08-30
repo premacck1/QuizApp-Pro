@@ -201,7 +201,7 @@
 
     <!--MENU LABELS-->
     <string name="clear_all">Clear all</string>
-    <string name="donate">Donate</string>
+    <string name="get_pro">Get Pro version</string>
     <string name="about">About</string>
     <string name="help">Help</string>
     <string name="bookmarks">Bookmarks</string>
@@ -219,5 +219,15 @@
     <string name="int_add_full1">ca-app-pub-0057541165660355/4940454280</string><!--ca-app-pub-3940256099942544/6300978111-->
     <string name="int_add_full2">ca-app-pub-0057541165660355/6417187483</string><!--ca-app-pub-3940256099942544/6300978111-->
     <string name="times_up">Times up!</string><!--ca-app-pub-0057541165660355/5470334687-->
+    <string name="get_pro_content">Pro version comes with the following features:" +
+                        "\n\n*No Ads" +
+                        "\n*New Questions" +
+                        "\n*Personal score history" +
+                        "\n\n* you would be helping the developers buy a cup of coffee!
+    </string>
+    <string name="get_pro_redirect">You will now be taken to our Play Store page." +
+                                "\nInstall "QuizApp Pro" from there.
+    </string>
+    <string name="rate_this_app">Rate this app</string>
 
 </resources>
