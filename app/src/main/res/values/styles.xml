@@ -32,7 +32,7 @@
 
     <style name="ResultsTransition">
         <item name="android:windowEnterAnimation">@anim/fragment_anim_in</item>
-        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
     <style name="BookmarksTheme" parent="AppTheme">

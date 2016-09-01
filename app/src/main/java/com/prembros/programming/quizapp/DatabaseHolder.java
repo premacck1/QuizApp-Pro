@@ -218,12 +218,10 @@ public class DatabaseHolder {
 
         public DatabaseHelper(Context context) {
             super(context, field, null, database_version);
-            // TODO Auto-generated constructor stub
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            // TODO Auto-generated method stub
             try{
                 db.execSQL(Table_Create);
                 db.execSQL(quiz_version);
@@ -238,7 +236,6 @@ public class DatabaseHolder {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            // TODO Auto-generated method stub
             db.execSQL("DROP TABLE IF EXISTS QuizTable");
             db.execSQL("DROP TABLE IF EXISTS QuizVersion");
             onCreate(db);

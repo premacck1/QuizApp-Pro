@@ -15,6 +15,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:textSize="18sp"
+            android:text="@string/intro_difficulty"
             android:id="@+id/difficulty_textView"
             android:layout_alignParentTop="true"/>
 

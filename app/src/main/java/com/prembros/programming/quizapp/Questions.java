@@ -1,20 +1,23 @@
 package com.prembros.programming.quizapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
@@ -29,16 +32,18 @@ import com.google.android.gms.ads.InterstitialAd;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Questions extends AppCompatActivity implements OnClickListener, OnLongClickListener {
+public class Questions extends Fragment implements OnClickListener, OnLongClickListener {
 
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
             QUESTION_COUNT = 0;
     public static long SCORE = 0;
     public static String[] selections;
+    public static boolean isFragmentActive = false;
+    public static boolean wannaGoToHome = false;
     static String FIELD_ARG = "fieldSelection";
     static String DIFFICULTY_ARG = "difficultySelection";
-
+    private OnFragmentInteractionListener mListener;
     private boolean previousPressed = false;
     private boolean doubleBackToSkip = false;
     private String selectedOption, answer;
@@ -49,7 +54,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     private QuestionBean questionBean;
     private TextView question;
     private ImageButton fabPrevious, fabSkip, fabNext;
-//    private CustomTextViewLight timer;
+    //    private CustomTextViewLight timer;
     private ToggleButton addBookmark;
     private CheckedTextView option1;
     private CheckedTextView option2;
@@ -60,7 +65,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     private InterstitialAd mInterstitialAd3;
     private InterstitialAd mInterstitialAd1;
     private InterstitialAd mInterstitialAd2;
-
+    private View rootView;
     private CountDownTimer countDownTimer;
     private int timeTaken = 1;
     private int totalTime;
@@ -69,29 +74,37 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     }
 
     @Override
-    protected void onRestart() {
+    public void onResume() {
+        setHasOptionsMenu(true);
         resumeBookmarkAction(addBookmark);
-        super.onRestart();
+        super.onResume();
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        isFragmentActive = true;
+        rootView = inflater.inflate(R.layout.activity_questions, container, false);
 //        GET THE SELECTED FIELD AND DIFFICULTY.
-        Bundle b = getIntent().getExtras();
+        Bundle b = this.getArguments();
         selections = new String[]{String.valueOf(b.get(FIELD_ARG)), String.valueOf(b.get(DIFFICULTY_ARG))};
 
 //        GET THE QUESTIONS CORRESPONDING TO THE SELECTED FIELD AND DIFFICULTY
         questionList = b.getParcelableArrayList("Question");
         if (questionList != null) {
-            setContentView(R.layout.activity_questions);
-
-            Difficulty.BACK_FROM_RESULTS = 0;
-            dbHandler = new DatabaseHolder(getApplicationContext());
+            rootView = inflater.inflate(R.layout.activity_questions, container, false);
 
 //        INSTANTIATE ALL THE VIEWS IN THIS ACTIVITY.
             instantiate();
+
+            Difficulty.BACK_FROM_RESULTS = 0;
+            dbHandler = new DatabaseHolder(getContext());
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -104,6 +117,8 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
             if (questionProgressBar != null) {
                 questionProgressBar.setMax(questionList.size());
             }
+
+            populate();
 
 //            Setting the total time according to difficulty. Higher the difficulty, less the total time.
             switch (selections[1]){
@@ -142,30 +157,30 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
             };
 
 //        SET UP ACTION BAR
-            android.support.v7.app.ActionBar ab = this.getSupportActionBar();
-            if (ab != null) ab.setSubtitle(selections[0] + " : " + selections[1]);
-            assert ab != null;
-            ab.setDisplayShowHomeEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setTitle(R.string.quiz);
+            android.support.v7.app.ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            if (ab != null) {
+                ab.setSubtitle(selections[0] + " : " + selections[1]);
+                ab.setDisplayShowHomeEnabled(true);
+                ab.setDisplayHomeAsUpEnabled(true);
+                ab.setTitle(R.string.quiz);
+            }
 
-            populate();
             answer = questionBean.getAnswer();
 
             allCheckedTextViews = new CheckedTextView[]{option1, option2, option3, option4};
 
             //Set up ads
-            mInterstitialAd1 = new InterstitialAd(this);
+            mInterstitialAd1 = new InterstitialAd(getContext());
             // set the ad unit ID
             mInterstitialAd1.setAdUnitId(getString(R.string.int_add_full));
 
             //Set up ads
-            mInterstitialAd2 = new InterstitialAd(this);
+            mInterstitialAd2 = new InterstitialAd(getContext());
             // set the ad unit ID
             mInterstitialAd2.setAdUnitId(getString(R.string.int_add_full1));
 
             //Set up ads
-            mInterstitialAd3 = new InterstitialAd(this);
+            mInterstitialAd3 = new InterstitialAd(getContext());
             // set the ad unit ID
             mInterstitialAd3.setAdUnitId(getString(R.string.int_add_full2));
 
@@ -188,18 +203,25 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
             });*/
         }
         else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Sorry, but the questions couldn't be loaded.");
             builder.setCancelable(false);
             builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Questions.this.finish();
+                    getActivity().getSupportFragmentManager().popBackStackImmediate();
                 }
             });
             AlertDialog alert = builder.create();
             alert.show();
         }
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mListener.onFragmentInteraction("dismiss");
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public void setClickListeners(){
@@ -248,7 +270,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
 
                     showNextQuestion();
                 }
-                else Toast.makeText(Questions.this, "Select an answer first.", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(getContext(), "Select an answer first.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.fabSkip:
                 if (doubleBackToSkip) {
@@ -256,18 +278,18 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                     dbHandler.insertSkippedAnswer(question.getText().toString(), answer);
                     dbHandler.close();
                     showNextQuestion();
-                    fabSkip.setAlpha(0.5F);
+                    fabSkip.setAlpha(0.6F);
                     return;
                 }
 
                 fabSkip.setAlpha(1.0F);
                 doubleBackToSkip = true;
-                    Toast.makeText(Questions.this, "Hit again to skip this question", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Hit again to skip this question", Toast.LENGTH_SHORT).show();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        fabSkip.setAlpha(0.5F);
+                        fabSkip.setAlpha(0.6F);
                         doubleBackToSkip = false;
                     }
                 }, 2000);
@@ -292,7 +314,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                     dbHandler.close();
                 }
                 else{
-                    Toast.makeText(Questions.this, "This is the first Question", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "This is the first Question", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -300,21 +322,21 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
         }
     }
 
-//        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
+    //        HELPER TOASTS IF USER LONG PRESSES ON THE NAVIGATION BUTTONS
     @Override
     public boolean onLongClick(View view) {
         switch (view.getId()){
             case R.id.addBookmark:
-                Toast.makeText(Questions.this, "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Add / Remove bookmark", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.fabNext:
-                Toast.makeText(Questions.this, "Next question", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Next question", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.fabPrevious:
-                Toast.makeText(Questions.this, "Previous question", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Previous question", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.fabSkip:
-                Toast.makeText(Questions.this, "Skip this question", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Skip this question", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return false;
@@ -331,7 +353,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
     }
 
@@ -350,17 +372,17 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     }
 
     public void instantiate(){
-        questionProgressBar = (ProgressBar) findViewById(R.id.question_progressBar);
-        timeProgressBar = (ProgressBar) findViewById(R.id.time_progressBar);
-        addBookmark = (ToggleButton) findViewById(R.id.addBookmark);
-        question = (TextView) findViewById(R.id.question_textView);
-        fabPrevious = (ImageButton) findViewById(R.id.fabPrevious);
-        fabSkip = (ImageButton) findViewById(R.id.fabSkip);
-        fabNext = (ImageButton) findViewById(R.id.fabNext);
-        option1 = (CheckedTextView) findViewById(R.id.checked_choice_button1);
-        option2 = (CheckedTextView) findViewById(R.id.checked_choice_button2);
-        option3 = (CheckedTextView) findViewById(R.id.checked_choice_button3);
-        option4 = (CheckedTextView) findViewById(R.id.checked_choice_button4);
+        questionProgressBar = (ProgressBar) rootView.findViewById(R.id.question_progressBar);
+        timeProgressBar = (ProgressBar) rootView.findViewById(R.id.time_progressBar);
+        addBookmark = (ToggleButton) rootView.findViewById(R.id.addBookmark);
+        question = (TextView) rootView.findViewById(R.id.question_textView);
+        fabPrevious = (ImageButton) rootView.findViewById(R.id.fabPrevious);
+        fabSkip = (ImageButton) rootView.findViewById(R.id.fabSkip);
+        fabNext = (ImageButton) rootView.findViewById(R.id.fabNext);
+        option1 = (CheckedTextView) rootView.findViewById(R.id.checked_choice_button1);
+        option2 = (CheckedTextView) rootView.findViewById(R.id.checked_choice_button2);
+        option3 = (CheckedTextView) rootView.findViewById(R.id.checked_choice_button3);
+        option4 = (CheckedTextView) rootView.findViewById(R.id.checked_choice_button4);
     }
 
     public void populate(){
@@ -397,12 +419,12 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                 temp.setChecked(true);
                 temp.setTextColor(Color.parseColor("#FFFFFF"));
                 selectedOption = temp.getText().toString();
-                temp.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
+                temp.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_selected));
             } else {
                 temp.setChecked(false);
                 temp.setTextColor(Color.parseColor("#000000"));
                 selectedOption = null;
-                temp.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
+                temp.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_deselected));
             }
         }
     }
@@ -455,15 +477,15 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
         if(t !=null) {
 //            IF THE QUESTION IS BOOKMARKED
             if (!t.isChecked()) {
-                t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_deselected));
+                t.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_deselected));
                 dbHandler.open();
                 dbHandler.deleteData(question.getText().toString());
                 dbHandler.close();
-                Toast.makeText(Questions.this, "Removed from bookmarks", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Removed from bookmarks", Toast.LENGTH_SHORT).show();
             }
 //            IF THE QUESTION IS NOT BOOKMARKED
             else {
-                t.startAnimation(AnimationUtils.loadAnimation(Questions.this, R.anim.anim_selected));
+                t.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_selected));
                 dbHandler.open();
                 dbHandler.insertData(selections[0], selections[1],
                         question.getText().toString(),
@@ -474,7 +496,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                         answer);
 
                 dbHandler.close();
-                Toast.makeText(Questions.this, "Added to bookmarks", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Added to bookmarks", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -507,7 +529,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
         SCORE = score;
         countDownTimer.cancel();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         if (reallyCompleted) {
             builder.setMessage("You have completed the quiz!" +
                     "\nScore: " + score);
@@ -521,8 +543,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
                     pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
                 }else {
-                    startActivity(new Intent(Questions.this, Results.class));
-                    Questions.this.finish();
+                    mListener.onFragmentInteraction("launchResults");
                 }
             }
         });
@@ -530,6 +551,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Difficulty.BACK_FROM_RESULTS = 2;
+                wannaGoToHome = true;
                 resetFlags();
                 onBackPressed();
             }
@@ -542,7 +564,7 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     }
 
     public void pieDisplayError(int correctAnswers, int incorrectAnswers, int skippedAnswers, int questionCount){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("ERROR!");
         builder.setMessage("Sorry but the results couldn't be loaded. Please take the quiz again." +
                 "\nIf problem persists, contact us with these details:\n" +
@@ -566,163 +588,50 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
     }
 
     public void changeDifficulty(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-        builder.setTitle("More or less");
-        builder.setMessage("Go back and change difficulty?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes please", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Difficulty.BACK_FROM_RESULTS = 1;
-                resetFlags();
-                countDownTimer.cancel();
-                onBackPressed();
-            }
-        });
-        builder.setNegativeButton("I can take it", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Difficulty.BACK_FROM_RESULTS = 0;
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
-    public void gotoHome(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
-        builder.setTitle("Leaving already?");
-        builder.setMessage("Sure to exit the current quiz?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Difficulty.BACK_FROM_RESULTS = 2;
-                resetFlags();
-                countDownTimer.cancel();
-                onBackPressed();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Difficulty.BACK_FROM_RESULTS = 0;
-                dialog.cancel();
-            }
-        });
-        builder.show();
     }
 
     //    OPTIONS MENU
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_questions, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_questions, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                Difficulty.BACK_FROM_RESULTS = 3;
-                onBackPressed();
-                break;
-            case R.id.action_get_pro:
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle(R.string.get_pro);
-                alert.setMessage(R.string.get_pro_content);
-                alert.setPositiveButton("Get Pro", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(Questions.this, R.string.get_pro_redirect, Toast.LENGTH_LONG).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Prem+Bros")));
-                            }
-                        }, 2000);
-                    }
-                });
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                alert.show();
-                break;
-            case R.id.action_about:
-                if (About.isFragmentActive) {
-                    About.isFragmentActive = false;
-                    About.rootView.startAnimation(AnimationUtils.loadAnimation(
-                            getApplicationContext(), R.anim.fragment_anim_out));
-                    getSupportFragmentManager().beginTransaction().remove(
-                            getSupportFragmentManager().findFragmentByTag("about")).commit();
-                }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //noinspection ConstantConditions
-                        getSupportActionBar().hide();
-                    }
-                }, 400);
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new About(), "about").commit();
-                break;
-            case R.id.action_help:
-                if (Help.isFragmentActive) {
-                    Help.isFragmentActive = false;
-                    Help.rootView.startAnimation(AnimationUtils.loadAnimation(
-                            getApplicationContext(), R.anim.fragment_anim_out));
-
-                    getSupportFragmentManager().beginTransaction().remove(
-                            getSupportFragmentManager().findFragmentByTag("help")).commit();
-                }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //noinspection ConstantConditions
-                        getSupportActionBar().hide();
-                    }
-                }, 400);
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new Help(), "help").commit();
-                break;
-        }
-        return true;
-    }
-
-    @Override
     public void onBackPressed() {
         if (Help.isFragmentActive){
             Help.isFragmentActive = false;
             Help.rootView.startAnimation(AnimationUtils.loadAnimation(
-                    getApplicationContext(), R.anim.fragment_anim_out));
+                    getContext(), R.anim.fragment_anim_out));
 
-            getSupportFragmentManager().beginTransaction().remove(
-                    getSupportFragmentManager().findFragmentByTag("help")).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().remove(
+                    getActivity().getSupportFragmentManager().findFragmentByTag("help")).commit();
             return;
         }
         if (About.isFragmentActive){
             About.isFragmentActive = false;
             About.rootView.startAnimation(AnimationUtils.loadAnimation(
-                    getApplicationContext(), R.anim.fragment_anim_out));
-            getSupportFragmentManager().beginTransaction().remove(
-                    getSupportFragmentManager().findFragmentByTag("about")).commit();
+                    getContext(), R.anim.fragment_anim_out));
+            getActivity().getSupportFragmentManager().beginTransaction().remove(
+                    getActivity().getSupportFragmentManager().findFragmentByTag("about")).commit();
             return;
         }
-        int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+        int backStackCount = getActivity().getSupportFragmentManager().getBackStackEntryCount();
 
         if(backStackCount >= 1){
             //noinspection ConstantConditions
-            getSupportActionBar().show();
-            getSupportFragmentManager().popBackStackImmediate();
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
         }
         switch (Difficulty.BACK_FROM_RESULTS){
 //            CALLED TO CONFIRM EXIT (BACK BUTTON PRESS)
             case 0:
-                gotoHome();
+                countDownTimer.cancel();
+                mListener.onFragmentInteraction("gotoHome");
                 break;
 //            CALLED IF "TAKE ANOTHER QUIZ" SELECTED FROM onCompletion() // OR CONFIRMED EXIT FROM gotoHome()
             case 2:
-                super.onBackPressed();
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
                 break;
 //            CALLED ON ACTION BAR UP BUTTON PRESS (CHANGE THE DIFFICULTY)
             case 3:
@@ -731,16 +640,16 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
 //            DEFAULT EXIT CALL, GENERALLY WHEN Difficulty.BACK_FROM_RESULTS == 1
             default:
                 Difficulty.BACK_FROM_RESULTS = 0;
-                super.onBackPressed();
-                this.finish();
+                getActivity().finish();
                 break;
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        isFragmentActive = false;
         countDownTimer.cancel();
+        super.onDestroyView();
     }
 
     private void showInterstitial1() {
@@ -768,5 +677,21 @@ public class Questions extends AppCompatActivity implements OnClickListener, OnL
         mInterstitialAd1.loadAd(adRequest);
         mInterstitialAd2.loadAd(adRequest);
         mInterstitialAd3.loadAd(adRequest);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        setHasOptionsMenu(true);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String action);
     }
 }

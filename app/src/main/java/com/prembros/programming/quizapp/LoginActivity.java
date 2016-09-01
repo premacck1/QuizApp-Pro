@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     SignInButton signIn_btn;
     public boolean explicitlySignedOut = false;
     private static final int SIGN_IN_CODE = 0;
-//    private static final int PROFILE_PIC_SIZE = 120;
+    //    private static final int PROFILE_PIC_SIZE = 120;
     private ConnectionResult connection_result;
     private boolean doubleBackToDisconnect = false;
     private boolean is_intent_inprogress;
@@ -65,50 +65,53 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        if (isConnected()) {
+
+        buildNewGoogleApiClient();
+
+        if (this.toString().contains("LoginActivity")) {
+            setContentView(R.layout.activity_login);
+            if (isConnected()) {
 //        SET UP ACTION BAR
-            android.support.v7.app.ActionBar ab = this.getSupportActionBar();
-            assert ab != null;
-            ab.setDisplayShowHomeEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setTitle(R.string.title_activity_login);
+                android.support.v7.app.ActionBar ab = this.getSupportActionBar();
+                assert ab != null;
+                ab.setDisplayShowHomeEnabled(true);
+                ab.setDisplayHomeAsUpEnabled(true);
+                ab.setTitle(R.string.title_activity_login);
 
-            if (checkPlayServices() && !explicitlySignedOut) {
-                buildNewGoogleApiClient();
-
+                if (checkPlayServices() && !explicitlySignedOut) {
 //        Customize sign-in button.a red button may be displayed when Google+ scopes are requested
-                customizeSignBtn();
-                setBtnClickListeners();
-                progress_dialog = new ProgressDialog(this);
-                progress_dialog.setMessage("Loading....");
-                progress_dialog.show();
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setMessage("Sorry, but we couldn't find Google Play Services on your devices, make sure you have the latest one from play store and try again.");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-
-        } else {
-            Snackbar.make(getWindow().getDecorView(), "No working internet connection found" +
-                    "\nGoogle play games connection failed!", Snackbar.LENGTH_LONG).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Go online to get extra benefits of QuizApp", Toast.LENGTH_SHORT).show();
-                    if (findViewById(R.id.login_form) != null){
-                        LoginActivity.this.finish();
-                    }
+                    customizeSignBtn();
+                    setBtnClickListeners();
+                    progress_dialog = new ProgressDialog(this);
+                    progress_dialog.setMessage("Loading....");
+                    progress_dialog.show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("Sorry, but we couldn't find Google Play Services on your devices, make sure you have the latest one from play store and try again.");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
-            }, 3000);
+
+            } else {
+                Snackbar.make(getWindow().getDecorView(), "No working internet connection found" +
+                        "\nGoogle play games connection failed!", Snackbar.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Go online to get extra benefits of QuizApp", Toast.LENGTH_SHORT).show();
+                        if (findViewById(R.id.login_form) != null) {
+                            LoginActivity.this.finish();
+                        }
+                    }
+                }, 3000);
+
 //            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 //            builder.setTitle("No Internet?");
 //            builder.setMessage("Sorry, but we couldn't find any internet connections.\nFirst connect to a network then come here again.");
@@ -121,6 +124,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 //            });
 //            AlertDialog alert = builder.create();
 //            alert.show();
+            }
         }
     }
 
@@ -156,7 +160,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     @SuppressWarnings("ConstantConditions")
     private void changeUI(boolean signedIn) {
         if (signedIn) {
-            progress_dialog.dismiss();
+            if (progress_dialog != null)
+                progress_dialog.dismiss();
             if (findViewById(R.id.login_intro)!=null) {
                 findViewById(R.id.login_intro).setVisibility(View.INVISIBLE);
                 findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -170,7 +175,8 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             }
         }
         else {
-            progress_dialog.dismiss();
+            if (progress_dialog != null)
+                progress_dialog.dismiss();
             if (findViewById(R.id.login_intro)!=null) {
                 dp = Bitmap.createBitmap(new int[]{Color.argb(0, 255, 255, 255)}, 1, 1, Bitmap.Config.ALPHA_8);
                 ((ImageView) findViewById(R.id.profile_pic)).setImageBitmap(dp);
@@ -192,11 +198,14 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
     While initializing the GoogleApiClient object, request the Plus.SCOPE_PLUS_LOGIN scope.
     */
     private void buildNewGoogleApiClient(){
-        google_api_client =  new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .build();
+        if (checkPlayServices()) {
+            google_api_client = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                    .build();
+        } else
+            Toast.makeText(LoginActivity.this, "Play Services not present.\nGoogle API client not created", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -382,7 +391,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
             case R.id.sign_out_button:
                 if (doubleBackToDisconnect) {
                     explicitlySignedOut = true;
-                    Toast.makeText(this, "Disconnected", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "Disconnected", Toast.LENGTH_LONG).show();
                     gPlusSignOut();
                     return;
                 }
@@ -416,7 +425,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                         //noinspection ConstantConditions
                         getSupportActionBar().hide();
                     }
-                }, 400);
+                }, 350);
 
                 fragmentManager.beginTransaction().add(R.id.fragment_container, new About(), ABOUT_TEXT).commit();
                 break;
@@ -427,7 +436,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                         //noinspection ConstantConditions
                         getSupportActionBar().hide();
                     }
-                }, 400);
+                }, 350);
                 fragmentManager.beginTransaction().add(R.id.fragment_container, Leaderboard.newInstance(), LEADERBOARD_TEXT).commit();
                 break;
             case HELP_TEXT:
@@ -437,7 +446,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                         //noinspection ConstantConditions
                         getSupportActionBar().hide();
                     }
-                }, 400);
+                }, 350);
                 fragmentManager.beginTransaction().add(R.id.fragment_container, new Help(), HELP_TEXT).commit();
                 break;
             case ACHIEVEMENTS_TEXT:
@@ -584,7 +593,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
         try {
             Player currentPlayer = Games.Players.getCurrentPlayer(google_api_client);
-                // Update the UI after signin
+            // Update the UI after signin
             if (currentPlayer != null) {
                 changeUI(true);
                 setPersonalInfo(currentPlayer);
@@ -640,9 +649,9 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         }
     }
 
-   /*
-    Perform background operation asynchronously, to load user profile picture with new dimensions from the modified url
-    */
+    /*
+     Perform background operation asynchronously, to load user profile picture with new dimensions from the modified url
+     */
     private class LoadProfilePic extends AsyncTask<String, Void, Bitmap> {
         public ImageView bitmap_img;
 

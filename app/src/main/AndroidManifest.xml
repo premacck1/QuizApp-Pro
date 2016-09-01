@@ -60,11 +60,6 @@
                 android:value="@integer/google_play_services_version" />
         </activity>
         <activity
-            android:name="com.prembros.programming.quizapp.Questions"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_questions"
-            android:theme="@style/QuestionsTheme"/>
-        <activity
             android:name="com.prembros.programming.quizapp.Bookmarks"
             android:label="@string/title_activity_bookmarks"
             android:theme="@style/BookmarksTheme" />
@@ -92,7 +87,7 @@
             android:label="@string/title_activity_login"
             android:theme="@style/LoginActivityTheme">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW"/>-->
+            <!--<action android:name="android.intent.action.VIEW"/>-->
             <!--</intent-filter>-->
         </activity>
     </application>

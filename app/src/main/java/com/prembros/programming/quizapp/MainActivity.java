@@ -1,6 +1,7 @@
 package com.prembros.programming.quizapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,13 +37,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends LoginActivity
-        implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener {
+        implements Field.OnFragmentInteractionListener, Difficulty.OnFragmentInteractionListener , Questions.OnFragmentInteractionListener {
 
     private String JSONString = null;
     boolean doubleBackToExitPressedOnce = false;
     protected static ArrayList<QuestionBean> QUESTION = null;
     private String version;
     private DatabaseHolder dbHandler;
+    public ProgressDialog progressDialogMainActivity;
 
     @Override
     public boolean releaseInstance() {
@@ -52,6 +54,7 @@ public class MainActivity extends LoginActivity
     @Override
     protected void onStart() {
         super.onStart();
+        Context context = this;
         // Monitor launch times and interval from installation
         RateThisApp.onStart(this);
         // If the criteria is satisfied, "Rate this app" dialog will be shown
@@ -70,7 +73,12 @@ public class MainActivity extends LoginActivity
         if (savedInstanceState != null) {
             return;
         }
+
+        progressDialogMainActivity = new ProgressDialog(this);
+        progressDialogMainActivity.setMessage("Loading...");
+
         if (progress_dialog!=null) progress_dialog.dismiss();
+
         if (isConnected() && !explicitlySignedOut)
             gPlusSignIn();
 
@@ -80,6 +88,8 @@ public class MainActivity extends LoginActivity
         Field mField = new Field();
         mField.setArguments(getIntent().getExtras());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.fade_in, R.anim.slide_out_left,
+                android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         transaction.add(R.id.main_fragment_container, mField).commit();
 
 //        APP-RATING DIALOG CODE
@@ -177,7 +187,7 @@ public class MainActivity extends LoginActivity
         }
     }
 
-//    Read from JSON file in Internal Memory
+    //    Read from JSON file in Internal Memory
     public String readFromFile() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(
@@ -314,44 +324,7 @@ public class MainActivity extends LoginActivity
         }
     }
 
-    public static String[] getArgs(int field, int difficulty){
-        String [] args = new String[2];
-        switch (field){
-            case 0:
-                args[0] = "iOS";
-                break;
-            case 1:
-                args[0] = "Java";
-                break;
-            case 2:
-                args[0] = "HTML";
-                break;
-            case 3:
-                args[0] = "JavaScript";
-                break;
-            default:
-                break;
-        }
-        switch (difficulty){
-            case 0:
-                args[1] = "Rookie";
-                break;
-            case 1:
-                args[1] = "Apprentice";
-                break;
-            case 2:
-                args[1] = "Pro";
-                break;
-            case 3:
-                args[1] = "Hitman";
-                break;
-            default:
-                break;
-        }
-        return args;
-    }
-
-//        Doing parsing of JSON data
+    //        Doing parsing of JSON data
     public ArrayList<QuestionBean> doInBackground(String JSONString,String field, String difficulty){
         if (JSONString == null){
             return null;
@@ -373,8 +346,11 @@ public class MainActivity extends LoginActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        if (!Questions.isFragmentActive) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return true;
+        }
+        else return false;
     }
 
     @Override
@@ -383,6 +359,34 @@ public class MainActivity extends LoginActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()){
+            case android.R.id.home:
+                if (getSupportFragmentManager().getBackStackEntryCount() == 2){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("More or less");
+                    builder.setMessage("Go back and change difficulty?");
+                    builder.setPositiveButton("Yes please", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Difficulty.BACK_FROM_RESULTS = 1;
+                            Questions.QUESTION_COUNT = 0;
+                            Questions.CORRECT_ANSWERS = 0;
+                            Questions.INCORRECT_ANSWERS = 0;
+                            dbHandler.open();
+                            dbHandler.resetTables();
+                            dbHandler.close();
+                            getSupportFragmentManager().popBackStackImmediate();
+                        }
+                    });
+                    builder.setNegativeButton("I can take it", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Difficulty.BACK_FROM_RESULTS = 0;
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
+                break;
             case R.id.action_account:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
@@ -435,38 +439,46 @@ public class MainActivity extends LoginActivity
         return true;
     }
 
-//    onFragmentInteraction of Field fragment
+    //    onFragmentInteraction of Field fragment
     @Override
-    public void onFragmentInteraction(View v, int pos) {
+    public void onFragmentInteraction(View v, String field) {
         Difficulty.BACK_FROM_RESULTS = 0;
         Difficulty mdifficulty = new Difficulty();
         Bundle args = new Bundle();
-        args.putInt(Difficulty.ARG_POSITION, pos);
+        args.putString(Difficulty.ARG_POSITION, field);
         mdifficulty.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
+        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         transaction.replace(R.id.main_fragment_container, mdifficulty);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack("DifficultyLaunched");
         transaction.commit();
     }
 
 
-//        onFragmentInteraction of Difficulty fragment
+    //        onFragmentInteraction of Difficulty fragment
     @Override
-    public void onFragmentInteraction(int selection, int pos) {
+    public void onFragmentInteraction(String selection, String difficulty) {
         if (Difficulty.BACK_FROM_RESULTS == 1 || Difficulty.BACK_FROM_RESULTS == 2){
             getSupportFragmentManager().popBackStack();
         }
         else {
-            final String[] questionArgs = getArgs(selection, pos);
-            QUESTION = doInBackground(JSONString, questionArgs[0], questionArgs[1]);
+            Questions mQuestions = new Questions();
+            Bundle args = new Bundle();
+            QUESTION = doInBackground(JSONString, selection, difficulty);
             if (QUESTION != null) {
-                Intent i = new Intent(MainActivity.this, Questions.class);
-                i.putExtra(Questions.FIELD_ARG, questionArgs[0]);
-                i.putExtra(Questions.DIFFICULTY_ARG, questionArgs[1]);
-                i.putExtra("Question", QUESTION);
-                startActivity(i);
+                progressDialogMainActivity.show();
+                args.putString(Questions.FIELD_ARG, selection);
+                args.putString(Questions.DIFFICULTY_ARG, difficulty);
+                args.putParcelableArrayList("Question", QUESTION);
+                mQuestions.setArguments(args);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                transaction.replace(R.id.main_fragment_container, mQuestions);
+                transaction.addToBackStack("QuestionLaunched");
+                transaction.commit();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("Sorry, but the questions couldn't be loaded.");
@@ -480,6 +492,25 @@ public class MainActivity extends LoginActivity
                 AlertDialog alert = builder.create();
                 alert.show();
             }
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(String action) {
+        switch (action){
+            case "gotoHome":
+                onBackPressed();
+                break;
+            case "dismiss":
+                progressDialogMainActivity.dismiss();
+                break;
+            case "launchResults":
+                Questions.wannaGoToHome = true;
+                getSupportFragmentManager().popBackStackImmediate();
+                getSupportFragmentManager().popBackStackImmediate();
+                startActivity(new Intent(this, Results.class));
+            default:
+                break;
         }
     }
 
@@ -502,7 +533,35 @@ public class MainActivity extends LoginActivity
         if(backStackCount >= 1){
             //noinspection ConstantConditions
             getSupportActionBar().show();
-            getSupportFragmentManager().popBackStackImmediate();
+            if (backStackCount == 2){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Sure to exit the current quiz?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Difficulty.BACK_FROM_RESULTS = 2;
+                        Questions.QUESTION_COUNT = 0;
+                        Questions.CORRECT_ANSWERS = 0;
+                        Questions.INCORRECT_ANSWERS = 0;
+                        dbHandler.open();
+                        dbHandler.resetTables();
+                        dbHandler.close();
+                        Questions.wannaGoToHome = true;
+                        getSupportFragmentManager().popBackStackImmediate();
+                        getSupportFragmentManager().popBackStackImmediate();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Difficulty.BACK_FROM_RESULTS = 0;
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }else {
+                getSupportFragmentManager().popBackStackImmediate();
+            }
         }
         else {
             if (doubleBackToExitPressedOnce) {

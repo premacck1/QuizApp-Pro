@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
+/*
  * Created by Prem $ on 7/2/2016.
  */
 public class CustomTextViewBlack extends TextView {

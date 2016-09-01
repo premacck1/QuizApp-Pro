@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,16 @@ public class Field extends ListFragment{
         listView.setVisibility(View.INVISIBLE);
         introText = (TextView) rootView.findViewById(R.id.intro_textView);
 
+
+//        SET UP ACTION BAR
+        android.support.v7.app.ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        if (ab != null) {
+            ab.setSubtitle("");
+            ab.setDisplayShowHomeEnabled(false);
+            ab.setDisplayHomeAsUpEnabled(false);
+            ab.setTitle(R.string.app_name);
+        }
+
         // IF THE FRAGMENT IS STARTING FOR THE FIRST TIME
         if (savedInstanceState == null && !mAlreadyLoaded) {
             mAlreadyLoaded = true;
@@ -51,7 +62,7 @@ public class Field extends ListFragment{
                     introText.setText(R.string.intro);
                     introText.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
                 }
-            }, 250);
+            }, 500);
         }
 
         //IF THE FRAGMENT HAS ALREADY STARTED BEFORE AND USER IS JUST RETURNING BACK TO THE PAGE
@@ -60,17 +71,11 @@ public class Field extends ListFragment{
             listView.setLayoutAnimation(
                     new LayoutAnimationController(
                             AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left),
-                            0.1F
+                            0.2F
                     )
             );
             listView.setVisibility(View.VISIBLE);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    introText.setText(R.string.intro);
-                    introText.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right));
-                }
-            }, 200);
+            introText.setText(R.string.intro);
         }
 
         ImageView sign_in = (ImageView) rootView.findViewById(R.id.sign_in);
@@ -105,7 +110,22 @@ public class Field extends ListFragment{
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        mListener.onFragmentInteraction(v, position);
+        mListener.onFragmentInteraction(v, getField(position));
+    }
+
+    public String getField(int fieldPosition){
+        switch (fieldPosition){
+            case 0:
+                return "iOS";
+            case 1:
+                return "Java";
+            case 2:
+                return "HTML";
+            case 3:
+                return "JavaScript";
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -120,7 +140,6 @@ public class Field extends ListFragment{
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(View v, int pos);
+        void onFragmentInteraction(View v, String field);
     }
 }

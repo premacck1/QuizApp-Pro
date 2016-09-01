@@ -89,7 +89,7 @@ public class BookmarksAdapter extends BaseAdapter {
                             if (position >= 0
                                     && position <= bookmarkHeader.size()
                                     && !db.returnQuestion().isAfterLast()) {
-                                    db.deleteData(bookmarkHeader.get(position));
+                                db.deleteData(bookmarkHeader.get(position));
                                 bookmarkHeader.remove(position);
                                 bookmarkChild.remove(position);
                             }
@@ -97,7 +97,7 @@ public class BookmarksAdapter extends BaseAdapter {
 //                            PlaceholderFragment.listView.setVisibility(View.INVISIBLE);
                             notifyDataSetChanged();
                             if (bookmarkHeader.isEmpty()){
-                            Bookmarks.PlaceholderFragment.listItemInvalidate();
+                                Bookmarks.PlaceholderFragment.listItemInvalidate();
                             }
                             PlaceholderFragment.listView.startAnimation(
                                     AnimationUtils.loadAnimation(_context, android.R.anim.fade_in));

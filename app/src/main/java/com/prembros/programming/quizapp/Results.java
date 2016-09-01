@@ -66,6 +66,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
         if (progress_dialog!=null) progress_dialog.dismiss();
+
         if (!pieError) {
             setContentView(R.layout.activity_results);
 
@@ -376,7 +377,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
                 getSupportActionBar().hide();
                 mChart.highlightValues(null);
             }
-        }, 200);
+        }, 150);
 
         if(ResultsInDetail.isFragmentActive){
             ResultsInDetail.isFragmentActive = false;
@@ -484,7 +485,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
 //        return b;
 //    }
 
-//    CAPTURE THE View
+    //    CAPTURE THE View
     public static Bitmap getScreenshot(View view){
         view.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),view.getHeight(), Bitmap.Config.ARGB_8888);
@@ -494,7 +495,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         return bitmap;
     }
 
-//    STORE THE BITMAP INTO SD CARD
+    //    STORE THE BITMAP INTO SD CARD
     public File store(Bitmap bitmapImage, String filename){
         String dateString = (android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date())).toString();
         dateString = dateString.replace(":","_");
@@ -519,7 +520,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         return file;
     }
 
-//    SHARE THE IMAGE OF CURRENT ACTIVITY
+    //    SHARE THE IMAGE OF CURRENT ACTIVITY
     private void shareImage(File file){
         Uri uri = Uri.fromFile(file);
         Intent intent = new Intent();
@@ -529,7 +530,7 @@ public class Results extends LoginActivity implements OnChartValueSelectedListen
         intent.putExtra(Intent.EXTRA_SUBJECT, "Have you tried QuizApp?");
         intent.putExtra(Intent.EXTRA_TEXT,
                 "I just took a " + Questions.selections[1] + " " + Questions.selections[0] + " quiz on QuizApp - Programming." + "QuizApp comes with great programming quizzes," +
-                "\nGet the app here: https://goo.gl/f8QABD \n");
+                        "\nGet the app here: https://goo.gl/f8QABD \n");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try{
             startActivity(Intent.createChooser(intent, "Share your QuizResult"));
