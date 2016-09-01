@@ -671,7 +671,7 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
     }
 
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("3C04D0CB42D5F340321BF8DA8BCB6868").build();
 
         // Load ads into Interstitial Ads
         mInterstitialAd1.loadAd(adRequest);
