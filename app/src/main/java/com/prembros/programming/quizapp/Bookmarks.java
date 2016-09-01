@@ -78,7 +78,7 @@ public class Bookmarks extends AppCompatActivity {
         //Set up ads
         mInterstitialAd = new InterstitialAd(this);
         // set the ad unit ID
-        mInterstitialAd.setAdUnitId(getString(R.string.int_add_full));
+        mInterstitialAd.setAdUnitId(getString(R.string.int_add_full_bookmark));
 
         requestNewInterstitial();
         new Handler().postDelayed(new Runnable() {
