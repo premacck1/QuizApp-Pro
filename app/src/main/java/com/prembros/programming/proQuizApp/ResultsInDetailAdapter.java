@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 /*
  * Created by Prem $ on 7/2/2016.

@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.prembros.programming.proQuizApp.Bookmarks.PlaceholderFragment;
+import com.prembros.programming.ProQuizApp.Bookmarks.PlaceholderFragment;
 
 import java.util.List;
 

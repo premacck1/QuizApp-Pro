@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -28,6 +28,6 @@ public class CustomTextViewSemiLight extends TextView {
     }
 
     private void applyCustomFont(Context context) {
-        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/seguisl.ttf"));
+        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/gothic.ttf"));
     }
 }

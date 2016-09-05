@@ -11,7 +11,7 @@
     android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingBottom="12dp">
 
-    <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+    <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
         android:id="@+id/result_header_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:textColor="@color/colorText"
         android:gravity="start" />
 
-    <com.prembros.programming.proQuizApp.CustomTextViewLight
+    <com.prembros.programming.ProQuizApp.CustomTextViewLight
         android:id="@+id/result_child_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

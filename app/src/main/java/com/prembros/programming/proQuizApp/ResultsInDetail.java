@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -74,7 +74,7 @@ public class ResultsInDetail extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Sorry, but the questions couldn't be loaded.");
             builder.setCancelable(false);
-            builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     resetFlags();

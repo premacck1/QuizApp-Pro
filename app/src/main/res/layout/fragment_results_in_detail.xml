@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+    <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/detailedResultHeader"

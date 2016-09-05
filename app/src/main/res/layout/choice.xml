@@ -10,7 +10,7 @@
     app:mrl_rippleHover="true"
     app:mrl_rippleRoundedCorners="2dp">
 
-    <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+    <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
         android:id="@+id/choice_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"

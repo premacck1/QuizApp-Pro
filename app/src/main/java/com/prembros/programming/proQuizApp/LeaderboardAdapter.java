@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

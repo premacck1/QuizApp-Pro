@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +34,8 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
 
     public static int CORRECT_ANSWERS = 0,
             INCORRECT_ANSWERS = 0,
-            QUESTION_COUNT = 0;
+            QUESTION_COUNT = 0,
+            SKIPPED_ANSWERS = 0;
     public static long SCORE = 0;
     public static String[] selections;
     public static boolean isFragmentActive = false;
@@ -66,16 +67,6 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
     private int totalTime;
 
     public Questions() {
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
-            if (getActivity() != null){
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-            }
-        }
     }
 
     @Override
@@ -511,7 +502,7 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
         builder.setPositiveButton("Results", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
+                SKIPPED_ANSWERS = QUESTION_COUNT-( CORRECT_ANSWERS + INCORRECT_ANSWERS );
                 if (CORRECT_ANSWERS < 0 || INCORRECT_ANSWERS < 0 || SKIPPED_ANSWERS < 0 || QUESTION_COUNT == 0) {
                     pieDisplayError(CORRECT_ANSWERS, INCORRECT_ANSWERS, SKIPPED_ANSWERS, QUESTION_COUNT);
                 }else {
@@ -530,6 +521,9 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
         });
         AlertDialog alert = builder.create();
         alert.show();
+
+//        SHOW ADS
+//        showInterstitial3();
     }
 
     public void pieDisplayError(int correctAnswers, int incorrectAnswers, int skippedAnswers, int questionCount){
@@ -623,6 +617,7 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
 
     @Override
     public void onAttach(Context context) {
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         super.onAttach(context);
         setHasOptionsMenu(true);
         if (context instanceof OnFragmentInteractionListener) {

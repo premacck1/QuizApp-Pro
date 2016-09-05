@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -143,10 +143,6 @@ public class Bookmarks extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    public void removeQuestion(int position) {
-//        mViewPager.removeViewAt(position);
-//    }
 
     @SuppressWarnings("ConstantConditions")
     @Override

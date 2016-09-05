@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.prembros.programming.proQuizApp">
+    package="com.prembros.programming.ProQuizApp">
 
     <!-- Include required permissions for Google Mobile Ads to run. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -32,9 +32,9 @@
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
         <activity
-            android:name="com.prembros.programming.proQuizApp.FirstScreen"
+            android:name="com.prembros.programming.ProQuizApp.FirstScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
+            android:label="@string/app_series"
             android:noHistory="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -46,44 +46,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.prembros.programming.proQuizApp.MainActivity"
+            android:name="com.prembros.programming.ProQuizApp.MainActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/MainActivityTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />]
+<!--            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.INFO" />
-            </intent-filter>
+            </intent-filter>-->
 
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         </activity>
         <activity
-            android:name="com.prembros.programming.proQuizApp.Bookmarks"
+            android:name="com.prembros.programming.ProQuizApp.Bookmarks"
             android:label="@string/title_activity_bookmarks"
             android:theme="@style/BookmarksTheme" />
-        <activity android:name="com.prembros.programming.proQuizApp.FirstIntro"
+        <activity android:name="com.prembros.programming.ProQuizApp.FirstIntro"
             android:theme="@style/FirstScreenTheme"
-            android:label="@string/app_name"/>
+            android:label="@string/app_series"/>
 
         <!-- This meta-data tag is required to use Google Play Services. -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <activity
-            android:name="com.prembros.programming.proQuizApp.Results"
-            android:label="@string/title_activity_results"
-            android:theme="@style/ResultsTheme"
-            android:parentActivityName="com.prembros.programming.proQuizApp.MainActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.prembros.programming.proQuizApp.MainActivity" />
-        </activity>
-        <activity
-            android:name="com.prembros.programming.proQuizApp.LoginActivity"
+            android:name="com.prembros.programming.ProQuizApp.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/LoginActivityTheme">
             <!--<intent-filter>-->

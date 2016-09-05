@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,9 +30,9 @@ public class QuestionBean implements Parcelable {
         option4 = input.readString();
         answer = input.readString();
     }
-    public String getdifficulty() {
-        return difficulty;
-    }
+//    public String getDifficulty() {
+//        return difficulty;
+//    }
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;

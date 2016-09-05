@@ -17,7 +17,7 @@
         android:contentDescription="@string/add_or_remove_bookmark"
         android:visibility="gone"/>
 
-    <com.prembros.programming.quizapp.CustomTextViewSemiLight
+    <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
         android:lines="2"
         android:lineSpacingExtra="10dp"
         android:layout_width="match_parent"

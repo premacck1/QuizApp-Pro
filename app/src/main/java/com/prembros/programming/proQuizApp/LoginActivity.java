@@ -1,4 +1,4 @@
-package com.prembros.programming.proQuizApp;
+package com.prembros.programming.ProQuizApp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
         super.onCreate(savedInstanceState);
 
         buildNewGoogleApiClient();
+        google_api_client.connect();
 
         if (this.toString().contains("LoginActivity")) {
             setContentView(R.layout.activity_login);
@@ -232,21 +233,14 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
 
     protected void onStart() {
         super.onStart();
-        if (isConnected() && google_api_client!=null) {
+        if (isConnected() && google_api_client!=null && !google_api_client.isConnected()) {
             google_api_client.connect();
-        }
-    }
-
-    protected void onStop() {
-        super.onStop();
-        if (isConnected() && google_api_client != null) {
-            google_api_client.disconnect();
         }
     }
 
     protected void onResume(){
         super.onResume();
-        if (isConnected() && google_api_client != null) {
+        if (isConnected() && google_api_client != null && !google_api_client.isConnected()) {
             google_api_client.connect();
         }
     }
@@ -420,6 +414,15 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 } else Toast.makeText(this, "No Google API client found!\n" +
                         "Is Google Play Games missing?", Toast.LENGTH_SHORT).show();
                 break;
+            case "resultsInDetail":
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //noinspection ConstantConditions
+                        getSupportActionBar().hide();
+                    }
+                }, 350);
+                fragmentManager.beginTransaction().add(R.id.fragment_container, Results.resultsInDetail, "resultsInDetail").commit();
             default:
                 break;
         }
@@ -454,7 +457,15 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                     Leaderboard.rootView.startAnimation(AnimationUtils.loadAnimation(
                             getApplicationContext(), R.anim.fragment_anim_out));
 
-                    fragmentManager.beginTransaction().remove(getSupportFragmentManager().findFragmentByTag(LEADERBOARD_TEXT)).commit();
+                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag(LEADERBOARD_TEXT)).commit();
+                }
+                break;
+            case "resultsInDetail":
+                if (fragmentManager.findFragmentByTag("resultsInDetail") != null && ResultsInDetail.isFragmentActive) {
+                    ResultsInDetail.isFragmentActive = false;
+                    ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(
+                            getApplicationContext(), R.anim.fragment_anim_out));
+                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("resultsInDetail")).commit();
                 }
                 break;
             default:

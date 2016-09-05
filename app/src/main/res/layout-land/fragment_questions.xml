@@ -38,117 +38,117 @@
         android:layout_alignParentEnd="true" />
 
     <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true">
+        tools:context=".MainActivity">
 
-        <RelativeLayout
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/layout_question_page"
             android:layout_width="match_parent"
-            tools:context=".MainActivity">
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="#00FFFFFF">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/layout_question_page"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:background="#00FFFFFF">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/question_textView"
+                    android:minHeight="100dp"
+                    android:maxHeight="200dp"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
 
-                    <com.prembros.programming.quizapp.CustomTextViewSemiLight
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/question_textView"
-                        android:minHeight="100dp"
-                        android:maxHeight="200dp"
-                        android:textSize="20sp"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true" />
+            </RelativeLayout>
 
-                </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/fabPrevious"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_action_previous"
-                        android:background="@drawable/fab_theme"
-                        android:paddingTop="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingEnd="5dp"
-                        android:paddingLeft="0dp"
-                        android:paddingStart="0dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:contentDescription="@string/previous_question" />
-
-                    <ImageButton
-                        android:alpha="0.4"
-                        android:id="@+id/fabSkip"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_action_skip"
-                        android:background="@drawable/fab_theme"
-                        android:contentDescription="@string/skip_the_current_question"
-                        android:layout_centerHorizontal="true" />
-
-                    <ImageButton
-                        android:id="@+id/fabNext"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:paddingRight="0dp"
-                        android:paddingEnd="0dp"
-                        android:paddingLeft="5dp"
-                        android:paddingStart="5dp"
-                        android:src="@drawable/ic_action_next"
-                        android:background="@drawable/fab_theme"
-                        android:layout_alignTop="@+id/fabPrevious"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:contentDescription="@string/next_question" />
-
-                </RelativeLayout>
-
-                <include layout="@layout/checked_choice"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/fabPrevious"
+                    android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:id="@+id/checked_choice_button1"/>
+                    android:src="@drawable/ic_action_previous"
+                    android:background="@drawable/fab_theme"
+                    android:paddingTop="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingLeft="0dp"
+                    android:paddingStart="0dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:contentDescription="@string/previous_question" />
 
-                <include layout="@layout/checked_choice"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:alpha="0.4"
+                    android:id="@+id/fabSkip"
+                    android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:id="@+id/checked_choice_button2"/>
+                    android:src="@drawable/ic_action_skip"
+                    android:background="@drawable/fab_theme"
+                    android:contentDescription="@string/skip_the_current_question"
+                    android:layout_centerHorizontal="true" />
 
-                <include layout="@layout/checked_choice"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/fabNext"
+                    android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:id="@+id/checked_choice_button3"/>
+                    android:paddingRight="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
+                    android:src="@drawable/ic_action_next"
+                    android:background="@drawable/fab_theme"
+                    android:layout_alignTop="@+id/fabPrevious"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/next_question" />
 
-                <include layout="@layout/checked_choice"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/checked_choice_button4"/>
+            </RelativeLayout>
 
-                <!--øØƟӨ-->
-            </LinearLayout>
+            <include layout="@layout/checked_choice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/checked_choice_button1"/>
 
-        </RelativeLayout>
+            <include layout="@layout/checked_choice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/checked_choice_button2"/>
 
-    </ScrollView>
+            <include layout="@layout/checked_choice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/checked_choice_button3"/>
+
+            <include layout="@layout/checked_choice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/checked_choice_button4"/>
+
+            <!--øØƟӨ-->
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
 
 </RelativeLayout>

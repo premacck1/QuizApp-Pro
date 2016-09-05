@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.prembros.programming.proQuizApp.Bookmarks$PlaceholderFragment">
+    tools:context="com.prembros.programming.ProQuizApp.Bookmarks$PlaceholderFragment">
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +15,7 @@
         android:id="@+id/bookmarks_listView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        tools:context="com.prembros.programming.proQuizApp.Bookmarks$PlaceholderFragment"/>
+        tools:context="com.prembros.programming.ProQuizApp.Bookmarks$PlaceholderFragment"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.prembros.programming.proQuizApp.LoginActivity">
+    tools:context="com.prembros.programming.ProQuizApp.LoginActivity">
 
     <!-- Login progress -->
 <!--
@@ -19,7 +19,7 @@
         android:visibility="gone" />
 -->
 
-    <com.prembros.programming.proQuizApp.CustomTextViewLight
+    <com.prembros.programming.ProQuizApp.CustomTextViewLight
         android:id="@+id/login_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:textSize="20sp"
                 android:visibility="invisible" />
 
-        <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+        <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:layout_centerHorizontal="true"
             android:visibility="invisible" />
 
-        <com.prembros.programming.proQuizApp.CustomTextViewLight
+        <com.prembros.programming.ProQuizApp.CustomTextViewLight
             android:id="@+id/userID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             android:layout_centerHorizontal="true"
             android:visibility="invisible" />
 
-        <com.prembros.programming.proQuizApp.CustomTextViewLight
+        <com.prembros.programming.ProQuizApp.CustomTextViewLight
             android:id="@+id/userLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
             app:mrl_rippleRoundedCorners="2dp"
             android:visibility="invisible">
 
-            <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+            <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
                 android:id="@+id/show_achievements"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -160,7 +160,7 @@
             android:id="@+id/leaderboard_rippleView"
             android:visibility="invisible">
 
-            <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+            <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
                 android:id="@+id/show_leaderboard"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -185,7 +185,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true">
 
-            <com.prembros.programming.proQuizApp.CustomTextViewSemiLight
+            <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
                 android:id="@+id/sign_out_button"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

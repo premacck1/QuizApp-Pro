@@ -16,9 +16,9 @@
         android:title="@string/tutorial"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_leaderboard"
-        android:title="@string/leaderboard"
-        app:showAsAction="never" />
+    android:id="@+id/action_leaderboard"
+    android:title="@string/leaderboard"
+    app:showAsAction="never" />
     <item
         android:id="@+id/action_achievements"
         android:title="@string/achievements"

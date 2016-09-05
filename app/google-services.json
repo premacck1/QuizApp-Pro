@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "873905317767",
-    "project_id": "quizapp-pro"
+    "project_number": "458498172608",
+    "project_id": "default-demo-app-d7cc6"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:873905317767:android:3d91199204ea5281",
+        "mobilesdk_app_id": "1:458498172608:android:a93746474336bccb",
         "android_client_info": {
-          "package_name": "com.prembros.programming.proQuizApp"
+          "package_name": "com.prembros.programming.ProQuizApp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "873905317767-0lemfdflprj00k3unsrpabndiks3jr8s.apps.googleusercontent.com",
+          "client_id": "458498172608-miea6aaauhcospf5f2hhre1f1adglajf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.prembros.programming.proQuizApp",
-            "certificate_hash": "D48918914B6E7E767D9874FBFFE460F211122780"
+            "package_name": "com.prembros.programming.ProQuizApp",
+            "certificate_hash": "D61569CC336705A9B69FB2065B1208612E925048"
           }
         },
         {
-          "client_id": "873905317767-d961b89mtrucl9k53d7cs1o3mfi8fkl1.apps.googleusercontent.com",
+          "client_id": "458498172608-311d1fn2ngocs6rhtkaf99or5hvm7gss.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhywkl0WQaPyyVaNiB8KuLDBBNxO1AoBA"
+          "current_key": "AIzaSyCZIhr2IWGgYykQ9rQqn7rGNPMdzAuWGCE"
         }
       ],
       "services": {

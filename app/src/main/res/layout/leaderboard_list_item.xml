@@ -23,7 +23,7 @@
         android:background="@drawable/card_theme"
         tools:ignore="UselessParent">
 
-        <com.prembros.programming.proQuizApp.CustomTextViewLight
+        <com.prembros.programming.ProQuizApp.CustomTextViewLight
             android:id="@+id/leaderboard_header_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:layout_below="@+id/leaderboard_header_textView"
             android:background="@color/black_overlay"/>
 
-        <com.prembros.programming.proQuizApp.CustomTextViewLight
+        <com.prembros.programming.ProQuizApp.CustomTextViewLight
             android:id="@+id/leaderboard_child_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
