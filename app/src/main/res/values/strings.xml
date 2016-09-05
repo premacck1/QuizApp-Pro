@@ -164,6 +164,6 @@
     <string name="tutorial">Tutorial</string>
     <string name="no_ads">No Ads</string>
     <string name="my_scores">My Scores</string>
-    <string name="scoreboard">Scoreboard</string>
+    <string name="scoreboard">Personal Scoreboard</string>
 
 </resources>

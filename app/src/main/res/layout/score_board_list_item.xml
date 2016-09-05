@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:textSize="20sp"
-                android:textColor="#616161"
+                android:textColor="@color/colorText"
                 android:gravity="start" />
 
             <com.prembros.programming.ProQuizApp.CustomTextViewLight
@@ -39,7 +39,7 @@
                 android:layout_toStartOf="@+id/score_value"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:textColor="#616161"
+                android:textColor="@color/colorText"
                 android:gravity="start" />
 
             <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:textSize="20sp"
-                android:textColor="#616161"
+                android:textColor="@color/colorText"
                 android:gravity="end"
                 android:layout_below="@+id/score_field"
                 android:layout_alignParentRight="true"
