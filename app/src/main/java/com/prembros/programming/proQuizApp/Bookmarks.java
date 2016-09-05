@@ -82,10 +82,14 @@ public class Bookmarks extends AppCompatActivity {
         switch(item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                break;
+                return true;
+            case R.id.action_myScores:
+                getSupportFragmentManager().beginTransaction().add
+                        (R.id.fragment_container, new ScoreBoard(), "ScoreBoardDialog").commit();
+                return true;
             case R.id.action_rate_this_app:
                 RateThisApp.showRateDialog(this);
-                break;
+                return true;
             case R.id.action_clear_bookmarks:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Delete all");
@@ -109,7 +113,7 @@ public class Bookmarks extends AppCompatActivity {
                     }
                 });
                 builder.show();
-                break;
+                return true;
             case R.id.action_about:
                 if(About.isFragmentActive){
                     About.isFragmentActive = false;
@@ -124,7 +128,7 @@ public class Bookmarks extends AppCompatActivity {
                         getSupportActionBar().hide();
                     }
                 }, 350);
-                break;
+                return true;
             case R.id.action_help:
                 if(Help.isFragmentActive){
                     Help.isFragmentActive = false;
@@ -139,9 +143,10 @@ public class Bookmarks extends AppCompatActivity {
                         getSupportActionBar().hide();
                     }
                 }, 350);
-                break;
+                return true;
+            default:
+                return false;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("ConstantConditions")

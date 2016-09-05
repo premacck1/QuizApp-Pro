@@ -22,6 +22,10 @@
         android:title="@string/account"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_myScores"
+        android:title="@string/my_scores"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_leaderboard"
         android:title="@string/leaderboard"
         app:showAsAction="never" />

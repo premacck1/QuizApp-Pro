@@ -421,14 +421,15 @@ public class Results extends Fragment implements OnChartValueSelectedListener {
         switch (item.getItemId()){
             case R.id.action_account:
                 startActivity(new Intent(getContext(), LoginActivity.class));
-                break;
+                return true;
             case R.id.action_share:
                 Bitmap bm = getScreenshot(baseRelativeLayout);
                 File imageFile = store(bm, "QuizResult.jpeg");
                 shareImage(imageFile);
-                break;
+                return true;
+            default:
+                return false;
         }
-        return true;
     }
 
 //    public static Bitmap takeScreenShot(Activity activity)

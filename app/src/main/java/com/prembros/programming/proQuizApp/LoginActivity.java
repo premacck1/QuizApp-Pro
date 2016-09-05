@@ -259,20 +259,25 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                 if (getSupportFragmentManager().getBackStackEntryCount() > 0)
                     getAndRemoveActiveFragment("whatever");
                 else this.finish();
-                break;
+                return true;
+            case R.id.action_myScores:
+                getSupportFragmentManager().beginTransaction().add
+                        (R.id.fragment_container, new ScoreBoard(), "ScoreBoardDialog").commit();
+                return true;
             case R.id.action_rate_this_app:
                 RateThisApp.showRateDialog(this);
-                break;
+                return true;
             case R.id.action_about:
                 getAndRemoveActiveFragment(ABOUT_TEXT);
                 loadFragment(ABOUT_TEXT);
-                break;
+                return true;
             case R.id.action_help:
                 getAndRemoveActiveFragment(HELP_TEXT);
                 loadFragment(HELP_TEXT);
-                break;
+                return true;
+            default:
+                return false;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -466,6 +471,21 @@ public class LoginActivity extends AppCompatActivity implements OnConnectionFail
                     ResultsInDetail.rootView.startAnimation(AnimationUtils.loadAnimation(
                             getApplicationContext(), R.anim.fragment_anim_out));
                     fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("resultsInDetail")).commit();
+                }
+            case "ScoreBoard":
+                if (fragmentManager.findFragmentByTag("ScoreBoard") != null && ScoreBoard.isFragmentActive) {
+                    ScoreBoard.isFragmentActive = false;
+                    ScoreBoard.rootView.startAnimation(AnimationUtils.loadAnimation(
+                            getApplicationContext(), R.anim.fragment_anim_out));
+                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("ScoreBoard")).commit();
+                }
+                break;
+            case "ScoreBoardOptions":
+                if (fragmentManager.findFragmentByTag("ScoreBoard") != null && ScoreBoard.isFragmentActive) {
+                    ScoreBoardOptions.isFragmentActive = false;
+                    ScoreBoardOptions.rootView.startAnimation(AnimationUtils.loadAnimation(
+                            getApplicationContext(), R.anim.fragment_anim_out));
+                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("ScoreBoardOptions")).commit();
                 }
                 break;
             default:

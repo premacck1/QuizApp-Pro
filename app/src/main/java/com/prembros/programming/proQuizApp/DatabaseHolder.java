@@ -21,6 +21,7 @@ public class DatabaseHolder {
     public static final String answer = "answer";
     public static final String tableName = "QuizTable";
     public static final String versionTableName = "QuizVersion";
+    @SuppressWarnings("unused")
     public static final String databaseName = "quizDatabase";
     public static final String version = "version";
     public static final String version_id = "version_id";
@@ -31,6 +32,7 @@ public class DatabaseHolder {
     public static final String correctAttempts = "create table if not exists correctAttempts (question text not null, answer text not null);";
     public static final String incorrectAttempts = "create table if not exists incorrectAttempts (question text not null, givenAnswer text not null, correctAnswer text not null);";
     public static final String skippedAttempts = "create table if not exists skippedAttempts (question text not null, answer text not null);";
+    public static final String scoreHistory = "create table if not exists scoreHistory (field text not null, difficulty text not null, score integer not null);";
 
     DatabaseHelper dbHelper;
     Context context;
@@ -70,6 +72,8 @@ public class DatabaseHolder {
     public long deleteAllQuestions(){
             return db.delete(tableName, "1", null);
     }
+
+    @SuppressWarnings("unused")
     public String getFieldName(int index){
         switch(index){
             case 0:
@@ -85,6 +89,7 @@ public class DatabaseHolder {
         }
     }
 
+    @SuppressWarnings("unused")
     public Cursor returnData() {
         return db.query(tableName, new String[] {field,difficulty,question,option1,option2,option3,option4,answer}, null, null, null, null, null);
     }
@@ -113,6 +118,7 @@ public class DatabaseHolder {
         }
     }
 
+    @SuppressWarnings("unused")
     public long insertVersion(String version_l, String version_id_l) {
         ContentValues content = new ContentValues();
         content.put(version, version_l);
@@ -214,6 +220,18 @@ public class DatabaseHolder {
         }
     }
 
+    public long insertScore(String field_l, String difficulty_l, int score){
+        ContentValues content = new ContentValues();
+        content.put(field, field_l);
+        content.put(difficulty, difficulty_l);
+        content.put("score", score);
+        return db.insertOrThrow("scoreHistory", null, content);
+    }
+
+    public Cursor getScore(String field_l){
+        return db.query(false, "scoreHistory", null, field + " = '"+ field_l +"'", null, null, null, "score desc", null);
+    }
+
     public static class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
@@ -229,6 +247,7 @@ public class DatabaseHolder {
                 db.execSQL(correctAttempts);
                 db.execSQL(incorrectAttempts);
                 db.execSQL(skippedAttempts);
+                db.execSQL(scoreHistory);
             } catch(SQLException e) {
                 e.printStackTrace();
             }
@@ -238,6 +257,7 @@ public class DatabaseHolder {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             db.execSQL("DROP TABLE IF EXISTS QuizTable");
             db.execSQL("DROP TABLE IF EXISTS QuizVersion");
+            db.execSQL("DROP TABLE IF EXISTS scoreHistory");
             onCreate(db);
         }
 

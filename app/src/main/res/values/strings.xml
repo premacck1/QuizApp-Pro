@@ -163,5 +163,7 @@
     <string name="rate_this_app">Rate this app</string>
     <string name="tutorial">Tutorial</string>
     <string name="no_ads">No Ads</string>
+    <string name="my_scores">My Scores</string>
+    <string name="scoreboard">Scoreboard</string>
 
 </resources>

@@ -492,6 +492,11 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
         SCORE = score;
         countDownTimer.cancel();
 
+//        Submit the score in database
+        DatabaseHolder db = new DatabaseHolder(getContext());
+        db.open();
+        db.insertScore(selections[0], selections[1], (int) score);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         if (reallyCompleted) {
             builder.setMessage("You have completed the quiz!" +
