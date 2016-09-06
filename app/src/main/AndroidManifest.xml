@@ -34,7 +34,7 @@
         <activity
             android:name="com.prembros.programming.ProQuizApp.FirstScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_series"
+            android:label="@string/app_name"
             android:noHistory="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -65,7 +65,7 @@
             android:theme="@style/BookmarksTheme" />
         <activity android:name="com.prembros.programming.ProQuizApp.FirstIntro"
             android:theme="@style/FirstScreenTheme"
-            android:label="@string/app_series"/>
+            android:label="@string/app_name"/>
 
         <!-- This meta-data tag is required to use Google Play Services. -->
         <meta-data
