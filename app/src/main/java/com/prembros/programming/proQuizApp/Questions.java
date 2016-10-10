@@ -119,10 +119,10 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
 //            Setting the total time according to difficulty. Higher the difficulty, less the total time.
             switch (selections[1]){
                 case "Rookie":
-                    totalTime = questionList.size() * 30000;
+                    totalTime = questionList.size() * 25000;
                     break;
                 case "Apprentice":
-                    totalTime = questionList.size() * 20000;
+                    totalTime = questionList.size() * 15000;
                     break;
                 case "Pro":
                     totalTime = questionList.size() * 10000;
@@ -496,7 +496,6 @@ public class Questions extends Fragment implements OnClickListener, OnLongClickL
         DatabaseHolder db = new DatabaseHolder(getContext());
         db.open();
         db.insertScore(selections[0], selections[1], (int) score);
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         if (reallyCompleted) {
             builder.setMessage("You have completed the quiz!" +

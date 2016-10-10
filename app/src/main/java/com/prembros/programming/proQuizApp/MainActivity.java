@@ -395,13 +395,11 @@ public class MainActivity extends LoginActivity
                 this.finish();
                 return true;
             case R.id.action_myScores:
-                final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 Dialog dialog = new Dialog(this, R.style.dialogTheme);
 //                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.score_board_options);
-                setupDialog(dialog, fragmentTransaction);
+                setupDialog(dialog, getSupportFragmentManager());
                 dialog.show();
-//                fragmentManager.beginTransaction().add(R.id.fragment_container, new ScoreBoardOptions(), "ScoreBoardOptions").commit();
                 return true;
             case R.id.action_leaderboard:
                 getAndRemoveActiveFragment(LEADERBOARD_TEXT);
@@ -427,72 +425,6 @@ public class MainActivity extends LoginActivity
             default:
                 return false;
         }
-    }
-
-    public static void setupDialog(final Dialog dialog, final FragmentTransaction fragmentTransaction){
-        CustomTextViewSemiLight option1 = (CustomTextViewSemiLight) dialog.findViewById(R.id.scoreBoard_iOS);
-        CustomTextViewSemiLight option2 = (CustomTextViewSemiLight) dialog.findViewById(R.id.scoreBoard_Java);
-        CustomTextViewSemiLight option3 = (CustomTextViewSemiLight) dialog.findViewById(R.id.scoreBoard_HTML);
-        CustomTextViewSemiLight option4 = (CustomTextViewSemiLight) dialog.findViewById(R.id.scoreBoard_JavaScript);
-
-        option1.setText(R.string.field_ios);
-        option2.setText(R.string.field_java);
-        option3.setText(R.string.field_html);
-        option4.setText(R.string.field_javascript);
-
-        fragmentTransaction.setCustomAnimations(R.anim.fragment_anim_in, android.R.anim.fade_out,
-                R.anim.slide_in_right, R.anim.slide_out_left);
-        final ScoreBoard scoreBoard = new ScoreBoard();
-        final String field = "field";
-        final Bundle args = new Bundle();
-
-        option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                args.putString(field, "iOS");
-                scoreBoard.setArguments(args);
-                fragmentTransaction.add(R.id.fragment_container, scoreBoard, "ScoreBoard");
-                fragmentTransaction.addToBackStack("iOS_Scores");
-                fragmentTransaction.commit();
-                dialog.dismiss();
-            }
-        });
-
-        option2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                args.putString(field, "Java");
-                scoreBoard.setArguments(args);
-                fragmentTransaction.add(R.id.fragment_container, scoreBoard, "ScoreBoard");
-                fragmentTransaction.addToBackStack("Java_Scores");
-                fragmentTransaction.commit();
-                dialog.dismiss();
-            }
-        });
-
-        option3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                args.putString(field, "HTML");
-                scoreBoard.setArguments(args);
-                fragmentTransaction.add(R.id.fragment_container, scoreBoard, "ScoreBoard");
-                fragmentTransaction.addToBackStack("HTML_Scores");
-                fragmentTransaction.commit();
-                dialog.dismiss();
-            }
-        });
-
-        option4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                args.putString(field, "JavaScript");
-                scoreBoard.setArguments(args);
-                fragmentTransaction.add(R.id.fragment_container, scoreBoard, "ScoreBoard");
-                fragmentTransaction.addToBackStack("JavaScript_Scores");
-                fragmentTransaction.commit();
-                dialog.dismiss();
-            }
-        });
     }
 
     //    onFragmentInteraction of Field fragment
@@ -668,9 +600,9 @@ public class MainActivity extends LoginActivity
             getAndRemoveActiveFragment("ScoreBoard");
             return;
         }
-        if (ScoreBoardOptions.isFragmentActive){
-            getAndRemoveActiveFragment("ScoreBoardOptions");
-        }
+//        if (ScoreBoardOptions.isFragmentActive){
+//            getAndRemoveActiveFragment("ScoreBoardOptions");
+//        }
         if (Help.isFragmentActive){
             getAndRemoveActiveFragment(HELP_TEXT);
             return;

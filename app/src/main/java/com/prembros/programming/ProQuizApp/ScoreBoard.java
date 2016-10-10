@@ -23,7 +23,6 @@ import java.util.List;
 public class ScoreBoard extends Fragment {
 
     public static boolean isFragmentActive;
-    public static View rootView;
     private String field;
     private ActionBar ab;
 
@@ -50,7 +49,7 @@ public class ScoreBoard extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.score_board, container, false);
+        View rootView = inflater.inflate(R.layout.score_board, container, false);
         rootView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fragment_anim_in));
         isFragmentActive = true;
 
