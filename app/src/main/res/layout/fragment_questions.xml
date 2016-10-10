@@ -8,7 +8,7 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/progress_bar_states"
+        android:progressDrawable="@drawable/progress_bar_question"
         android:id="@+id/question_progressBar"
         android:layout_width="match_parent"
         android:layout_height="6dp"
@@ -17,7 +17,7 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/progress_bar_states"
+        android:progressDrawable="@drawable/progress_bar_time"
         android:id="@+id/time_progressBar"
         android:layout_width="match_parent"
         android:layout_height="6dp"

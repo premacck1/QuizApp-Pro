@@ -8,7 +8,7 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/progress_bar_states"
+        android:progressDrawable="@drawable/progress_bar_question"
         android:id="@+id/question_progressBar"
         android:layout_width="match_parent"
         android:layout_height="6dp"
@@ -17,12 +17,12 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/progress_bar_states"
+        android:progressDrawable="@drawable/progress_bar_time"
         android:id="@+id/time_progressBar"
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:layout_below="@+id/question_progressBar"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        android:interpolator="@android:anim/linear_interpolator"/>
 
     <ToggleButton
         android:textOff=""
@@ -57,7 +57,8 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:background="#00FFFFFF">
+            android:background="#00FFFFFF"
+            tools:ignore="UselessParent">
 
             <RelativeLayout
                 android:layout_width="match_parent"

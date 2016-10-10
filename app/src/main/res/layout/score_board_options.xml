@@ -5,7 +5,11 @@
     android:layout_height="wrap_content"
     android:background="@color/page_bg"
     android:id="@+id/scoreBoard_options"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin">
 
     <com.prembros.programming.ProQuizApp.CustomTextViewSemiLight
         android:layout_width="match_parent"
@@ -13,7 +17,12 @@
         android:text="@string/scoreboard"
         android:gravity="center"
         android:textSize="20sp"
-        android:paddingBottom="20dp"/>
+        android:paddingLeft="30dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
